@@ -1,5 +1,34 @@
 ---
+var erreur='';
+if(Astro.request.method==='POST'){
+  try{
+    const data=await Astro.request.formData();
+    const jsonObject = Object.fromEntries(data);
+    const jsonString = JSON.stringify(jsonObject);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
 
+    //console.log(jsonString);
+    const response = await fetch("http://localhost:3100/login", {
+      headers: myHeaders,
+      method:'POST',
+      body:jsonString
+    });
+    //console.log(await response.text());
+    const reponse = await response.json();
+    if(reponse.length>0){
+    //console.log(reponse);
+      return Astro.redirect('/');
+    }else{
+      erreur="Erreur d'authentification.";
+    }
+  }catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
 ---
 
 <!DOCTYPE html>
@@ -108,10 +137,10 @@
               ">
             <div class="card-body p-5 shadow-5 text-center">
               <h2 class="fw-bold mb-5">Connexion</h2>
-              <form>
+              <form method="post"  >
 
                 <div class="form-group">
-                    <input type="email" id="email" class="form-control" placeholder=" " />
+                    <input type="email" id="email" name="mail" class="form-control" placeholder=" " />
                     <label class="form-label">Adresse email</label>
                 </div>
   
@@ -123,7 +152,7 @@
   
                 <!-- Password input -->
                 <div class="form-group mb-4">
-                  <input type="password" id="password" class="form-control" placeholder=" " />
+                  <input type="password" id="password" name="mdp" class="form-control" placeholder=" " />
                   <label class="form-label" for="password">Mot de passe</label>
                 </div>
   
@@ -133,8 +162,10 @@
                   <label class="form-check-label" for="form2Example33">
                     Subscribe to our newsletter
                   </label>
-                </div> -->
-  
+                </div> -->                
+                {erreur &&<div class="alert alert-danger" role="alert">
+                  {erreur}
+                </div>}
                 <!-- Submit button -->
                 <button type="submit" class="btn btn-primary btn-block mb-4 submit-btn">
                   Se Connecter
@@ -178,10 +209,10 @@
   <footer class=" p-t-75 p-b-32">
     <p class="stext-107 cl6 txt-center">
         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Capria 2023</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Capria 2023</p>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
-    </p>
+    
   </footer>
     
 </body>
