@@ -1,0 +1,404 @@
+---
+
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Inscription</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+</head>
+<body class="animsition">
+
+    <!-- Section: Design Block -->
+<section class="text-center text-lg-start">
+    <style>
+        .tab {
+            display: none;
+        }
+
+        .cascading-right {
+            margin-right: -50px;
+        }
+    
+        @media (max-width: 991.98px) {
+            .cascading-right {
+            margin-right: 0;
+            }
+        }
+
+        .btn-shadow {
+            box-shadow: 0 2px 14px 0 rgba(0,0,0,0.2);
+        }
+        
+        .btn-shadow:hover {
+            box-shadow: 0 6px 14px 0 rgba(0,0,0,0.24);
+        }
+
+
+        .form-group {
+            position: relative;
+            /* margin: 12px 0; */
+        }
+
+        .form-group input {
+            padding: 8px 10px;
+            /* font-size: 18px; */
+            border-radius: .25rem;
+            border: 1px solid rgba(0,0,0,.15);
+            background-color: transparent;
+            /* border-color: #eee; */
+            transition: 0.3s all ease;
+        }
+
+        .form-group input:focus {
+            /* border-color: red; */
+            box-shadow: 0px 0px 3px 0.2px;
+            /* border: 2px solid; */
+        }
+
+        .form-group input::placeholder {
+            color: transparent;
+        }
+
+        .form-group .form-label {
+            position: absolute;
+            top: 9px;
+            left: 5px;
+            /* font-size: 18px; */
+            padding: 0 10px;
+            color: #acacac;
+            pointer-events: none;
+            transition: 0.3s all ease;
+        }
+
+        .form-group input:focus + .form-label,
+        .form-group input:not(:placeholder-shown) + .form-label {
+            transform: translate(0px, -18px);
+            background-color: white;
+            font-size: 12px;
+            /* color: #eee; */
+            border-color: red;
+        }
+
+        .insight {
+            width: 100%;
+            height: 100%;
+        }
+
+        .profile-pic-div {
+            width : 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid grey;
+        }
+
+        #photo {
+            height: 100%;
+            width: 100%;
+        }
+
+        #uploadBtn {
+            margin-bottom: 0;
+            height: 50px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: none;
+            cursor: pointer;
+        }
+
+        #uploadBtn.show {
+            transition: opacity 0.6s linear;;
+        }
+
+    </style>
+
+    <script>
+        var currentTab = 0; // Current tab is set to be the first tab (0)
+        showTab(currentTab); // Display the current tab
+
+        document.getElementById("submit-btn").onclick = function() {nextPrev(1)}
+        document.getElementById("back-btn").onclick = function() {back()}
+
+        function showTab(n) {
+            // This function will display the specified tab of the form ...
+            var x = document.getElementsByClassName("tab");
+            x[n].style.display = "block";
+            // ... and fix the Previous/Next buttons:
+            if (n == 0) {
+                document.getElementById("back-btn").style.display = "none";
+            } else {
+                document.getElementById("back-btn").style.display = "block";
+            }
+            if (n == (x.length - 1)) {
+                document.getElementById("submit-btn").innerHTML = "S'inscrire";
+            } else {
+                document.getElementById("submit-btn").innerHTML = "Suivant";
+            }
+        }
+
+        function nextPrev(n) {
+            // This function will figure out which tab to display
+            var x = document.getElementsByClassName("tab");
+            // Exit the function if any field in the current tab is invalid:
+            // if (n == 1 && !validateForm()) return false;
+            if (currentTab == x.length - 1) return false;
+            // Hide the current tab:
+            x[currentTab].style.display = "none";
+            // Increase or decrease the current tab by 1:
+            currentTab = currentTab + n;
+            // if you have reached the end of the form... :
+            if (currentTab >= x.length) {
+                //...the form gets submitted:
+                // document.getElementById("regForm").submit();
+                alert('Fory yeaaaaaaaaaah')
+                return false;
+            }
+            // Otherwise, display the correct tab:
+            showTab(currentTab);
+        }
+
+        function back() {
+            // This function will figure out which tab to display
+            var x = document.getElementsByClassName("tab");
+            // Hide the current tab:
+            x[currentTab].style.display = "none";
+            // Increase or decrease the current tab by 1:
+            currentTab = currentTab - 1;
+            // Otherwise, display the correct tab:
+            showTab(currentTab);
+        }
+
+        function validateForm() {
+            // This function deals with validation of the form fields
+            var x, y, i, valid = true;
+            x = document.getElementsByClassName("tab");
+            y = x[currentTab].getElementsByTagName("input");
+            // A loop that checks every input field in the current tab:
+            for (i = 0; i < y.length; i++) {
+                // If a field is empty...
+                if (y[i].value == "") {
+                // add an "invalid" class to the field:
+                y[i].className += " invalid";
+                // and set the current valid status to false:
+                valid = false;
+                }
+            }
+
+            return valid; // return the valid status
+        }
+
+        // Profile picture
+        const imgDiv = document.querySelector('.profile-pic-div');
+        const img = document.querySelector('#photo');
+        const file = document.querySelector('#file');
+        const uploadBtn = document.querySelector('#uploadBtn');
+
+        imgDiv.addEventListener('mouseenter', function() {
+            uploadBtn.style.display = 'block';
+        });
+
+        imgDiv.addEventListener('mouseleave', function() {
+            uploadBtn.style.display = 'none';
+        })
+
+        file.addEventListener('change', function() {
+            const choosedFile = this.files[0];
+            if(choosedFile) {
+                const reader = new FileReader();
+
+                reader.addEventListener('load', function() {
+                    img.setAttribute('src', reader.result);
+                })
+
+                reader.readAsDataURL(choosedFile);
+            }
+        })
+
+    </script>
+  
+    <!-- Jumbotron -->
+    <div class="container py-4">
+      <div class="row g-0 align-items-center" style="margin-top: 5%;">
+        <div class="col-md-1"></div>
+        <div class="col-lg-5 mb-5 mb-lg-0" style="z-index: 100000;">
+          <div class="card cascading-right jumbotron" style="
+              background: hsla(0, 0%, 100%, 0.55);
+              backdrop-filter: blur(30px);
+              box-shadow: 0px 0px 15px -5px;
+              border: none;
+              box-shadow-right: none;
+              height: 620px;    
+              width: 120%;
+              ">
+            <div class="card-body p-5 shadow-5 text-center">
+              <h2 class="fw-bold mb-5">Créer votre compte</h2>
+              <form>
+                <div class="tab">
+                    <div class="form-group">
+                        <input type="text" id="pseudo" class="form-control" placeholder=" " />
+                        <label class="form-label">Pseudo</label>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <input type="email" id="email" class="form-control" placeholder=" " />
+                        <label class="form-label">Adresse email</label>
+                    </div>
+    
+                    <!-- Password input -->
+                    <div class="form-group mt-4">
+                    <input type="password" id="password" class="form-control" placeholder=" " />
+                    <label class="form-label" for="password">Mot de passe</label>
+                    </div>
+
+                    <div class="form-group mb-4">
+                    <input type="password" id="password" class="form-control" placeholder=" " />
+                    <label class="form-label" for="password">Confirmer votre mot de passe</label>
+                    </div>
+                </div>
+
+                <div class="tab">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" id="name" class="form-control" placeholder=" " />
+                                <label class="form-label">Nom</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" id="firstname" class="form-control" placeholder=" " />
+                                <label class="form-label">Prénom(s)</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" id="gender" class="form-control" placeholder=" " />
+                                <label class="form-label">Genre</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" id="dateOfBirth" class="form-control" placeholder=" " />
+                                <label class="form-label">Date de naissance</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" id="city" class="form-control" placeholder=" " />
+                                <label class="form-label">Ville</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" id="nationality" class="form-control" placeholder=" " />
+                                <label class="form-label">Nationalité</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <input type="text" id="pseudo" class="form-control" placeholder=" " />
+                        <label class="form-label">Orientation sexuelle</label>
+                    </div>
+                </div>
+
+                <div class="tab mb-4">
+                    <div class="profile-pic-div bg-dark">
+                        <img src="../../public/photo/default.jpg" id="photo" class="insight">
+                        <input type="file" id="file" hidden> 
+                        <label for="file" id="uploadBtn">Choisir une photo</label>
+                    </div>
+                    <div style="height: 280px"></div>
+                </div>
+  
+                <!-- Checkbox -->
+                <!-- <div class="form-check d-flex justify-content-center mb-4">
+                  <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+                  <label class="form-check-label" for="form2Example33">
+                    Subscribe to our newsletter
+                  </label>
+                </div> -->
+  
+                <!-- Register buttons -->
+                <!-- <div class="text-center">
+                  <p>or sign up with:</p>
+                  <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-facebook-f"></i>
+                  </button>
+  
+                  <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-google"></i>
+                  </button>
+  
+                  <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-twitter"></i>
+                  </button>
+  
+                  <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-github"></i>
+                  </button>
+                </div> -->
+              </form>
+
+              <!-- Submit button -->
+              <button type="submit" id="submit-btn" class="btn btn-primary btn-block mb-4 btn-shadow"></button>
+              <button id="back-btn" class="btn btn-light btn-block mb-4 btn-shadow">
+                Retour
+              </button>
+
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-5 mb-5 mb-lg-0">
+          <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg" style="box-shadow: 0px 0px 20px -5px;" class="w-100 rounded-4 shadow-4"
+            alt="" />
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+    <!-- Jumbotron -->
+  </section>
+  <!-- Section: Design Block -->
+
+  <footer class=" p-t-75 p-b-32">
+    <p class="stext-107 cl6 txt-center">
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Capria 2023</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+    </p>
+  </footer>
+    
+</body>
+</html>
