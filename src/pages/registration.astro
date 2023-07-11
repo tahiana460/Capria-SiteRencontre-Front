@@ -1,45 +1,20 @@
 ---
-var erreur='';
-if(Astro.request.method==='POST'){
-  try{
-    const data=await Astro.request.formData();
-    var res=String(data.get('mail'))
-    .toLowerCase()
-    .match(/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/);
-    //var txt='ertyr.00@oiur.fr';
-    //console.log(String(txt).match(/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/));
-    //console.log(res);
-    if(res!=null){
-      const jsonObject = Object.fromEntries(data);
-      const jsonString = JSON.stringify(jsonObject);
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Accept", "application/json");
+// if (Astro.request.method === "POST") {
+//   try {
+//     const data = await Astro.request.formData();
+//     alert(data);
+//     // const name = data.get("username");
+//     // const email = data.get("email");
+//     // const password = data.get("password");
 
-      //console.log(jsonString);
-      const response = await fetch("http://localhost:3100/login", {
-        headers: myHeaders,
-        method:'POST',
-        body:jsonString
-      });
-      //console.log(await response.text());
-      const reponse = await response.json();
-      //console.log(reponse)
-      if(reponse.erreur==undefined){
-      //console.log(reponse);
-        return Astro.redirect('/');
-      }else{
-        erreur=reponse.erreur;
-      }
-    }    else{
-      erreur="Mail invalide";
-    }
-  }catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-  }
-}
+//     // Do something with the data
+//   } catch (error) {
+//     if (error instanceof Error) {
+//       console.error(error.message);
+//     }
+//   }
+// }
+console.log(Astro.request.method)
 ---
 
 <!DOCTYPE html>
@@ -208,7 +183,11 @@ if(Astro.request.method==='POST'){
             var x = document.getElementsByClassName("tab");
             // Exit the function if any field in the current tab is invalid:
             // if (n == 1 && !validateForm()) return false;
-            if (currentTab == x.length - 1) return false;
+            if (currentTab == x.length - 1) {
+                // alert('haha')
+                document.getElementById("registration-form").submit();
+                return false;
+            }
             // Hide the current tab:
             x[currentTab].style.display = "none";
             // Increase or decrease the current tab by 1:
@@ -217,7 +196,6 @@ if(Astro.request.method==='POST'){
             if (currentTab >= x.length) {
                 //...the form gets submitted:
                 // document.getElementById("regForm").submit();
-                alert('Fory yeaaaaaaaaaah')
                 return false;
             }
             // Otherwise, display the correct tab:
@@ -299,7 +277,7 @@ if(Astro.request.method==='POST'){
               ">
             <div class="card-body p-5 shadow-5 text-center">
               <h2 class="fw-bold mb-5">Créer votre compte</h2>
-              <form method="POST">
+              <form id="registration-form" method="POST">
                 <div class="tab">
                     <div class="form-group">
                         <input type="text" id="pseudo" class="form-control" placeholder=" " />
