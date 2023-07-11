@@ -3,46 +3,40 @@
 if(Astro.request.method==='POST'){
   try{
     const data = await Astro.request.formData();
-    // var res=String(data.get('mail'))
-    // .toLowerCase()
-    // .match(/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/);
-    // //var txt='ertyr.00@oiur.fr';
-    // //console.log(String(txt).match(/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/));
-    // //console.log(res);
+    // var res=String(data.get('pseudo'))
     // if(res!=null){
-    //   const jsonObject = Object.fromEntries(data);
-    //   const jsonString = JSON.stringify(jsonObject);
-    //   var myHeaders = new Headers();
-    //   myHeaders.append("Content-Type", "application/json");
-    //   myHeaders.append("Accept", "application/json");
+      const jsonObject = Object.fromEntries(data);
+      const jsonString = JSON.stringify(jsonObject);
+    //   console.log('eto', jsonString)
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Accept", "application/json");
 
-    //   //console.log(jsonString);
-    //   const response = await fetch("http://localhost:3100/login", {
-    //     headers: myHeaders,
-    //     method:'POST',
-    //     body:jsonString
-    //   });
-    //   //console.log(await response.text());
+    //   console.log(jsonString);
+      const response = await fetch("http://localhost:3100/users", {
+        headers: myHeaders,
+        method:'POST',
+        body:jsonString
+      });
+      console.log(await response.text());
     //   const reponse = await response.json();
-    //   //console.log(reponse)
+    //   console.log("hoho", response.json());
+      
     //   if(reponse.erreur==undefined){
-    //   //console.log(reponse);
-        console.log(data);
-    
+    //     console.log('fongany', data);
         return Astro.redirect('/');
-//       }else{
-//         erreur=reponse.erreur;
-//       }
-//     }    else{
-//       erreur="Mail invalide";
-//     }
+    //   }else{
+    //     erreur=reponse.erreur;
+    //   }
+    // }    else{
+    //   erreur="Mail invalide";
+    // }
   }catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
     }
   }
 }
-// console.log(Astro.request.method)
 ---
 
 <!DOCTYPE html>
@@ -305,27 +299,27 @@ if(Astro.request.method==='POST'){
               ">
             <div class="card-body p-5 shadow-5 text-center">
               <h2 class="fw-bold mb-5">Créer votre compte</h2>
-              <form id="registration-form" method="POST">
+              <form id="registration-form" method="POST" >
                 <div class="tab">
                     <div class="form-group">
-                        <input type="text" id="pseudo" class="form-control" placeholder=" " />
+                        <input type="text" id="pseudo" name="pseudo" class="form-control" placeholder=" " />
                         <label class="form-label">Pseudo</label>
                     </div>
 
                     <div class="form-group mt-4">
-                        <input type="email" id="email" class="form-control" placeholder=" " />
+                        <input type="email" id="email" name="email" class="form-control" placeholder=" " />
                         <label class="form-label">Adresse email</label>
                     </div>
     
                     <!-- Password input -->
                     <div class="form-group mt-4">
-                    <input type="password" id="password" class="form-control" placeholder=" " />
+                    <input type="password" id="password" name="password" class="form-control" placeholder=" " />
                     <label class="form-label" for="password">Mot de passe</label>
                     </div>
 
                     <div class="form-group mb-4">
-                    <input type="password" id="password" class="form-control" placeholder=" " />
-                    <label class="form-label" for="password">Confirmer votre mot de passe</label>
+                    <input type="password" id="confirm_password" class="form-control" placeholder=" " />
+                    <label class="form-label" for="confirm_password">Confirmer votre mot de passe</label>
                     </div>
                 </div>
 
@@ -333,13 +327,13 @@ if(Astro.request.method==='POST'){
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="name" class="form-control" placeholder=" " />
+                                <input type="text" id="name" name="name" class="form-control" placeholder=" " />
                                 <label class="form-label">Nom</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="firstname" class="form-control" placeholder=" " />
+                                <input type="text" id="firstname" name="firstname" class="form-control" placeholder=" " />
                                 <label class="form-label">Prénom(s)</label>
                             </div>
                         </div>
@@ -347,13 +341,13 @@ if(Astro.request.method==='POST'){
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="gender" class="form-control" placeholder=" " />
+                                <input type="text" id="gender" name="gender" class="form-control" placeholder=" " />
                                 <label class="form-label">Genre</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" id="dateOfBirth" class="form-control" placeholder=" " />
+                                <input type="text" name="date_of_birth" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" id="date_of_birth" class="form-control" placeholder=" " />
                                 <label class="form-label">Date de naissance</label>
                             </div>
                         </div>
@@ -361,27 +355,27 @@ if(Astro.request.method==='POST'){
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="city" class="form-control" placeholder=" " />
+                                <input type="text" id="city" name="city" class="form-control" placeholder=" " />
                                 <label class="form-label">Ville</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="nationality" class="form-control" placeholder=" " />
+                                <input type="text" id="nationality" name="nationality" class="form-control" placeholder=" " />
                                 <label class="form-label">Nationalité</label>
                             </div>
                         </div>
                     </div>
                     <div class="form-group mb-4">
-                        <input type="text" id="pseudo" class="form-control" placeholder=" " />
+                        <input type="text" id="sexual_orientation" name="sexual_orientation" class="form-control" placeholder=" " />
                         <label class="form-label">Orientation sexuelle</label>
                     </div>
                 </div>
 
                 <div class="tab mb-4">
                     <div class="profile-pic-div bg-dark">
-                        <img src="../../public/photo/default.jpg" id="photo" class="insight">
-                        <input type="file" id="file" hidden> 
+                        <img src="/photo/default.jpg" id="photo" class="insight">
+                        <input type="file" id="file" name="profile_picture" hidden> 
                         <label for="file" id="uploadBtn">Choisir une photo</label>
                     </div>
                     <div style="height: 280px"></div>
