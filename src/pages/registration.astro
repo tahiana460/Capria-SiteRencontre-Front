@@ -1,20 +1,48 @@
 ---
-// if (Astro.request.method === "POST") {
-//   try {
-//     const data = await Astro.request.formData();
-//     alert(data);
-//     // const name = data.get("username");
-//     // const email = data.get("email");
-//     // const password = data.get("password");
+// var erreur='';
+if(Astro.request.method==='POST'){
+  try{
+    const data = await Astro.request.formData();
+    // var res=String(data.get('mail'))
+    // .toLowerCase()
+    // .match(/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/);
+    // //var txt='ertyr.00@oiur.fr';
+    // //console.log(String(txt).match(/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/));
+    // //console.log(res);
+    // if(res!=null){
+    //   const jsonObject = Object.fromEntries(data);
+    //   const jsonString = JSON.stringify(jsonObject);
+    //   var myHeaders = new Headers();
+    //   myHeaders.append("Content-Type", "application/json");
+    //   myHeaders.append("Accept", "application/json");
 
-//     // Do something with the data
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       console.error(error.message);
+    //   //console.log(jsonString);
+    //   const response = await fetch("http://localhost:3100/login", {
+    //     headers: myHeaders,
+    //     method:'POST',
+    //     body:jsonString
+    //   });
+    //   //console.log(await response.text());
+    //   const reponse = await response.json();
+    //   //console.log(reponse)
+    //   if(reponse.erreur==undefined){
+    //   //console.log(reponse);
+        console.log(data);
+    
+        return Astro.redirect('/');
+//       }else{
+//         erreur=reponse.erreur;
+//       }
+//     }    else{
+//       erreur="Mail invalide";
 //     }
-//   }
-// }
-console.log(Astro.request.method)
+  }catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
+// console.log(Astro.request.method)
 ---
 
 <!DOCTYPE html>
