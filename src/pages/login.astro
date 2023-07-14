@@ -27,8 +27,10 @@ if(Astro.request.method==='POST'){
       const reponse = await response.json();
       //console.log(reponse)
       if(reponse.erreur==undefined){
-      //console.log(reponse);
-        return Astro.redirect('/');
+        //console.log(reponse);
+        var rep=JSON.stringify(reponse)
+        localStorage.setItem('user',rep)
+        return Astro.redirect('/accueil');
       }else{
         erreur=reponse.erreur;
       }
