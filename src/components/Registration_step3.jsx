@@ -43,11 +43,31 @@ export class Registation_step3 extends Component {
                 // console.log(profile_picture_file)
             }
             reader.readAsDataURL(file);
-          }
+        }
+
+        const uploadPhoto = async () => {
+            let photo = values.profile_picture_file;
+            // let formData = new FormData();
+                
+            // formData.append("photo", photo);
+            await fetch('public/photo', {
+                method: "POST",
+                // body: formData,
+                body: photo,
+                headers: {
+                    'content-type': photo.type,
+                    'content-length': `${photo.size}`,
+                  },
+            });
+            // console.log(photo.size);
+        }
 
         const register = (e) => {
             e.preventDefault()
             // console.log(values);
+
+            if(values.profile_picture_file) uploadPhoto();
+
             fetch(api('users/'), {
                 headers: {"Content-Type": "application/json"},
                 method: "POST",
@@ -66,20 +86,7 @@ export class Registation_step3 extends Component {
                 })
             }).then((res) => {
                 if(res.ok) {
-                    // apiKey(login, password).then(token => {
-                        // if(token === null) {
-                        //     setError(true)
-                        // } else {
-                            // res.json().then(user => {
-                            //     localStorage.setItem("user", JSON.stringify(user))
-                            //     setCookies("presence", token)
-                                console.log('miarahaba anle tafiditra oh');
-                                window.location.href = '/';
-                            // })
-                        // }
-                    // }).catch(() => {
-                    //     setError(true)
-                    // })
+                    window.location.href = '/';
                 } else {
                     throw Error("Error")
                 }
@@ -88,34 +95,15 @@ export class Registation_step3 extends Component {
             })
         }
 
-        const uploadPhoto = async () => {
-            let photo = values.profile_picture_file;
-            // let formData = new FormData();
-                
-            // formData.append("photo", photo);
-            let test = await fetch('public/photo', {
-                method: "POST",
-                // body: formData,
-                body: photo,
-                headers: {
-                    'content-type': photo.type,
-                    'content-length': `${photo.size}`,
-                  },
-            });
-            // console.log(photo.size);
-            console.log('HTTP response code:',test.status); 
-        }
-
 
         return (
             <>
                 <h2 className="fw-bold mb-5">Photo de profile</h2>
                 <div>
-                    {/* <ImgUpload onChange={photoUpload} src={imagePreviewUrl} value={values.profile_picture}/> */}
                     <ImgUpload onChange={photoUpload} src={profile_picture} value={values.profile_picture}/>
 
                     {/* Submit button */}
-                    <button type="submit" id="submit-btn" onClick={uploadPhoto} className="btn btn-primary btn-block mb-4 btn-shadow">S'inscrire</button>
+                    <button type="submit" id="submit-btn" onClick={register} className="btn btn-primary btn-block mb-4 btn-shadow">S'inscrire</button>
                     <button id="back-btn" onClick={this.back} className="btn btn-light btn-block mb-4 btn-shadow">
                         Retour
                     </button>
