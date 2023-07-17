@@ -1,0 +1,116 @@
+<form id="registration-form" method="POST" >
+                <div className="tab" ref={tab}>
+                    <div className="form-group">
+                        <input type="text" id="pseudo" name="pseudo" className="form-control" placeholder=" " />
+                        <label className="form-label">Pseudo</label>
+                    </div>
+
+                    <div className="form-group mt-4">
+                        <input type="email" id="email" name="email" className="form-control" placeholder=" " />
+                        <label className="form-label">Adresse email</label>
+                    </div>
+    
+                    {/* <!-- Password input --> */}
+                    <div className="form-group mt-4">
+                    <input type="password" id="password" name="password" className="form-control" placeholder=" " />
+                    <label className="form-label" for="password">Mot de passe</label>
+                    </div>
+
+                    <div className="form-group mb-4">
+                    <input type="password" id="confirm_password" className="form-control" placeholder=" " />
+                    <label className="form-label" for="confirm_password">Confirmer votre mot de passe</label>
+                    </div>
+                </div>
+
+                <div className="tab" ref={tab}>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="form-group">
+                                <input type="text" id="name" name="name" className="form-control" placeholder=" " />
+                                <label className="form-label">Nom</label>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="form-group">
+                                <input type="text" id="firstname" name="firstname" className="form-control" placeholder=" " />
+                                <label className="form-label">Prénom(s)</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="form-group">
+                                <input type="text" id="gender" name="gender" className="form-control" placeholder=" " />
+                                <label className="form-label">Genre</label>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="form-group">
+                                <input type="text" name="date_of_birth" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" id="date_of_birth" className="form-control" placeholder=" " />
+                                <label className="form-label">Date de naissance</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="form-group">
+                                <input type="text" id="city" name="city" className="form-control" placeholder=" " />
+                                <label className="form-label">Ville</label>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="form-group">
+                                <input type="text" id="nationality" name="nationality" className="form-control" placeholder=" " />
+                                <label className="form-label">Nationalité</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="form-group mb-4">
+                        <input type="text" id="sexual_orientation" name="sexual_orientation" className="form-control" placeholder=" " />
+                        <label className="form-label">Orientation sexuelle</label>
+                    </div>
+                </div>
+
+                <div className="tab mb-4" ref={tab}>
+                    <div className="profile-pic-div bg-dark">
+                        <img src="/photo/default.jpg" id="photo" className="insight" />
+                        <input type="file" id="file" name="profile_picture" hidden /> 
+                        <label for="file" id="uploadBtn">Choisir une photo</label>
+                    </div>
+                    <div style={{height: "280px"}}></div>
+                </div>
+  
+                {/* <!-- Checkbox --> */}
+                {/* <div className="form-check d-flex justify-content-center mb-4">
+                  <input className="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+                  <label className="form-check-label" for="form2Example33">
+                    Subscribe to our newsletter
+                  </label>
+                </div> */}
+  
+                {/* <!-- Register buttons --> */}
+                {/* <div className="text-center">
+                  <p>or sign up with:</p>
+                  <button type="button" className="btn btn-link btn-floating mx-1">
+                    <i className="fab fa-facebook-f"></i>
+                  </button>
+  
+                  <button type="button" className="btn btn-link btn-floating mx-1">
+                    <i className="fab fa-google"></i>
+                  </button>
+  
+                  <button type="button" className="btn btn-link btn-floating mx-1">
+                    <i className="fab fa-twitter"></i>
+                  </button>
+  
+                  <button type="button" className="btn btn-link btn-floating mx-1">
+                    <i className="fab fa-github"></i>
+                  </button>
+                </div> */}
+              </form>
+
+              {/* Submit button */}
+              <button type="submit" id="submit-btn" className="btn btn-primary btn-block mb-4 btn-shadow"></button>
+              <button id="back-btn" className="btn btn-light btn-block mb-4 btn-shadow">
+                Retour
+              </button>
