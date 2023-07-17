@@ -22,7 +22,7 @@ export class Registation_step1 extends Component {
   render () {
     const { errorPseudo, errorEmail, errorPassword, errorConfirmPassword } = this.state;
 
-    const {values, inputChange} = this.props;
+    const {values, inputChange, login} = this.props;
 
     const checkError = e => {
         e.preventDefault();
@@ -139,6 +139,7 @@ export class Registation_step1 extends Component {
                     {/* Submit button */}
                     <button type="submit" id="submit-btn" className="btn btn-primary btn-block mb-4 btn-shadow">Suivant</button>
                 </form>
+                <p>Vous avez déjà un compte? <a href='/login'>Connectez-vous</a></p>
             </>
     )
   }
