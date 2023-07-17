@@ -1763,6 +1763,16 @@ button.mfp-close {
   border-bottom: 1px solid #6c7ae0;
 }
 
+.filter-link-age-active {
+  color: #6c7ae0;
+  border-bottom: 1px solid #6c7ae0;
+}
+
+.filter-link-genre-active {
+  color: #6c7ae0;
+  border-bottom: 1px solid #6c7ae0;
+}
+
 @media (max-width: 767px) {
   .filter-col1,
   .filter-col2,
@@ -2042,6 +2052,7 @@ input.num-product::-webkit-inner-spin-button {
 [ Block2 ]*/
 .block2-pic {
   position: relative;
+  border-radius: 10px;
 }
 
 .block2-btn {
