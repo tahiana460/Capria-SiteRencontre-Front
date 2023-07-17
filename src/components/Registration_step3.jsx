@@ -109,6 +109,7 @@ export class Registation_step3 extends Component {
                     </button>
                     
                 </div>
+                <p>Vous avez déjà un compte? <a href='/login'>Connectez-vous</a></p>
             </>
         )
   }

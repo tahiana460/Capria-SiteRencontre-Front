@@ -139,6 +139,7 @@ export class Registation_step2 extends Component {
                         Retour
                     </button>
                 </form>
+                <p>Vous avez déjà un compte? <a href='/login'>Connectez-vous</a></p>
             </>
     )
   }
