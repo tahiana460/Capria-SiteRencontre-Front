@@ -2,13 +2,52 @@
     import Page from '../components/Page.astro';
     import NavBar from '../components/NavBar.astro';
 
-    var profils=[];
+	
 	var userr=localStorage.getItem('user')
+
+	// RECHERCHER
+	var filtres=[]
+	if(Astro.request.method==='POST'){
+		try{			
+    		const data=await Astro.request.formData();
+			const genre=data.get('genre')
+			filtres.push(genre)
+			var ageFiltre=data.get('age')
+			if(ageFiltre=='Tous'){
+				filtres.push('');
+			}else if(ageFiltre=='60'){
+				filtres.push('60');
+			}else{
+				ageFiltre=String(ageFiltre)
+				var ages:any=ageFiltre?.toString().split('-')
+				//console.log(ages)
+				ages.map(age => {
+					filtres.push(age.toString().split('ans')[0])
+				});
+			}
+			//console.log(filtres)	
+		}catch(error){
+			console.log(error)
+		}
+	}
+
+	// FILTRE AGE
+	var tableauAge:any=[]
+	tableauAge.push(18+'ans-'+25+'ans')
+	tableauAge.push(25+'ans-'+30+'ans')
+	for(let i=30;i<60;i+=10){
+		//tableauAge.push([i,i+10])
+		var ag=i+'ans-'+(i+10)+'ans'
+		tableauAge.push(ag)
+	}
+
+	// GET PROFILS AUTRES USERS
+    var profils:any=[];
 	if(userr!=null)
 	{
 		var user=JSON.parse(userr)
 		user=user[0]
-		var obj={'id':user.id}
+		var obj={'id':user.id,'filtres':filtres}
 		const jsonString = JSON.stringify(obj);
 		var myHeaders = new Headers();
 		myHeaders.append("Content-Type", "application/json");
@@ -26,6 +65,8 @@
 	  profils=reponse
 	}		    
     //console.log(profils)
+		
+
 ---
 
 <Page title="Tongasoa" >
@@ -62,204 +103,107 @@
 					</div>
 				</div>
 				
-				<!-- Search product -->
+				
 				<div class="dis-none panel-search w-full p-t-10 p-b-15">
 					<div class="bor8 dis-flex p-l-15">
 						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
 							<i class="zmdi zmdi-search"></i>
 						</button>
 
-						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
+						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search" />
 					</div>	
 				</div>
 
-				<!-- Filter -->
 				<div class="dis-none panel-filter w-full p-t-10">
-					<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+					<form method="post" >
+					<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">						
+
 						<div class="filter-col1 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Sort By
+								Genre
 							</div>
 
 							<ul>
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Default
-									</a>
+									<div class="form-check">
+										<input class="form-check-input filter-link-active" type="radio" name="genre" id="exampleRadios1"
+										 value="" checked>
+										<label class="form-check-label" for="exampleRadios1">
+											Tous
+										</label>
+									</div>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Popularity
-									</a>
+									<div class="form-check">
+										<input class="form-check-input " type="radio" name="genre" id="exampleRadios1" 
+										value="M" checked>
+										<label class="form-check-label" for="exampleRadios1">
+											Homme
+										</label>
+									</div>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Average rating
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										Newness
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Price: Low to High
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Price: High to Low
-									</a>
-								</li>
+									<div class="form-check">
+										<input class="form-check-input " type="radio" name="genre" id="exampleRadios1" 
+										value="F" checked>
+										<label class="form-check-label" for="exampleRadios1">
+											Femme
+										</label>
+									</div>
+								</li>								
 							</ul>
 						</div>
 
 						<div class="filter-col2 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Price
+								Age
 							</div>
 
 							<ul>
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										All
-									</a>
+								<li  class="p-b-6">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="age" id="exampleRadios1" 
+										value="" checked>
+										<label class="form-check-label" for="exampleRadios1">
+											Tous
+										</label>
+									</div>
 								</li>
+								{tableauAge.map((ages:any)=>(
+									<li class="p-b-6"  >
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="age" id="exampleRadios1" 
+											value={ages} checked>
+											<label class="form-check-label" for="exampleRadios1">
+												{ages}
+											</label>
+									</div>
+									</li>
+								))}
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$0.00 - $50.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$50.00 - $100.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$100.00 - $150.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$150.00 - $200.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$200.00+
-									</a>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="age" id="exampleRadios1" 
+										value="60" checked>
+										<label class="form-check-label" for="exampleRadios1">
+											60ans+
+										</label>
+									</div>
 								</li>
 							</ul>
 						</div>
 
-						<div class="filter-col3 p-r-15 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								Color
-							</div>
-
-							<ul>
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #222;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Black
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										Blue
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Grey
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Green
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Red
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-										<i class="zmdi zmdi-circle-o"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										White
-									</a>
-								</li>
-							</ul>
-						</div>
-
-						<div class="filter-col4 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								Tags
-							</div>
-
-							<div class="flex-w p-t-4 m-r--5">
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Fashion
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Lifestyle
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Denim
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Streetstyle
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Crafts
-								</a>
-							</div>
-						</div>
 					</div>
+                    <div class="row" >
+                        <div class="col-md-3" ></div>
+                        <button class="flex-c-m stext-101 cl0  bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" 
+                            style=" width:50%;height:50px" >
+                            Rechercher
+                        </button>
+                    </div>	
+					</form>
 				</div>
 			</div>
 
@@ -279,7 +223,7 @@
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
                                     <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                        {profil.nom} {profil.prenom}
+                                        {profil.pseudo} 
                                     </a>
                                 </div>
 
@@ -462,4 +406,39 @@
 			</div>
 		</div>
 	</div>
+
+	<script  >
+		const button=document.getElementsByClassName('recherche')
+		//console.log(button)
+		// RECHERCHER
+		/*button[0].addEventListener('click', () => {
+			//alert('Button was clicked!');
+			var filtres=[]
+			var genreS=document.getElementsByClassName("filter-link-genre-active");
+			var ageS=document.getElementsByClassName("filter-link-age-active");
+			//console.log(ageS[0].innerText);
+			var genre=''
+			if(genreS[0].innerText=='Femme'){
+				genre='F'
+			}else if(genreS[0].innerText=='Homme'){
+				genre='H'
+			}
+			filtres.push(genre);
+			//console.log(genre);
+
+			ageS=ageS[0].innerText;
+			if(ageS=='Tous'){
+				filtres.push('');
+			}else{
+				var ages=ageS.split('-')
+				//console.log(ages)
+				ages.forEach(age => {
+					filtres.push(age.split('ans')[0])
+				});
+			}	
+			console.log(filtres)	
+			console.log(profils)	
+		});*/
+	</script>
+
 </Page>

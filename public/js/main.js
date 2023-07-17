@@ -140,6 +140,31 @@
         
     });
 
+    // filter link active on click
+    var $filter_link_genre = $('.genre');
+    $filter_link_genre.each(function () {
+        $filter_link_genre.on('click', function () {
+            var current = document.getElementsByClassName("filter-link-genre-active");
+            current[0].className = current[0].className.replace(" filter-link-genre-active", "");
+            $(this).addClass('filter-link-genre-active')
+            /*var filterValue = $(this).attr('data-filter');
+            $topeContainer.isotope({filter: filterValue});*/
+        });
+        
+    });
+
+    var $filter_link_age = $('.age');
+    $filter_link_age.each(function () {
+        $filter_link_age.on('click', function () {
+            var current = document.getElementsByClassName("filter-link-age-active");
+            current[0].className = current[0].className.replace(" filter-link-age-active", "");
+            $(this).addClass('filter-link-age-active')
+            /*var filterValue = $(this).attr('data-filter');
+            $topeContainer.isotope({filter: filterValue});*/
+        });
+        
+    });
+
     // init Isotope
     $(window).on('load', function () {
         var $grid = $topeContainer.each(function () {
