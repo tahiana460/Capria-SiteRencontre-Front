@@ -1,0 +1,152 @@
+---
+import Registration_form from '../components/Registration.jsx';
+
+// var erreur='';
+// if(Astro.request.method==='POST'){
+//   try{
+//     const data = await Astro.request.formData();
+//     // var res=String(data.get('pseudo'))
+//     // if(res!=null){
+//       const jsonObject = Object.fromEntries(data);
+//       const jsonString = JSON.stringify(jsonObject);
+//     //   console.log('eto', jsonString)
+//       var myHeaders = new Headers();
+//       myHeaders.append("Content-Type", "application/json");
+//       myHeaders.append("Accept", "application/json");
+
+//     //   console.log(jsonString);
+//       const response = await fetch("http://localhost:3100/users", {
+//         headers: myHeaders,
+//         method:'POST',
+//         body:jsonString
+//       });
+//       console.log(await response.text());
+//     //   const reponse = await response.json();
+//     //   console.log("hoho", response.json());
+      
+//     //   if(reponse.erreur==undefined){
+//     //     console.log('fongany', data);
+//         return Astro.redirect('/');
+//     //   }else{
+//     //     erreur=reponse.erreur;
+//     //   }
+//     // }    else{
+//     //   erreur="Mail invalide";
+//     // }
+//   }catch (error) {
+//     if (error instanceof Error) {
+//       console.error(error.message);
+//     }
+//   }
+// }
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Inscription</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+</head>
+<body class="animsition">
+
+    <!-- Section: Design Block -->
+<section class="text-center text-lg-start">
+    <style>
+        .cascading-right {
+            margin-right: -50px;
+        }
+    
+        @media (max-width: 991.98px) {
+            .cascading-right {
+            margin-right: 0;
+            }
+        }
+    </style>
+
+    <!-- <script>
+        // Profile picture
+        const imgDiv = document.querySelector('.profile-pic-div');
+        const img = document.querySelector('#photo');
+        const file = document.querySelector('#file');
+        const uploadBtn = document.querySelector('#uploadBtn');
+
+        imgDiv.addEventListener('mouseenter', function() {
+            uploadBtn.style.display = 'block';
+        });
+
+        imgDiv.addEventListener('mouseleave', function() {
+            uploadBtn.style.display = 'none';
+        })
+
+        file.addEventListener('change', function() {
+            const choosedFile = this.files[0];
+            if(choosedFile) {
+                const reader = new FileReader();
+
+                reader.addEventListener('load', function() {
+                    img.setAttribute('src', reader.result);
+                })
+
+                reader.readAsDataURL(choosedFile);
+            }
+        })
+
+    </script> -->
+  
+    <!-- Jumbotron -->
+    <div class="container py-4">
+      <div class="row g-0 align-items-center" style="margin-top: 5%;">
+        <div class="col-md-1"></div>
+        <div class="col-lg-5 mb-5 mb-lg-0" style="z-index: 100000;">
+          <div class="card cascading-right jumbotron" style="
+              background: hsla(0, 0%, 100%, 0.55);
+              backdrop-filter: blur(30px);
+              box-shadow: 0px 0px 15px -5px;
+              border: none;
+              box-shadow-right: none;
+              height: 620px;    
+              width: 120%;
+              ">
+            <div class="card-body p-5 shadow-5 text-center">
+                <Registration_form client:load/>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-5 mb-5 mb-lg-0">
+          <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg" style="box-shadow: 0px 0px 20px -5px;" class="w-100 rounded-4 shadow-4"
+            alt="" />
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+    <!-- Jumbotron -->
+  </section>
+  <!-- Section: Design Block -->
+
+  <footer class=" p-t-75 p-b-32">
+    <p class="stext-107 cl6 txt-center">
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Capria 2023</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+    </p>
+  </footer>
+    
+</body>
+</html>
