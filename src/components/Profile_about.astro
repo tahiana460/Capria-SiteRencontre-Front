@@ -8,7 +8,7 @@ const age = parseInt(diffDays/365);
 
 <style>
     .p-content {
-        padding-left: 35%;
+        padding-left: 30%;
     }
 </style>
 
@@ -19,7 +19,7 @@ const age = parseInt(diffDays/365);
         </p> -->
         <table class="w-75">
             <tr>
-                <td class="pb-2"><span class="stext-102 cl3 size-205">Nom</span></td>
+                <td class="pb-2 w-50"><span class="stext-102 cl3 size-205">Nom</span></td>
                 <td class="text-left"><span class="stext-102 cl6 size-206">{user.nom}</span></td>
             </tr>
             <tr>
@@ -28,7 +28,9 @@ const age = parseInt(diffDays/365);
             </tr>
             <tr>
                 <td class="pb-2"><span class="stext-102 cl3 size-205">Sexe</span></td>
-                <td class="text-left"><span class="stext-102 cl6 size-206">{user.sexe == 'H' ? 'Homme' : 'Femme'}</span></td>
+                <td class="text-left"><span class="stext-102 cl6 size-206">{user.sexe == 'H' && 'Homme' || 
+                                                                            user.sexe == 'F' && 'Femme' ||
+                                                                            user.sexe == 'A' && 'Autre'}</span></td>
             </tr>
             <tr>
                 <td class="pb-2"><span class="stext-102 cl3 size-205">Age</span></td>
@@ -50,7 +52,7 @@ const age = parseInt(diffDays/365);
     </div>
 </div>
 <!-- {user.id == id &&  -->
-<div class="col-md-12 mt-4" style="padding-left:35%">
+<div class="col-md-12 mt-4" style="text-align: center">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Modifier mon profil</button>
 </div>
 <!-- } -->  
