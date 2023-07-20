@@ -1,6 +1,6 @@
 import { Component } from 'react'
-import api from "../const/api";
-import './Registration.css';
+import api from "../const/api"
+import './Registration.css'
 
 export class Registation_step1 extends Component {
 
@@ -34,7 +34,6 @@ export class Registation_step1 extends Component {
         }).then((res) => {
             res.json().then((data) => {
                 if(data.length != 0) {
-                    console.log('misy', errorPseudo)
                     this.setState({ errorPseudo: true })
                 }
                 else {
