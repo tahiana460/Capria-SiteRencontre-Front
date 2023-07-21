@@ -1,6 +1,7 @@
 ---
   import Footer from '../components/Footer.astro';
 var erreur='';
+var rep='';
 if(Astro.request.method==='POST'){
   try{
     const data=await Astro.request.formData();
@@ -27,7 +28,7 @@ if(Astro.request.method==='POST'){
       const reponse = await response.json();
       //console.log(reponse)
       if(reponse.erreur==undefined){
-        //console.log(reponse);
+        //console.log('reponse non erreur');
         var rep=JSON.stringify(reponse)
         localStorage.setItem('user',rep)
         return Astro.redirect('/accueil');
