@@ -4,43 +4,23 @@ import {useState} from 'react'
 import api from "../const/api";
 
 function Essai(userInfo) {
-  var [messages, setMessages] = useState([]);  
+  var [messages, setMessages] = useState([]); 
 
   const socket = io('localhost:3100');
-  //console.log(socket)
+  //console.log(userInfo.messagesAvant)
   const user=JSON.parse(userInfo.userInfo)
-
-  var rec_id=localStorage.getItem("activatedChat")
-  if(rec_id==null){
-    
-  }
-  var obj={'mon_id':user.id,'receiver_id':rec_id}
-  //console.log(obj)
-  const jsonString = JSON.stringify(obj);
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Accept", "application/json");
-
-    //console.log(jsonString);
-      const response = await fetch("http://localhost:3100/chat", {
-      headers: myHeaders,
-      method:'POST',
-      body:jsonString
-    });
-    //console.log(await response.text());
-    const reponse = await response.json();
-    //console.log(reponse)
-    messages=reponse
+  messages=(userInfo.messagesAvant)
 
   socket.on('SERVER_MSG', msg => {
     setNewMessage(msg);
   });
 
   function setNewMessage(msg) {
-    setMessages([
+    /*setMessages([
       ...messages,
       msg
-    ]);
+    ]);*/
+    messages.push(msg)
   }
 
   function sendMessage(e) {
@@ -48,9 +28,9 @@ function Essai(userInfo) {
     console.log('active='+localStorage.getItem("activatedChat"))
     var receiver=localStorage.getItem("activatedChat")
     const msg = {
-        username: user[0].id,
-        receiverId: receiver,
-        text: e.target.text.value
+        sender_id: user[0].id,
+        receiver_id: receiver,
+        message: e.target.text.value
     };
     socket.emit('CLIENT_MSG', msg);
     setNewMessage(msg);
@@ -69,7 +49,7 @@ function Essai(userInfo) {
               <div className="messages">
                 {messages.map(msg => {
                   return (
-                      <div key={messages.indexOf(msg)}>{msg.username}: {msg.text}</div>
+                      <div key={messages.indexOf(msg)}>{msg.sender_id}: {msg.message}</div>
                   )
                 })}
               </div>

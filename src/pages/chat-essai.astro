@@ -4,6 +4,7 @@
     const user=JSON.parse(uss)[0]
     //console.log(localStorage.getItem("activatedChat"))
     var users:any=[]
+    var messages:any=[]
 
     var obj={'id':user.id,'filtres':[]}
     //console.log(obj)
@@ -22,13 +23,32 @@
       const reponse = await response.json();
       //console.log(reponse)
       users=reponse
+    
+    var objC={'mon_id':user.id,'receiver_id':users[0].id}
+            //console.log(obj)
+            const jsonStringC = JSON.stringify(objC);
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            myHeaders.append("Accept", "application/json");
+
+            //console.log(jsonString);
+            const resC = await fetch("http://localhost:3100/messages", {
+            headers: myHeaders,
+            method:'POST',
+            body:jsonStringC
+            });
+            //console.log(resC);
+            const reponseC = await resC.json();
+            messages=reponseC
+            //console.log(messages)
 ---
 <div class="users-list col-md-10">
     {users.map((user:any)=>
         <div id={'activateChatId'+user.id} class="chats" >{user.pseudo}</div>
     )}
 </div>
-<Essai client:load userInfo={uss} />
+
+<Essai client:load userInfo={uss}  messagesAvant={messages} />
 
 <script>
     var chats=document.querySelectorAll('[id^=activateChatId]')
@@ -39,7 +59,7 @@
         document.getElementById(chats[i].id).addEventListener('click',()=>{
             //console.log(chats[i])
             //console.log(chats[i].id.split('activateChatId')[1])
-            localStorage.setItem('activatedChat',chats[i].id.split('activateChatId')[1])
+            localStorage.setItem('activatedChat',chats[i].id.split('activateChatId')[1])            
         })        
     }
 </script>
