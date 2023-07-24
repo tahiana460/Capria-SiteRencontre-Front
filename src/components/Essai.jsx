@@ -1,10 +1,36 @@
 import io from 'socket.io-client';
 //import 'css/App.css';
 import {useState} from 'react'
+import api from "../const/api";
 
 function Essai(userInfo) {
-  const [messages, setMessages] = useState([]);
+  var [messages, setMessages] = useState([]);  
+
   const socket = io('localhost:3100');
+  //console.log(socket)
+  const user=JSON.parse(userInfo.userInfo)
+
+  var rec_id=localStorage.getItem("activatedChat")
+  if(rec_id==null){
+    
+  }
+  var obj={'mon_id':user.id,'receiver_id':rec_id}
+  //console.log(obj)
+  const jsonString = JSON.stringify(obj);
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Accept", "application/json");
+
+    //console.log(jsonString);
+      const response = await fetch("http://localhost:3100/chat", {
+      headers: myHeaders,
+      method:'POST',
+      body:jsonString
+    });
+    //console.log(await response.text());
+    const reponse = await response.json();
+    //console.log(reponse)
+    messages=reponse
 
   socket.on('SERVER_MSG', msg => {
     setNewMessage(msg);
@@ -18,17 +44,19 @@ function Essai(userInfo) {
   }
 
   function sendMessage(e) {
-    //console.log(userInfo.userInfo)
-    var user=JSON.parse(userInfo.userInfo)
-    console.log(user)
     e.preventDefault();
+    console.log('active='+localStorage.getItem("activatedChat"))
+    var receiver=localStorage.getItem("activatedChat")
     const msg = {
         username: user[0].id,
+        receiverId: receiver,
         text: e.target.text.value
     };
     socket.emit('CLIENT_MSG', msg);
     setNewMessage(msg);
   }
+
+  
 
   return (
     <div className="container">
