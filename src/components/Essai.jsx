@@ -4,23 +4,22 @@ import {useState} from 'react'
 import api from "../const/api";
 
 function Essai(userInfo) {
-  var [messages, setMessages] = useState([]); 
+  const [messages, setMessages] = useState(userInfo.messagesAvant); 
 
   const socket = io('localhost:3100');
   //console.log(userInfo.messagesAvant)
   const user=JSON.parse(userInfo.userInfo)
-  messages=(userInfo.messagesAvant)
 
   socket.on('SERVER_MSG', msg => {
     setNewMessage(msg);
   });
 
   function setNewMessage(msg) {
-    /*setMessages([
+    setMessages([
       ...messages,
       msg
-    ]);*/
-    messages.push(msg)
+    ]);
+    //messages.push(msg)
   }
 
   function sendMessage(e) {
