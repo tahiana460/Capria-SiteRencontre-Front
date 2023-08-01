@@ -15,7 +15,7 @@ if(userr!=null){
     var current_user=JSON.parse(userr)
     current_user=current_user[0].id
     if(id!=current_user){
-        var obj={'visitor_id':current_user,'visited_id':id,'date_visite':new Date()}
+        var obj={'visitor_id':current_user,'visited_id':id}
 		const jsonString = JSON.stringify(obj);
 		var myHeaders = new Headers();
 		myHeaders.append("Content-Type", "application/json");
@@ -36,7 +36,7 @@ if(userr!=null){
 const [user] = await fetch(api('users/'+id)).then((response) => response.json());
 //const [vue] = await fetch(api('vues/nb/'+id)).then((response) => response.json());
 const vues = await fetch(api('views/visitor/'+id)).then((response) => response.json());
-//console.log(vues)
+// console.log(vues)
 var nbVue=0
 if(vues.length!=0)  nbVue=vues.length
 //console.log(vues);
