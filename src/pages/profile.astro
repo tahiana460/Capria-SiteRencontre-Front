@@ -6,12 +6,14 @@ import ProfileAccount from '../components/Profile_Account.astro'
 import ProfilePhoto from '../components/Profile_photo.astro'
 import ProfleEdit from '../components/Profile_edit.jsx'
 import api from "../const/api"
+import ProfileVues from '../components/Profile_Vues.astro'
 
 const id = Astro.url.searchParams.get('id');
 
 const [user] = await fetch(api('users/'+id)).then((response) => response.json());
-const [vue] = await fetch(api('vues/'+id)).then((response) => response.json());
-console.log(vue);
+const [vue] = await fetch(api('vues/nb/'+id)).then((response) => response.json());
+const vues = await fetch(api('vues/'+id)).then((response) => response.json());
+//console.log(vues);
 ---
 
 <Page title="Site rencontre" >
@@ -121,6 +123,10 @@ console.log(vue);
 						<li class="nav-item p-b-10">
 							<a class="nav-link" data-toggle="tab" href="#photo" role="tab">Photo</a>
 						</li>
+
+                        <li class="nav-item p-b-10">
+							<a class="nav-link" data-toggle="tab" href="#vues" role="tab">Vues</a>
+						</li>
 					</ul>
 
 					<!-- Tab panes -->
@@ -142,6 +148,10 @@ console.log(vue);
 						<!-- - -->
 
 						<ProfilePhoto />
+
+                        <!-- - -->
+
+						<ProfileVues vues={vues} />
 						
 					</div>
 				</div>

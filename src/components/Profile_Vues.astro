@@ -1,0 +1,32 @@
+---
+const { vues } = Astro.props;
+//console.log(vues.length)
+---
+
+<style>
+    #imgPhoto {
+            height: 20%;
+            width: 20%;
+            border-radius: 20%;
+        }
+</style>
+
+<div class="tab-pane fade" id="vues" role="tabpanel">
+    <div class="p-lr-15-md" style="padding-left:30%">
+        <!-- <p class="stext-102 cl6">
+            Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
+        </p> -->
+        <table class="w-75">
+        {vues.map((profil:any)=>(
+            //console.log(profil.pseudo);
+            <tr>
+                <td class="pb-2 w-50">
+                    <img id="imgPhoto" src={'photo/'+profil.profile_picture} alt="IMG-PRODUCT">
+                </td>
+                <td class="text-left"><span class="stext-102 cl6 size-206">{profil.pseudo}</span></td>
+            </tr>
+        ))}            
+            
+        </table>
+    </div>
+</div>
