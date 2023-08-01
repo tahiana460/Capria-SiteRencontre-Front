@@ -10,6 +10,8 @@ import api from "../const/api"
 const id = Astro.url.searchParams.get('id');
 
 const [user] = await fetch(api('users/'+id)).then((response) => response.json());
+const [vue] = await fetch(api('vues/'+id)).then((response) => response.json());
+console.log(vue);
 ---
 
 <Page title="Site rencontre" >
@@ -99,6 +101,7 @@ const [user] = await fetch(api('users/'+id)).then((response) => response.json())
 				</div>
 				<div class="mt-4">
 					<h2 class="text-center">{user.pseudo}</h2>
+                    <p class="text-center">{vue.nb} vue(s)</p>
 				</div>
 			</div>
 
