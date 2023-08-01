@@ -1,0 +1,44 @@
+---
+    import NavBar from '../components/NavBar.astro';
+    import Page from '../components/Page.astro';
+    import ChatComponent from '../components/Chat';
+
+    var uss=(localStorage.getItem("user"))
+    const user=JSON.parse(uss)[0]
+    // console.log('haha', user);
+
+    var users:any=[]
+    var messages:any=[]
+
+    var obj={'id':user.id,'filtres':[]}
+    //console.log(obj)
+		const jsonString = JSON.stringify(obj);
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
+      	myHeaders.append("Accept", "application/json");
+
+      //console.log(jsonString);
+      	const response = await fetch("http://localhost:3100/userList", {
+        headers: myHeaders,
+        method:'POST',
+        body:jsonString
+      });
+      //console.log(await response.text());
+      const reponse = await response.json();
+    //   console.log(reponse)
+      users=reponse
+---
+
+<Page title="Site rencontre - Chat">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/chat.css">
+    <!-- <div class="container-fluid h-100"> -->
+        <NavBar />
+        <ChatComponent user={user} users={users} client:load/>
+    <!-- </div> -->
+</Page>

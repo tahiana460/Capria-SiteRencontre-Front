@@ -100,7 +100,7 @@ export default function Profile_edit(props) {
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <input type="date" name="dateOfBirth" className={errorDateOfBirth ? "form-control in-error" : "form-control"} value={dateOfBirth} onChange={(e) => { setDateOfBirth(e.target.value) }} id="dateOfBirth" className="form-control" placeholder=" " required/>
+                                    <input type="date" id="dateOfBirth" name="dateOfBirth" className={errorDateOfBirth ? "form-control in-error" : "form-control"} value={dateOfBirth} onChange={(e) => { setDateOfBirth(e.target.value) }} placeholder=" " required/>
                                     <label className="form-label">Date de naissance</label>
                                     { errorDateOfBirth && <span className='error'>Date de naissance invalide</span> }
                                 </div>
