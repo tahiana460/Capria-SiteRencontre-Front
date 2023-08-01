@@ -6,10 +6,40 @@ import ProfileAccount from '../components/Profile_Account.astro'
 import ProfilePhoto from '../components/Profile_photo.astro'
 import ProfleEdit from '../components/Profile_edit.jsx'
 import api from "../const/api"
+import ProfileVues from '../components/Profile_Vues.astro'
 
 const id = Astro.url.searchParams.get('id');
+const userr=localStorage.getItem("user");
+var moi=1
+if(userr!=null){
+    var current_user=JSON.parse(userr)
+    current_user=current_user[0].id
+    if(id!=current_user){
+        var obj={'visitor_id':current_user,'visited_id':id,'date_visite':new Date()}
+		const jsonString = JSON.stringify(obj);
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
+      	myHeaders.append("Accept", "application/json");
+
+      //console.log(jsonString);
+      	const response = await fetch(api('views/add'), {
+        headers: myHeaders,
+        method:'POST',
+        body:jsonString
+      });
+      //console.log(await response.text());
+      const reponse = await response.json();
+        moi=0
+    }
+}
 
 const [user] = await fetch(api('users/'+id)).then((response) => response.json());
+//const [vue] = await fetch(api('vues/nb/'+id)).then((response) => response.json());
+const vues = await fetch(api('views/visitor/'+id)).then((response) => response.json());
+//console.log(vues)
+var nbVue=0
+if(vues.length!=0)  nbVue=vues.length
+//console.log(vues);
 ---
 
 <Page title="Site rencontre" >
@@ -99,6 +129,7 @@ const [user] = await fetch(api('users/'+id)).then((response) => response.json())
 				</div>
 				<div class="mt-4">
 					<h2 class="text-center">{user.pseudo}</h2>
+                    <p class="text-center">{nbVue} vue(s)</p>
 				</div>
 			</div>
 
@@ -111,35 +142,48 @@ const [user] = await fetch(api('users/'+id)).then((response) => response.json())
 							<a class="nav-link active" data-toggle="tab" href="#about" role="tab">A propos</a>	
 						</li>
 
+                        {moi==1 &&
 						<li class="nav-item p-b-10">
 							<a class="nav-link" data-toggle="tab" href="#myAccount" role="tab">Mon compte</a>
 						</li>
+                        }
 
 						<li class="nav-item p-b-10">
 							<a class="nav-link" data-toggle="tab" href="#photo" role="tab">Photo</a>
 						</li>
+
+                        {moi==1 &&
+                        <li class="nav-item p-b-10">
+							<a class="nav-link" data-toggle="tab" href="#vues" role="tab">Vues</a>
+						</li>
+                        }
 					</ul>
 
 					<!-- Tab panes -->
 					<div class="tab-content p-t-43">
 						<!-- - -->
                         
-						<ProfileAbout user={user} />
+						<ProfileAbout user={user} moi={moi} />
                         <!-- Edit profile modal -->
+                        
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" style="top: 15%;" role="document">
                                 <ProfleEdit user={user} client:load />
                             </div>
                         </div>
-
+                        
 						<!-- - -->
-						
+						{moi==1&&
 						<ProfileAccount user={user} />
-
+                        }
 						<!-- - -->
 
 						<ProfilePhoto />
-						
+
+                        <!-- - -->
+                        {moi==1&&
+						<ProfileVues vues={vues} />
+						}
 					</div>
 				</div>
 			</div>

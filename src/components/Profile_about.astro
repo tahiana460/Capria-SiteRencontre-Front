@@ -1,9 +1,9 @@
 ---
-const { user } = Astro.props;
+const { user,moi } = Astro.props;
 
 const diffDays = Math.ceil(Math.abs(new Date() - new Date(user.dateDeNaissance)) / (1000 * 60 * 60 * 24));
 const age = parseInt(diffDays/365);
-
+//console.log(moi)
 ---
 
 <style>
@@ -51,8 +51,9 @@ const age = parseInt(diffDays/365);
         </table>
     </div>
 </div>
-<!-- {user.id == id &&  -->
+{moi==1&&
 <div class="col-md-12 mt-4" style="text-align: center">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Modifier mon profil</button>
 </div>
+}
 <!-- } -->  
