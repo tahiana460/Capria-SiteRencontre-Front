@@ -24,7 +24,7 @@ function Essai(userInfo) {
 
   function sendMessage(e) {
     e.preventDefault();
-    console.log('active='+localStorage.getItem("activatedChat"))
+    // console.log('active='+localStorage.getItem("activatedChat"))
     var receiver=localStorage.getItem("activatedChat")
     const msg = {
         sender_id: user[0].id,
