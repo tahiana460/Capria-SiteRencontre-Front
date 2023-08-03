@@ -1,0 +1,94 @@
+---
+import Page from '../components/Page.astro'
+import NavBar from '../components/NavBar.astro'
+import api from '../const/api'
+
+const subscription = await fetch(api('subscription/')).then((response) => response.json());
+// console.log('hoho', subscription);
+
+---
+<link rel="stylesheet" type="text/css" href="css/abonnement.css">
+
+<Page title="Site rencontre - Abonnement" >
+	<!--Header & Cart-->
+	<NavBar/>
+
+    <!-- Product Detail -->
+	<section class="sec-product-detail bg0 p-t-65 p-b-60">
+		<div class="container">
+
+            <div id="generic_price_table">
+                <section>
+
+                        <!--BLOCK ROW START-->
+                        <div class="row">
+                            {subscription.map(sub => {
+                                return (
+                                <div class="col-md-4">
+                                    <div class="generic_content clearfix">
+                                        <div class="generic_head_price clearfix">
+                                        
+                                            <!--HEAD CONTENT START-->
+                                            <div class="generic_head_content clearfix">
+                                                <div class="head_bg"></div>
+                                                <div class="head">
+                                                    <span>{sub.nom}</span>
+                                                </div>
+                                            </div>
+                                            <!--//HEAD CONTENT END-->
+                                            
+                                            <!--PRICE START-->
+                                            <div class="generic_price_tag clearfix">	
+                                                <span class="price">
+                                                    <span class="sign">Ariary</span>
+                                                    <span class="currency">{sub.prix.toString().slice(0, -3)}</span>
+                                                    <span class="cent">{sub.prix.toString().slice(-3)}</span>
+                                                    <span class="month">/mois</span>
+                                                </span>
+                                            </div>
+                                            <!--//PRICE END-->
+                                            
+                                        </div>                            
+                                        <!--//HEAD PRICE DETAIL END-->
+                                        
+                                        <!--FEATURE LIST START-->
+                                        <div class="generic_feature_list">
+                                            <ul>
+                                                <!-- <li><span>2GB</span>{sub.descri}</li>-->
+                                                <li><span>150GB</span> Storage</li>
+                                                <li><span>12</span> Accounts</li>
+                                                <li><span>7</span> Host Domain</li>
+                                                <li><span>24/7</span> Support</li>
+                                            </ul>
+                                        </div>
+                                        <!--//FEATURE LIST END-->
+                                        
+                                        <!--BUTTON START-->
+                                        <div class="generic_price_btn clearfix">
+                                            <a class="" href="">S'abonner</a>
+                                        </div>
+                                        <!--//BUTTON END-->
+                                        
+                                    </div>
+                                    <!--//PRICE CONTENT END-->
+                                        
+                                </div>
+                                )
+                            })}
+                            
+                            <!-- <div class="col-md-4">
+                            
+                                <div class="generic_content active clearfix">                                    
+                                </div>
+                                    
+                            </div> -->
+                        </div>	
+                        <!--//BLOCK ROW END-->
+                        
+                </section>
+            </div>
+
+		</div>
+	</section>
+
+</Page>
