@@ -56,7 +56,11 @@ body{background-color:#eee;}
 	border-left: 5px solid #2ECC71;
 }
 
-#generic_price_table .generic_content .generic_price_btn a{
+/* #generic_price_table .generic_content .generic_price_btn a{
+	border: 1px solid #2ECC71; 
+    color: #2ECC71;
+}  */
+#generic_price_table .generic_content .generic_price_btn p{
 	border: 1px solid #2ECC71; 
     color: #2ECC71;
 } 

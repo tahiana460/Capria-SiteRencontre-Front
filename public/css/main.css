@@ -1689,6 +1689,7 @@ button.mfp-close {
 
 .swal-footer {
     margin-top: 0;
+    text-align: center !important;
 }
 
 

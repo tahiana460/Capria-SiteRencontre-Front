@@ -1,13 +1,20 @@
 ---
 import Page from '../components/Page.astro'
 import NavBar from '../components/NavBar.astro'
+import Subscription from '../components/Subscription.jsx'
 import api from '../const/api'
 
-const subscription = await fetch(api('subscription/')).then((response) => response.json());
-// console.log('hoho', subscription);
+// const subscription = await fetch(api('subscription/'), 
+// {
+//     method: 'GET',
+//     headers : {'Content-Type':'application/json'}
+// }
+// ).then((response) => response.json());
+
+const user = JSON.parse(localStorage.getItem('user'))[0]
+//  localStorage.getItem('user')[0])
 
 ---
-<link rel="stylesheet" type="text/css" href="css/abonnement.css">
 
 <Page title="Site rencontre - Abonnement" >
 	<!--Header & Cart-->
@@ -17,78 +24,20 @@ const subscription = await fetch(api('subscription/')).then((response) => respon
 	<section class="sec-product-detail bg0 p-t-65 p-b-60">
 		<div class="container">
 
-            <div id="generic_price_table">
-                <section>
-
-                        <!--BLOCK ROW START-->
-                        <div class="row">
-                            {subscription.map(sub => {
-                                return (
-                                <div class="col-md-4">
-                                    <div class="generic_content clearfix">
-                                        <div class="generic_head_price clearfix">
-                                        
-                                            <!--HEAD CONTENT START-->
-                                            <div class="generic_head_content clearfix">
-                                                <div class="head_bg"></div>
-                                                <div class="head">
-                                                    <span>{sub.nom}</span>
-                                                </div>
-                                            </div>
-                                            <!--//HEAD CONTENT END-->
-                                            
-                                            <!--PRICE START-->
-                                            <div class="generic_price_tag clearfix">	
-                                                <span class="price">
-                                                    <span class="sign">Ariary</span>
-                                                    <span class="currency">{sub.prix.toString().slice(0, -3)}</span>
-                                                    <span class="cent">{sub.prix.toString().slice(-3)}</span>
-                                                    <span class="month">/mois</span>
-                                                </span>
-                                            </div>
-                                            <!--//PRICE END-->
-                                            
-                                        </div>                            
-                                        <!--//HEAD PRICE DETAIL END-->
-                                        
-                                        <!--FEATURE LIST START-->
-                                        <div class="generic_feature_list">
-                                            <ul>
-                                                <!-- <li><span>2GB</span>{sub.descri}</li>-->
-                                                <li><span>150GB</span> Storage</li>
-                                                <li><span>12</span> Accounts</li>
-                                                <li><span>7</span> Host Domain</li>
-                                                <li><span>24/7</span> Support</li>
-                                            </ul>
-                                        </div>
-                                        <!--//FEATURE LIST END-->
-                                        
-                                        <!--BUTTON START-->
-                                        <div class="generic_price_btn clearfix">
-                                            <a class="" href="">S'abonner</a>
-                                        </div>
-                                        <!--//BUTTON END-->
-                                        
-                                    </div>
-                                    <!--//PRICE CONTENT END-->
-                                        
-                                </div>
-                                )
-                            })}
-                            
-                            <!-- <div class="col-md-4">
-                            
-                                <div class="generic_content active clearfix">                                    
-                                </div>
-                                    
-                            </div> -->
-                        </div>	
-                        <!--//BLOCK ROW END-->
-                        
-                </section>
-            </div>
+            <Subscription user={user} client:load />
 
 		</div>
 	</section>
+    <script>
+        // $('.btn-subscribe').on('click', function(){
+        //     // var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+        //     // $(this).on('click', function(){
+        //         swal('Payement effectué.', "Merci pour votre abonnement", "success");
+
+        //         // $(this).addClass('js-addedwish-b2');
+        //         // $(this).off('click');
+        //     // });
+        // });
+    </script>
 
 </Page>
