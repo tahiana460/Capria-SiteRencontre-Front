@@ -1,0 +1,43 @@
+---
+import Page from '../components/Page.astro'
+import NavBar from '../components/NavBar.astro'
+import Subscription from '../components/Subscription.jsx'
+import api from '../const/api'
+
+// const subscription = await fetch(api('subscription/'), 
+// {
+//     method: 'GET',
+//     headers : {'Content-Type':'application/json'}
+// }
+// ).then((response) => response.json());
+
+const user = JSON.parse(localStorage.getItem('user'))[0]
+//  localStorage.getItem('user')[0])
+
+---
+
+<Page title="Site rencontre - Abonnement" >
+	<!--Header & Cart-->
+	<NavBar/>
+
+    <!-- Product Detail -->
+	<section class="sec-product-detail bg0 p-t-65 p-b-60">
+		<div class="container">
+
+            <Subscription user={user} client:load />
+
+		</div>
+	</section>
+    <script>
+        // $('.btn-subscribe').on('click', function(){
+        //     // var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+        //     // $(this).on('click', function(){
+        //         swal('Payement effectué.', "Merci pour votre abonnement", "success");
+
+        //         // $(this).addClass('js-addedwish-b2');
+        //         // $(this).off('click');
+        //     // });
+        // });
+    </script>
+
+</Page>
