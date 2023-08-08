@@ -34,6 +34,7 @@ if(userr!=null){
 }
 
 const [user] = await fetch(api('users/'+id)).then((response) => response.json());
+//console.log(user)
 //const [vue] = await fetch(api('vues/nb/'+id)).then((response) => response.json());
 const vues = await fetch(api('views/visitor/'+id)).then((response) => response.json());
 // console.log(vues)

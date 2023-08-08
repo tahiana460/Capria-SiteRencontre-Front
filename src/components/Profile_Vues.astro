@@ -1,5 +1,11 @@
 ---
 const { vues } = Astro.props;
+const abonnement=localStorage.getItem("abonnement")
+//console.log(abonnement)
+var vuePersonne=true
+if(abonnement==''){
+    vuePersonne=false
+}
 //console.log(vues.length)
 ---
 
@@ -16,6 +22,7 @@ const { vues } = Astro.props;
         <!-- <p class="stext-102 cl6">
             Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
         </p> -->
+        {vuePersonne&&
         <table class="w-75">
         {vues.map((profil:any)=>(
             //console.log(profil.pseudo);
@@ -27,6 +34,8 @@ const { vues } = Astro.props;
             </tr>
         ))}            
             
-        </table>
+        </table>}
+        {vuePersonne==false&&
+        <p>Veuillez revoir votre abonnement si vous voulez savoir qui a visité votre profil</p>}
     </div>
 </div>
