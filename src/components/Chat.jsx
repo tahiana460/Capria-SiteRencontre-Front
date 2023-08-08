@@ -7,6 +7,8 @@ export default function Chat(props) {
     const [userChatActive, setUserChatActive] = useState(props.users[0])
     const [messages, setMessages] = useState([])
     const [yourMessage, setYourMessage] = useState()
+    const checkAbo=props.checkAbo
+    console.log(checkAbo)
 
     const msgCardBodyRef = useRef(null)
 
@@ -231,15 +233,22 @@ export default function Chat(props) {
                                     </div> */}
                                 </div>
                                     <div className="card-footer">
-                                        <div className="input-group">
-                                            <div className="input-group-append">
-                                                <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>
+                                        {checkAbo?(
+                                            <div className="input-group">
+                                                <div className="input-group-append">
+                                                    <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>
+                                                </div>
+                                                <textarea id="messageInput" value={yourMessage} onChange={(e) => { setYourMessage(e.target.value) }} name="" className="form-control type_msg" placeholder="Entrez votre message"></textarea>
+                                                <div onClick={(e) => handleSendMessage(e)} tabIndex="0" className="input-group-append">
+                                                    <span className="input-group-text send_btn"><i className="fas fa-location-arrow"></i></span>
+                                                </div>
                                             </div>
-                                            <textarea id="messageInput" value={yourMessage} onChange={(e) => { setYourMessage(e.target.value) }} name="" className="form-control type_msg" placeholder="Entrez votre message"></textarea>
-                                            <div onClick={(e) => handleSendMessage(e)} tabIndex="0" className="input-group-append">
-                                                <span className="input-group-text send_btn"><i className="fas fa-location-arrow"></i></span>
+                                        ):(
+                                            <div>
+                                            Veuillez revoir votre abonnement si vous voulez envoyer de nouveau un message.
+                                            <a href='/abonnement' >S'abonner</a>
                                             </div>
-                                        </div>
+                                        )}                                        
                                     </div>
                             </div>
                         </div>

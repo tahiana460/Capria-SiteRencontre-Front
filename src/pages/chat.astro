@@ -6,6 +6,13 @@
     var uss=(localStorage.getItem("user"))
     const user=JSON.parse(uss)[0]
     // console.log('haha', user);
+    var abonnement=localStorage.getItem("abonnement")
+    var checkAbo=true
+    if(abonnement==''){
+      checkAbo=false
+    }else{
+      // verifier son type d'abonnement et compter le nb de messages envoyes si limite ou pas
+    }
 
     var users:any=[]
     var messages:any=[]
@@ -39,6 +46,6 @@
     <link rel="stylesheet" type="text/css" href="css/chat.css">
     <!-- <div class="container-fluid h-100"> -->
         <NavBar />
-        <ChatComponent user={user} users={users} client:load/>
+        <ChatComponent user={user} users={users} checkAbo={checkAbo} client:load/>
     <!-- </div> -->
 </Page>
