@@ -7,8 +7,11 @@ export default function Chat(props) {
     const [userChatActive, setUserChatActive] = useState(props.users[0])
     const [messages, setMessages] = useState([])
     const [yourMessage, setYourMessage] = useState()
-    const checkAbo=props.checkAbo
-    console.log(checkAbo)
+    const [checkAbo,setCheckAbo]=useState(props.checkAbo)
+    const abonnement=useState(JSON.parse(props.abonnement))
+    //console.log(abonnement)
+   // const [nbMsg,setNbMsg]=useState(props.nbMsg)
+    //const limitMsg=props.limitMsg
 
     const msgCardBodyRef = useRef(null)
 
@@ -48,9 +51,21 @@ export default function Chat(props) {
         // socket.connect();
 
         socket.on('SERVER_MSG', msg => {
-            setMessages([...messages, msg]);
+            //setNbMsg(nbMsg+1)
+            //console.log(nbMsg)
+            /*if(nbMsg>=limitMsg){
+                setCheckAbo(false)
+                console.log(checkAbo)
+            }*/
+            if(msg.erreur && msg.sender_id==props.user.id){
+                setCheckAbo(false)
+            }else if(msg.limite && msg.sender_id==props.user.id){
+                setCheckAbo(false)
+                setMessages([...messages, msg]);
+            }else{
+                setMessages([...messages, msg]);
+            }
         });
-
         // return () => {
         //     socket.disconnect();
         // }
@@ -70,17 +85,17 @@ export default function Chat(props) {
         const msg = {
             sender_id: props.user.id,
             receiver_id: userChatActive.id,
-            message: yourMessage
+            message: yourMessage,
+            date_debut: abonnement[0].date_debut
         };
         socket.emit('CLIENT_MSG', msg);
         
         // setMessages([...messages, msg])
-        messages.push(msg)
-
-        console.log(messages);
+        messages.push(msg)        
 
 
         setYourMessage('');
+        
     };
 
     return (
