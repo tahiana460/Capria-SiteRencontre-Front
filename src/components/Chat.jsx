@@ -46,7 +46,7 @@ export default function Chat(props) {
     const socket = io('localhost:3100');
 
     useEffect(() => {
-        getChatActiveMessage(userChatActive.id)
+        //getChatActiveMessage(userChatActive.id)
 
         // socket.connect();
 
@@ -61,9 +61,11 @@ export default function Chat(props) {
                 setCheckAbo(false)
             }else if(msg.limite && msg.sender_id==props.user.id){
                 setCheckAbo(false)
-                setMessages([...messages, msg]);
+                getChatActiveMessage(msg.receiver_id)
+                //setMessages([...messages, msg]);
             }else{
-                setMessages([...messages, msg]);
+                //setMessages([...messages, msg]);
+                getChatActiveMessage(msg.receiver_id)
             }
         });
         // return () => {
