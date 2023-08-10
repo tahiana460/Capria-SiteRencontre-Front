@@ -7,6 +7,11 @@ export default function Chat(props) {
     const [userChatActive, setUserChatActive] = useState(props.users[0])
     const [messages, setMessages] = useState([])
     const [yourMessage, setYourMessage] = useState()
+    const [checkAbo,setCheckAbo]=useState(props.checkAbo)
+    const abonnement=useState(JSON.parse(props.abonnement))
+    //console.log(abonnement)
+   // const [nbMsg,setNbMsg]=useState(props.nbMsg)
+    //const limitMsg=props.limitMsg
 
     const msgCardBodyRef = useRef(null)
 
@@ -41,14 +46,28 @@ export default function Chat(props) {
     const socket = io('localhost:3100');
 
     useEffect(() => {
-        getChatActiveMessage(userChatActive.id)
+        //getChatActiveMessage(userChatActive.id)
 
         // socket.connect();
 
         socket.on('SERVER_MSG', msg => {
-            setMessages([...messages, msg]);
+            //setNbMsg(nbMsg+1)
+            //console.log(nbMsg)
+            /*if(nbMsg>=limitMsg){
+                setCheckAbo(false)
+                console.log(checkAbo)
+            }*/
+            if(msg.erreur && msg.sender_id==props.user.id){
+                setCheckAbo(false)
+            }else if(msg.limite && msg.sender_id==props.user.id){
+                setCheckAbo(false)
+                getChatActiveMessage(msg.receiver_id)
+                //setMessages([...messages, msg]);
+            }else{
+                //setMessages([...messages, msg]);
+                getChatActiveMessage(msg.receiver_id)
+            }
         });
-
         // return () => {
         //     socket.disconnect();
         // }
@@ -68,17 +87,17 @@ export default function Chat(props) {
         const msg = {
             sender_id: props.user.id,
             receiver_id: userChatActive.id,
-            message: yourMessage
+            message: yourMessage,
+            date_debut: abonnement[0].date_debut
         };
         socket.emit('CLIENT_MSG', msg);
         
         // setMessages([...messages, msg])
-        messages.push(msg)
-
-        console.log(messages);
+        messages.push(msg)        
 
 
         setYourMessage('');
+        
     };
 
     return (
@@ -231,15 +250,22 @@ export default function Chat(props) {
                                     </div> */}
                                 </div>
                                     <div className="card-footer">
-                                        <div className="input-group">
-                                            <div className="input-group-append">
-                                                <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>
+                                        {checkAbo?(
+                                            <div className="input-group">
+                                                <div className="input-group-append">
+                                                    <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>
+                                                </div>
+                                                <textarea id="messageInput" value={yourMessage} onChange={(e) => { setYourMessage(e.target.value) }} name="" className="form-control type_msg" placeholder="Entrez votre message"></textarea>
+                                                <div onClick={(e) => handleSendMessage(e)} tabIndex="0" className="input-group-append">
+                                                    <span className="input-group-text send_btn"><i className="fas fa-location-arrow"></i></span>
+                                                </div>
                                             </div>
-                                            <textarea id="messageInput" value={yourMessage} onChange={(e) => { setYourMessage(e.target.value) }} name="" className="form-control type_msg" placeholder="Entrez votre message"></textarea>
-                                            <div onClick={(e) => handleSendMessage(e)} tabIndex="0" className="input-group-append">
-                                                <span className="input-group-text send_btn"><i className="fas fa-location-arrow"></i></span>
+                                        ):(
+                                            <div>
+                                            Veuillez revoir votre abonnement si vous voulez envoyer de nouveau un message.
+                                            <a href='/abonnement' >S'abonner</a>
                                             </div>
-                                        </div>
+                                        )}                                        
                                     </div>
                             </div>
                         </div>

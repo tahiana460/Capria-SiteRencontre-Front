@@ -2,11 +2,41 @@
     import NavBar from '../components/NavBar.astro';
     import Page from '../components/Page.astro';
     import ChatComponent from '../components/Chat';
+    import api from '../const/api'
 
     var uss=(localStorage.getItem("user"))
     const user=JSON.parse(uss)[0]
-    // console.log('haha', user);
+    var abonnement=localStorage.getItem("abonnement")
+    var checkAbo=true
+    var nbMsg=0
+    var limitMsg=5
+    if(abonnement==''){
+      abonnement=JSON.stringify({})
+      checkAbo=false
+    }else if(abonnement!=null){
+      // verifier son type d'abonnement et compter le nb de messages envoyes si limite ou pas
+      const abo=JSON.parse(abonnement)
+      
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Accept", "application/json");
 
+      //console.log(jsonString);
+      const objNb={sender_id:user.id,date_debut:abo.date_debut}
+      const objString=JSON.stringify(objNb)
+      const responseNb = await fetch(api("messages/nbMsg"), {
+        headers: myHeaders,
+        method:'POST',
+        body:objString
+      });
+        //console.log(await response.text());
+      const reponseNb = await responseNb.json();
+      nbMsg=reponseNb[0].nb
+      if(nbMsg>=limitMsg){
+        checkAbo=false
+      }
+    }
+    console.log(nbMsg)
     var users:any=[]
     var messages:any=[]
 
@@ -27,6 +57,7 @@
       const reponse = await response.json();
     //   console.log(reponse)
       users=reponse
+
 ---
 
 <Page title="Site rencontre - Chat">
@@ -39,6 +70,6 @@
     <link rel="stylesheet" type="text/css" href="css/chat.css">
     <!-- <div class="container-fluid h-100"> -->
         <NavBar />
-        <ChatComponent user={user} users={users} client:load/>
+        <ChatComponent user={user} users={users} checkAbo={checkAbo} abonnement={abonnement}  client:load/>
     <!-- </div> -->
 </Page>

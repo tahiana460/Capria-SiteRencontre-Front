@@ -1,5 +1,6 @@
 ---
   import Footer from '../components/Footer.astro';
+  import api from '../const/api';
 var erreur='';
 var rep='';
 if(Astro.request.method==='POST'){
@@ -19,7 +20,7 @@ if(Astro.request.method==='POST'){
       myHeaders.append("Accept", "application/json");
 
       //console.log(jsonString);
-      const response = await fetch("http://localhost:3100/login", {
+      const response = await fetch(api("login"), {
         headers: myHeaders,
         method:'POST',
         body:jsonString
@@ -31,6 +32,25 @@ if(Astro.request.method==='POST'){
         //console.log('reponse non erreur');
         var rep=JSON.stringify(reponse)
         localStorage.setItem('user',rep)
+        //console.log(reponse)
+        const userAbo = await fetch(api("subscription/"+reponse[0].id), {
+          headers: myHeaders,
+          method:'GET'
+        });
+        //console.log(userAbo)
+        const abo=await userAbo.json();
+        //console.log(abo)
+        if(abo.length==0){
+          localStorage.setItem("abonnement",'')
+        }else{          
+          const ajd=new Date()
+          const dateFin=new Date(abo[0].date_fin)
+          if(dateFin>ajd){
+            localStorage.setItem("abonnement",JSON.stringify(abo[0]));
+          }else{
+            localStorage.setItem("abonnement",'')
+          }
+        }        
         return Astro.redirect('/accueil');
       }else{
         erreur=reponse.erreur;
