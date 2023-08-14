@@ -23,17 +23,17 @@ if(userr!=null){
 
       //console.log(jsonString);
       	const response = await fetch(api('views/add'), {
-        headers: myHeaders,
-        method:'POST',
-        body:jsonString
-      });
+            headers: myHeaders,
+            method:'POST',
+            body:jsonString
+        });
       //console.log(await response.text());
       const reponse = await response.json();
         moi=0
     }
 }
 
-const [user] = await fetch(api('users/'+id)).then((response) => response.json());
+const [user] = await fetch(api('users/id/'+id)).then((response) => response.json());
 //console.log(user)
 //const [vue] = await fetch(api('vues/nb/'+id)).then((response) => response.json());
 const vues = await fetch(api('views/visitor/'+id)).then((response) => response.json());

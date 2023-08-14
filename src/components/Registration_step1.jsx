@@ -46,7 +46,7 @@ export class Registation_step1 extends Component {
                     }).then((res) => {
                         res.json().then((data) => {
                             if(data.length != 0) {
-                                console.log('misy', errorEmail)
+                                // console.log('misy', errorEmail)
                                 this.setState({ errorEmail: true })
                             }
                             else {

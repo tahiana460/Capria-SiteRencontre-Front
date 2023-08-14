@@ -38,7 +38,7 @@ export default function Profile_edit(props) {
                 diffYears < 18 ? setErrorDateOfBirth(true) : setErrorDateOfBirth(false)
             }).then(() => {
                 if(!errorDateOfBirth && !errorPseudo) {
-                    fetch(api('users/'+props.user.id), {
+                    fetch(api('users/id/'+props.user.id), {
                         headers: {"Content-Type": "application/json"},
                         method: "PUT",
                         body: JSON.stringify({
