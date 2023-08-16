@@ -4,12 +4,12 @@ import api from '../const/api';
 
 export default function Chat(props) {
 
-    const [userChatActive, setUserChatActive] = useState(props.users[0])
+    const [userChatActive, setUserChatActive] = useState(props.chatActive)
     const [messages, setMessages] = useState([])
     const [yourMessage, setYourMessage] = useState()
     const [checkAbo,setCheckAbo]=useState(props.checkAbo)
     const abonnement=useState(JSON.parse(props.abonnement))
-    //console.log(abonnement)
+    //console.log(userChatActive)
    // const [nbMsg,setNbMsg]=useState(props.nbMsg)
     //const limitMsg=props.limitMsg
 
@@ -36,7 +36,7 @@ export default function Chat(props) {
 
         localStorage.setItem("activatedChat", user.id);
         setUserChatActive(user);
-
+        //console.log('active='+user.id)
         getChatActiveMessage(user.id)
         // console.log('skrrrrrrrrrrrt', userChatActive.id);
     }
@@ -44,7 +44,7 @@ export default function Chat(props) {
     const socket = io('localhost:3100');
 
     useEffect(() => {
-        //getChatActiveMessage(userChatActive.id)
+        getChatActiveMessage(userChatActive.id)
 
         // socket.connect();
 
