@@ -61,7 +61,15 @@
       const reponse = await response.json();
     //   console.log(reponse)
       users=reponse      
-
+    
+    var idChatActive=users[0].id
+    var chatActive=users[0]
+    if( Astro.url.searchParams.get('id')){   
+      idChatActive=Astro.url.searchParams.get('id')
+      if(users.findIndex(i => i.id==idChatActive) > -1){
+        chatActive=users.filter(i => i.id == idChatActive)[0]
+      }
+    }
 ---
 
 <Page title="Site rencontre - Chat">
@@ -74,6 +82,6 @@
     <link rel="stylesheet" type="text/css" href="css/chat.css">
     <!-- <div class="container-fluid h-100"> -->
         <NavBar />
-        <ChatComponent user={user} users={users} checkAbo={checkAbo} abonnement={abonnement}  client:load/>
+        <ChatComponent user={user} users={users} checkAbo={checkAbo} abonnement={abonnement} chatActive={chatActive}  client:load/>
     <!-- </div> -->
 </Page>
