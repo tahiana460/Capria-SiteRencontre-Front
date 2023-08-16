@@ -13,12 +13,10 @@ export default function Chat(props) {
    // const [nbMsg,setNbMsg]=useState(props.nbMsg)
     //const limitMsg=props.limitMsg
 
+
     const msgCardBodyRef = useRef(null)
 
-    // const socket = io('localhost:3100');
-
-    // console.log(localStorage.getItem("activatedChat"))
-    // console.log('nah', userChatActive)      
+    // const socket = io('localhost:3100'); 
 
     const getChatActiveMessage = (userActive) => {
         fetch(api('messages'), {
@@ -181,7 +179,7 @@ export default function Chat(props) {
                                                 <div key={msg.id} className="d-flex justify-content-end mb-4">
                                                     <div key={"msg"+msg.id} className="msg_cotainer_send">
                                                         {msg.message}
-                                                        <span key={'time'+msg.id} className="msg_time_send" style={{whiteSpace: "nowrap"}}>{messageDate.getHours()}:{messageDate.getMinutes()}, {messageDate.toLocaleDateString('en-US') == new Date().toLocaleDateString('en-US') ? "Aujourd'hui" : messageDate.getDay()+' '+months[messageDate.getMonth()]}</span>
+                                                        <span key={'time'+msg.id} className="msg_time_send" style={{whiteSpace: "nowrap"}}>{("0"+messageDate.getHours()).slice(-2)}:{("0"+messageDate.getMinutes()).slice(-2)}, {messageDate.toLocaleDateString('en-US') == new Date().toLocaleDateString('en-US') ? "Aujourd'hui" : messageDate.getDay()+' '+months[messageDate.getMonth()]}</span>
                                                     </div>
                                                     <div key={"img"+msg.id} className="img_cont_msg">
                                                         <img src={"photo/"+props.user.photoDeProfil} className="rounded-circle user_img_msg"/>
@@ -195,7 +193,7 @@ export default function Chat(props) {
                                                 </div>
                                                 <div key={"msg"+msg.id} className="msg_cotainer">
                                                     {msg.message}
-                                                    <span key={'time'+msg.id} className="msg_time">{messageDate.getHours()}:{messageDate.getMinutes()}, {messageDate.toLocaleDateString('en-US') == new Date().toLocaleDateString('en-US') ? "Aujourd'hui" : messageDate.getDay()+' '+months[messageDate.getMonth()]}</span>
+                                                    <span key={'time'+msg.id} className="msg_time">{("0"+messageDate.getHours()).slice(-2)}:{("0"+messageDate.getMinutes()).slice(-2)}, {messageDate.toLocaleDateString('en-US') == new Date().toLocaleDateString('en-US') ? "Aujourd'hui" : messageDate.getDay()+' '+months[messageDate.getMonth()]}</span>
                                                 </div>
                                             </div>
                                         )
@@ -250,7 +248,7 @@ export default function Chat(props) {
                                     </div> */}
                                 </div>
                                     <div className="card-footer">
-                                        {checkAbo?(
+                                        {checkAbo || props.user.estAdmin ?(
                                             <div className="input-group">
                                                 <div className="input-group-append">
                                                     <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>

@@ -12,7 +12,7 @@
 } */
 .card {
     height: 100%;
-    border-radius: 15px !important;
+    border-radius: 0 !important;
     /* background-color: rgba(0,0,0,0.4) !important; */
     box-shadow: 0 0 0px 0px;
 }
@@ -28,17 +28,20 @@
 }
 
 .card-header {
-    border-radius: 15px 15px 0 0 !important;
+    /* border-radius: 15px 15px 0 0 !important; */
+    border-radius: 0 !important;
     border-bottom: 0 !important;
 }
 
 .card-footer {
-    border-radius: 0 0 15px 15px !important;
+    /* border-radius: 0 0 15px 15px !important; */
+    border-radius: 0 !important;
     border-top: 0 !important;
 }
 
 .container {
     align-content: center;
+    max-width: 1380px !important;
 }
 
 .search {
@@ -260,7 +263,7 @@
 }
 
 /* @media(max-width: 576px){
-.contacts_card{
-margin-bottom: 15px !important;
+    .contacts_card{
+    margin-bottom: 15px !important;
+    }
 } */
-}

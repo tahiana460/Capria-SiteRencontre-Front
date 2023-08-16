@@ -3,9 +3,13 @@
     import Page from '../components/Page.astro';
     import ChatComponent from '../components/Chat';
     import api from '../const/api'
+    // console.log('leleeeeeeeeeeeeena', JSON.parse(localStorage.getItem('user'))[0].nom);
 
-    var uss=(localStorage.getItem("user"))
-    const user=JSON.parse(uss)[0]
+    var uss=localStorage.getItem('user');
+
+    var user=JSON.parse(uss)[0]
+      // console.log('skrrrrrrrrrrrrt', user.estAdmin);
+    
     var abonnement=localStorage.getItem("abonnement")
     var checkAbo=true
     var nbMsg=0
@@ -21,7 +25,7 @@
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Accept", "application/json");
 
-      //console.log(jsonString);
+      // console.log(jsonString);
       const objNb={sender_id:user.id,date_debut:abo.date_debut}
       const objString=JSON.stringify(objNb)
       const responseNb = await fetch(api("messages/nbMsg"), {
@@ -36,7 +40,7 @@
         checkAbo=false
       }
     }
-    console.log(nbMsg)
+    // console.log(nbMsg)
     var users:any=[]
     var messages:any=[]
 
@@ -56,7 +60,7 @@
       //console.log(await response.text());
       const reponse = await response.json();
     //   console.log(reponse)
-      users=reponse
+      users=reponse      
 
 ---
 
