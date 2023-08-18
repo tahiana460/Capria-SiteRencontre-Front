@@ -15,12 +15,13 @@ export class Registation_step1 extends Component {
     state = {
         errorPseudo: false,
         errorEmail: false,
+        errorEmailExistence:false,
         errorPassword: false,
         errorConfirmPassword: false
     };
 
   render () {
-    const { errorPseudo, errorEmail, errorPassword, errorConfirmPassword } = this.state;
+    const { errorPseudo, errorEmail, errorEmailExistence, errorPassword, errorConfirmPassword } = this.state;
 
     const {values, inputChange, login} = this.props;
 
@@ -45,7 +46,10 @@ export class Registation_step1 extends Component {
                         method: "GET"
                     }).then((res) => {
                         res.json().then((data) => {
-                            if(data.length != 0) {
+                            if(data.erreur){
+                                this.setState({errorEmailExistence:true})
+                            }
+                            else if(data.length != 0) {
                                 // console.log('misy', errorEmail)
                                 this.setState({ errorEmail: true })
                             }
@@ -91,6 +95,7 @@ export class Registation_step1 extends Component {
                                 <input type="email" id="email" name="email" onChange={inputChange('email')} value={values.email} className={errorEmail ? "form-control in-error" : "form-control"} placeholder=" " required/>
                                 <label className="form-label">Adresse email</label>
                                 { errorEmail && <span className='error'>Cet email est déjà pris</span> }
+                                { errorEmailExistence && <span className='error'>Cet email n'existe pas</span> }
                             </div>
             
                             <div className="form-group mt-4">
