@@ -8,15 +8,20 @@ export default function Chat(props) {
     const [messages, setMessages] = useState([])
     const [yourMessage, setYourMessage] = useState()
     const [checkAbo,setCheckAbo]=useState(props.checkAbo)
+    const [nbMsg,setNbMsg]=useState(props.nbMsg)
+    
     const abonnement=useState(JSON.parse(props.abonnement))
-    //console.log(abonnement)
-   // const [nbMsg,setNbMsg]=useState(props.nbMsg)
-    //const limitMsg=props.limitMsg
 
+    const limitMsg=props.limitMsg
 
+    const messagesEndRef = useRef(null)
     const msgCardBodyRef = useRef(null)
 
-    // const socket = io('localhost:3100'); 
+    const socket = io('localhost:3100');
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
 
     const getChatActiveMessage = (userActive) => {
         fetch(api('messages'), {
@@ -25,7 +30,6 @@ export default function Chat(props) {
             body: JSON.stringify({'mon_id': props.user.id, 'receiver_id': userActive})
         }).then((res) => {
             res.json().then((res) => {
-                // console.log(res);
                 setMessages(res);
             })
         })
@@ -38,38 +42,17 @@ export default function Chat(props) {
         setUserChatActive(user);
 
         getChatActiveMessage(user.id)
-        // console.log('skrrrrrrrrrrrt', userChatActive.id);
     }
 
-    const socket = io('localhost:3100');
+    useEffect(() => {
+        getChatActiveMessage(userChatActive.id)
+
+        // scrollToBottom();
+    }, []);
 
     useEffect(() => {
-        //getChatActiveMessage(userChatActive.id)
-
-        // socket.connect();
-
-        socket.on('SERVER_MSG', msg => {
-            //setNbMsg(nbMsg+1)
-            //console.log(nbMsg)
-            /*if(nbMsg>=limitMsg){
-                setCheckAbo(false)
-                console.log(checkAbo)
-            }*/
-            if(msg.erreur && msg.sender_id==props.user.id){
-                setCheckAbo(false)
-            }else if(msg.limite && msg.sender_id==props.user.id){
-                setCheckAbo(false)
-                getChatActiveMessage(msg.receiver_id)
-                //setMessages([...messages, msg]);
-            }else{
-                //setMessages([...messages, msg]);
-                getChatActiveMessage(msg.receiver_id)
-            }
-        });
-        // return () => {
-        //     socket.disconnect();
-        // }
-    }, []);
+        scrollToBottom();
+    }, [messages])
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
@@ -78,25 +61,50 @@ export default function Chat(props) {
             return false;
         }
 
+        setYourMessage('');
+
         if (msgCardBodyRef.current) {
             msgCardBodyRef.current.scrollTop = msgCardBodyRef.current.scrollHeight;
-          }
+        }
 
         const msg = {
             sender_id: props.user.id,
             receiver_id: userChatActive.id,
             message: yourMessage,
+            send_time: new Date(),
             date_debut: abonnement[0].date_debut
         };
         socket.emit('CLIENT_MSG', msg);
         
-        // setMessages([...messages, msg])
-        messages.push(msg)        
+        setMessages(messages.concat([msg]))
 
-
-        setYourMessage('');
+        socket.on('SERVER_MSG', msg => {
+            setNbMsg(nbMsg+1)
+            if(nbMsg>=limitMsg){
+                setCheckAbo(false)
+            }
+            if(msg.erreur && msg.sender_id==props.user.id){
+                setCheckAbo(false)
+            }else if(msg.limite && msg.sender_id==props.user.id){
+                setCheckAbo(false)
+                // getChatActiveMessage(msg.receiver_id)
+                // setMessages([...messages, msg]);
+            }
+            // else{
+            //     setMessages([...messages, msg]);
+            //     getChatActiveMessage(msg.receiver_id)
+            // }
+        });
         
     };
+
+    const handleEnterKey = async (e) => {
+        if(e.keyCode === 13 && !e.shiftKey) { 
+            e.preventDefault();
+            handleSendMessage(e)
+            return false;
+        }
+    }
 
     return (
         <>
@@ -147,13 +155,13 @@ export default function Chat(props) {
                                             <span className="online_icon"></span>
                                         </div>
                                         <div className="user_info">
-                                            <span>Chat with {userChatActive.pseudo}</span>
+                                            <span>{userChatActive.pseudo}</span>
                                             {/* <p>1767 Messages</p> */}
                                         </div>
-                                        <div className="video_cam">
+                                        {/* <div className="video_cam">
                                             <span><i className="fas fa-video"></i></span>
                                             <span><i className="fas fa-phone"></i></span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <span id="action_menu_btn"><i className="fas fa-ellipsis-v"></i></span>
                                     <div className="action_menu">
@@ -170,7 +178,6 @@ export default function Chat(props) {
                                     {/* ----------------------------------------------------------------------------------- */}
 
                                     {messages.map(msg => {
-                                        // console.log(new Date(msg.send_time).getTime(), new Date().getTime());
                                         let messageDate = new Date(msg.send_time)
                                         let months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
                                         
@@ -199,79 +206,32 @@ export default function Chat(props) {
                                         )
                                     })}
 
-                                    {/* ----------------------------------------------------------------------------------- */}
-                                    
-                                    {/* <div className="d-flex justify-content-start mb-4">
-                                        <div className="img_cont_msg">
-                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img_msg" />
-                                        </div>
-                                        <div className="msg_cotainer">
-                                            I am good too, thank you for your chat template
-                                            <span className="msg_time">9:00 AM, Today</span>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex justify-content-end mb-4">
-                                        <div className="msg_cotainer_send">
-                                            You are welcome
-                                            <span className="msg_time_send">9:05 AM, Today</span>
-                                        </div>
-                                        <div className="img_cont_msg">
-                                            <img src="#" className="rounded-circle user_img_msg" />
-                                        </div>
-                                    </div>
-                                    <div className="d-flex justify-content-start mb-4">
-                                        <div className="img_cont_msg">
-                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img_msg" />
-                                        </div>
-                                        <div className="msg_cotainer">
-                                            I am looking for your next templates
-                                            <span className="msg_time">9:07 AM, Today</span>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex justify-content-end mb-4">
-                                        <div className="msg_cotainer_send">
-                                            Ok, thank you have a good day
-                                            <span className="msg_time_send">9:10 AM, Today</span>
-                                        </div>
-                                        <div className="img_cont_msg">
-                                            <img src="" className="rounded-circle user_img_msg" />
-                                        </div>
-                                    </div>
-                                    <div className="d-flex justify-content-start mb-4">
-                                        <div className="img_cont_msg">
-                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img_msg" />
-                                        </div>
-                                        <div className="msg_cotainer">
-                                            Bye, see you
-                                            <span className="msg_time">9:12 AM, Today</span>
-                                        </div>
-                                    </div> */}
+                                    <div ref={messagesEndRef} />
                                 </div>
-                                    <div className="card-footer">
-                                        {checkAbo || props.user.estAdmin ?(
-                                            <div className="input-group">
-                                                <div className="input-group-append">
-                                                    <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>
-                                                </div>
-                                                <textarea id="messageInput" value={yourMessage} onChange={(e) => { setYourMessage(e.target.value) }} name="" className="form-control type_msg" placeholder="Entrez votre message"></textarea>
-                                                <div onClick={(e) => handleSendMessage(e)} tabIndex="0" className="input-group-append">
-                                                    <span className="input-group-text send_btn"><i className="fas fa-location-arrow"></i></span>
-                                                </div>
+                                <div className="card-footer">
+                                    {checkAbo || props.user.estAdmin ?(
+                                        <div className="input-group">
+                                            <div className="input-group-append">
+                                                <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>
                                             </div>
-                                        ):(
-                                            <div>
-                                            Veuillez revoir votre abonnement si vous voulez envoyer de nouveau un message.
-                                            <a href='/abonnement' >S'abonner</a>
+                                            <textarea id="messageInput" value={yourMessage} onKeyDown={(e) => handleEnterKey(e)} onChange={(e) => { setYourMessage(e.target.value) }} name="" className="form-control type_msg" placeholder="Entrez votre message"></textarea>
+                                            <div onClick={(e) => handleSendMessage(e)} tabIndex="0" className="input-group-append">
+                                                <span className="input-group-text send_btn"><i className="fas fa-location-arrow"></i></span>
                                             </div>
-                                        )}                                        
-                                    </div>
+                                        </div>
+                                    ):(
+                                        <div className='text-center'>
+                                        Veuillez revoir votre abonnement si vous voulez envoyer de nouveau un message.
+                                        <a href='/abonnement' >S'abonner</a>
+                                        </div>
+                                    )}                                        
+                                </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
             </section>
-            {/* <button className='btn btn-primary' onClick={getUsers}>Test</button> */}
         </>
     );
 }

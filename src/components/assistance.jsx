@@ -3,15 +3,13 @@ import io from 'socket.io-client';
 import api from '../const/api';
 import './assistance.css';
 
-export default function Chat(props) {
+export default function Assistance(props) {
 
     const [messages, setMessages] = useState([])
     const [yourMessage, setYourMessage] = useState()
     const [autoReply, setAutoReply] = useState(false)
-    // const [msgAuto, setMsgAuto] = useState({})
 
     const messagesEndRef = useRef(null)
-    
     const msgCardBodyRef = useRef(null)
     
     const messageAuto = "Bonjour "+props.user.nom+"! Nous avons bien reçu votre message hihi"
@@ -38,18 +36,23 @@ export default function Chat(props) {
             headers: {"Content-Type": "application/json"},
             method: "GET"
         }).then((res) => {
-            res.json().then((res) => {
-                const messageDate = new Date(res.send_time);
-                const today = new Date();
-                const differenceS = Math.abs(today - messageDate)/1000;
-                if (differenceS > 86400) {
-                    setAutoReply(true);
-                } else setAutoReply(false)
-                
-            })
+            // console.log('aiza eh', res.json());
+            // if(res.ok) {
+                res.json().then((res) => {
+                    console.log('aiza eh', res);
+                    const messageDate = new Date(res.send_time);
+                    const today = new Date();
+                    const differenceS = Math.abs(today - messageDate)/1000;
+                    if (differenceS > 86400) {
+                        setAutoReply(true);
+                    } else setAutoReply(false)
+                    
+                }).catch(() => {
+                    setAutoReply(true)
+                })
+            // } else setAutoReply(true);
         })
         scrollToBottom();
-
     }, []);
 
     useEffect(() => {
@@ -67,6 +70,8 @@ export default function Chat(props) {
                     setAutoReply(false)
                 } 
                 
+            }).catch((error) => {
+                console.log(error);
             })
         })
         scrollToBottom();
@@ -81,7 +86,7 @@ export default function Chat(props) {
 
         if (msgCardBodyRef.current) {
             msgCardBodyRef.current.scrollTop = msgCardBodyRef.current.scrollHeight;
-          }
+        }
 
         const msg = {
             sender_id: props.user.id,
@@ -112,11 +117,17 @@ export default function Chat(props) {
 
         const msgAuto = await promise;
         autoReply && socket.emit('CLIENT_MSG', msgAuto);
-        
-        // console.log('aaaaaaaaaaaaah', msgAuto);
         autoReply && setMessages(messages.concat([msg, msgAuto]))
         
     };
+
+    const handleEnterKey = async (e) => {
+        if(e.keyCode === 13 && !e.shiftKey) { 
+            e.preventDefault();
+            handleSendMessage(e)
+            return false;
+        }
+    }
 
     return (
         <>
@@ -209,15 +220,13 @@ export default function Chat(props) {
                                 <div ref={msgCardBodyRef} className="card-body msg_card_body">
 
                                     {/* ----------------------------------------------------------------------------------- */}
-                                    {messages.map((msg, index) => {
-                                        // console.log(new Date(msg.send_time).getTime(), new Date().getTime());
-                                        console.log(index);
+                                    {messages.map((msg) => {
                                         let messageDate = new Date(msg.send_time)
                                         let months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
                                         
                                         if(msg.sender_id == props.user.id) {
                                             return (
-                                                <div key={msg.id} className="d-flex justify-content-end mb-4" test={index}>
+                                                <div key={msg.id} className="d-flex justify-content-end mb-4">
                                                     <div key={"msg"+msg.id} className="msg_cotainer_send">
                                                         {msg.message}
                                                         <span key={'time'+msg.id} className="msg_time_send" style={{whiteSpace: "nowrap"}}>{("0"+messageDate.getHours()).slice(-2)}:{("0"+messageDate.getMinutes()).slice(-2)}, {messageDate.toLocaleDateString('en-US') == new Date().toLocaleDateString('en-US') ? "Aujourd'hui" : messageDate.getDay()+' '+months[messageDate.getMonth()]}</span>
@@ -243,24 +252,23 @@ export default function Chat(props) {
                                     <div ref={messagesEndRef} />
 
                                 </div>
-                                    <div className="card-footer">
-                                        <div className="input-group">
-                                            <div className="input-group-append">
-                                                <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>
-                                            </div>
-                                            <textarea id="messageInput" value={yourMessage} onChange={(e) => { setYourMessage(e.target.value) }} name="" className="form-control type_msg" placeholder="Entrez votre message"></textarea>
+                                <div className="card-footer">
+                                    <div className="input-group">
+                                        <div className="input-group-append">
+                                            <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>
+                                        </div>
+                                        <textarea id="messageInput" value={yourMessage} onKeyDown={(e) => handleEnterKey(e)} onChange={(e) => { setYourMessage(e.target.value) }} name="" className="form-control type_msg" placeholder="Entrez votre message"></textarea>
                                             <div onClick={(e) => handleSendMessage(e)} tabIndex="0" className="input-group-append">
                                                 <span className="input-group-text send_btn"><i className="fas fa-location-arrow"></i></span>
                                             </div>
-                                        </div>                                       
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
             </section>
-            {/* <button className='btn btn-primary' onClick={getUsers}>Test</button> */}
         </>
     );
 }
