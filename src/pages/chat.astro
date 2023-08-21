@@ -3,12 +3,10 @@
     import Page from '../components/Page.astro';
     import ChatComponent from '../components/Chat';
     import api from '../const/api'
-    // console.log('leleeeeeeeeeeeeena', JSON.parse(localStorage.getItem('user'))[0].nom);
 
     var uss=localStorage.getItem('user');
 
     var user=JSON.parse(uss)[0]
-      // console.log('skrrrrrrrrrrrrt', user.estAdmin);
     
     var abonnement=localStorage.getItem("abonnement")
     var checkAbo=true
@@ -35,12 +33,13 @@
       });
         //console.log(await response.text());
       const reponseNb = await responseNb.json();
+      
       nbMsg=reponseNb[0].nb
       if(nbMsg>=limitMsg){
         checkAbo=false
       }
+      
     }
-    // console.log(nbMsg)
     var users:any=[]
     var messages:any=[]
 
@@ -82,6 +81,6 @@
     <link rel="stylesheet" type="text/css" href="css/chat.css">
     <!-- <div class="container-fluid h-100"> -->
         <NavBar />
-        <ChatComponent user={user} users={users} checkAbo={checkAbo} abonnement={abonnement} chatActive={chatActive}  client:load/>
+        <ChatComponent user={user} users={users} nbMsg={nbMsg} checkAbo={checkAbo} abonnement={abonnement}  client:load/>
     <!-- </div> -->
 </Page>
