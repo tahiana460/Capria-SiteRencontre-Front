@@ -3,12 +3,10 @@
     import Page from '../components/Page.astro';
     import ChatComponent from '../components/Chat';
     import api from '../const/api'
-    // console.log('leleeeeeeeeeeeeena', JSON.parse(localStorage.getItem('user'))[0].nom);
 
     var uss=localStorage.getItem('user');
 
     var user=JSON.parse(uss)[0]
-      // console.log('skrrrrrrrrrrrrt', localStorage.getItem("abonnement"));
     
     var abonnement=localStorage.getItem("abonnement")
     var checkAbo=true
@@ -40,10 +38,8 @@
       if(nbMsg>=limitMsg){
         checkAbo=false
       }
-      // console.log(checkAbo);
       
     }
-    // console.log(nbMsg)
     var users:any=[]
     var messages:any=[]
 
