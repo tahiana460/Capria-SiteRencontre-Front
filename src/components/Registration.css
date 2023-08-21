@@ -19,7 +19,8 @@
 .form-group input, select {
     padding: 8px 10px;
     /* font-size: 18px; */
-    border-radius: .25rem;
+    /* border-radius: .25rem; */
+    border-radius: 0 !important;
     border: 1px solid rgba(0,0,0,.15);
     background-color: transparent;
     /* border-color: #eee; */
@@ -155,4 +156,8 @@ input[type="file"] {
     font-size: 12px;
     color: red;
     /* float: left; */
+  }
+
+  #submit-btn, #back-btn {
+    border-radius: 0 !important;
   }

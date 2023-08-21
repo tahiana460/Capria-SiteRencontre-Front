@@ -2,7 +2,7 @@
     const currentPage = Astro.url.pathname;
 	const user = (JSON.parse(localStorage.getItem("user")))[0];
 
-	console.log(user.estAdmin);
+	// console.log(user.estAdmin);
 	
 ---
 
@@ -35,12 +35,16 @@
 								<a href="/abonnement">Abonnement</a>
 							</li>
 
+							<li class={currentPage == "/chat" ? "active-menu" : "menu"}>
+								<a href="/chat">Chat</a>
+							</li>
+
 							<!-- <li class="label1" data-label1="hot">
 								<a href="shoping-cart.html">Features</a>
 							</li> -->
 
 							<li class={currentPage == "/profile" ? "active-menu" : "menu"}>
-								<a href={"/profile?id="+user.id}>Mon compte</a>
+								<a href={"/profile?id="+user.id}>Profil</a>
 							</li>
 
 							<li class={currentPage == "/assistance" ? "active-menu" : "menu"}>
