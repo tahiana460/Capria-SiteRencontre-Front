@@ -64,7 +64,15 @@
       const reponse = await response.json();
     //   console.log(reponse)
       users=reponse      
-
+    
+    var idChatActive=users[0].id
+    var chatActive=users[0]
+    if( Astro.url.searchParams.get('id')){   
+      idChatActive=Astro.url.searchParams.get('id')
+      if(users.findIndex(i => i.id==idChatActive) > -1){
+        chatActive=users.filter(i => i.id == idChatActive)[0]
+      }
+    }
 ---
 
 <Page title="Site rencontre - Chat">

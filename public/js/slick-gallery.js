@@ -17,8 +17,8 @@
             
 
             $(slick1).on('init', function(){
+              console.log(itemSlick1)
                 var layerCurrentItem = $(itemSlick1[0]).find('.layer-slick1');
-                console.log(layerCurrentItem)
 
                 for(var i=0; i<actionSlick1.length; i++) {
                     clearTimeout(actionSlick1[i]);
@@ -48,7 +48,7 @@
                 slidesToScroll: 1,
                 fade: true,
                 speed: 1000,
-                infinite: false,
+                infinite: true,
                 autoplay: true,
                 autoplaySpeed: 6000,
                 arrows: true,

@@ -161,7 +161,7 @@ if(vues.length!=0)  nbVue=vues.length
 					</ul>
 
 					<!-- Tab panes -->
-					<div class="tab-content p-t-43">
+					<div class="tab-content p-t-43" style="display: block;">
 						<!-- - -->
                         
 						<ProfileAbout user={user} moi={moi} />
@@ -179,7 +179,7 @@ if(vues.length!=0)  nbVue=vues.length
                         }
 						<!-- - -->
 
-						<ProfilePhoto />
+						<ProfilePhoto moi={moi}  />
 
                         <!-- - -->
                         {moi==1&&

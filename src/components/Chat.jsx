@@ -4,7 +4,7 @@ import api from '../const/api';
 
 export default function Chat(props) {
 
-    const [userChatActive, setUserChatActive] = useState(props.users[0])
+    const [userChatActive, setUserChatActive] = useState(props.chatActive)
     const [messages, setMessages] = useState([])
     const [yourMessage, setYourMessage] = useState()
     const [checkAbo,setCheckAbo]=useState(props.checkAbo)
@@ -40,7 +40,7 @@ export default function Chat(props) {
 
         localStorage.setItem("activatedChat", user.id);
         setUserChatActive(user);
-
+        //console.log('active='+user.id)
         getChatActiveMessage(user.id)
     }
 
