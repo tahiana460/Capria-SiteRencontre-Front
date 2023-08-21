@@ -84,12 +84,14 @@ export class Registation_step3 extends Component {
                     "nationality": nationality,
                     "sexual_orientation": sexual_orientation
                 })
-            }).then((res) => {
+            }).then((res)=>res.json()).then((res) => {
+                //console.log(res)
+                const id=res.insertId                
                 if(res.ok) {
-                    window.location.href = '/';
+                    window.location.href = '/accueil?id='+id;
                 } else {
                     throw Error("Error")
-                }
+                }         
             }).catch(() => {
                 console.log('Error');
             })

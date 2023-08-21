@@ -1,11 +1,25 @@
 ---
     import Page from '../components/Page.astro';
     import NavBar from '../components/NavBar.astro';
+	import api from '../const/api'
 	
 	var userr=localStorage.getItem('user')
 
 	// RECHERCHER
 	var filtres=[]
+	if(Astro.url.searchParams.get('id')){
+		const id=Astro.url.searchParams.get('id')
+		fetch(api('users/id/'+id)).then((response) =>{
+			response.json().then((response)=>{
+				//const reponse=response
+				var rep=JSON.stringify(response)
+				//console.log(rep)
+				localStorage.setItem('user',rep)
+				localStorage.setItem("abonnement",'')  
+				userr=localStorage.getItem('user')                    
+			})   
+		}) 
+	}
 	if(Astro.request.method==='POST'){
 		try{			
     		const data=await Astro.request.formData();
