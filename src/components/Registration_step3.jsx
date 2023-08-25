@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import api from "../const/api";
+//var faceapi='../../public/js/face-api.js'
+import {Buffer} from 'buffer';
 
 const ImgUpload =({
     onChange,
@@ -25,10 +27,15 @@ export class Registation_step3 extends Component {
         e.preventDefault();
         this.props.prevStep();
     };
+    state = {
+        errorPdp: false,
+    };
 
   render () {
 
         const {values, changeProfilePicture} = this.props;
+        const  {errorPdp} = this.state;
+
 
         const {
             values: { pseudo, email, password, confirm_password, name, firstname, gender, date_of_birth, city, nationality, sexual_orientation, profile_picture, profile_picture_file }
@@ -38,14 +45,34 @@ export class Registation_step3 extends Component {
             e.preventDefault();
             const reader = new FileReader();
             const file = e.target.files[0];
+            let contentType=file.type 
             reader.onloadend = () => {
                 changeProfilePicture(file, reader.result)
-                // console.log(profile_picture_file)
             }
             reader.readAsDataURL(file);
+            file.arrayBuffer().then((ress)=>{
+                const fileBlob=new Int8Array(ress) 
+                fetch(api('users/checkPdp/'), {
+                    headers: {"Content-Type": contentType},
+                    method: "POST",
+                    body: fileBlob
+                }).then((res)=>res.json()).then((res) => {
+                    //console.log(res)
+                    //console.log(res)
+                    if(res.nb!=1){
+                        this.setState({errorPdp:true})
+                    }else{
+                        this.setState({errorPdp:false})
+                    }
+                }).catch(() => {
+                    console.log('Error');
+                })                           
+            })
         }
 
         const uploadPhoto = async () => {
+            var user_pic=document.getElementById('profile_picture')
+            console.log(user_pic)
             let photo = values.profile_picture_file;
             // let formData = new FormData();
                 
@@ -61,6 +88,8 @@ export class Registation_step3 extends Component {
             });
             // console.log(photo.size);
         }
+
+       
 
         const register = (e) => {
             e.preventDefault()
@@ -103,7 +132,8 @@ export class Registation_step3 extends Component {
                 <h2 className="fw-bold mb-5">Photo de profile</h2>
                 <div>
                     <ImgUpload onChange={photoUpload} src={profile_picture} value={values.profile_picture}/>
-
+                    <br/>
+                    { errorPdp && <span className='error'>Image invalide. Elle ne contient pas de visage ou est une photo de groupe.</span> }
                     {/* Submit button */}
                     <button type="submit" id="submit-btn" onClick={register} className="btn btn-primary btn-block mb-4 btn-shadow">S'inscrire</button>
                     <button id="back-btn" onClick={this.back} className="btn btn-light btn-block mb-4 btn-shadow">
@@ -112,6 +142,7 @@ export class Registation_step3 extends Component {
                     
                 </div>
                 <p>Vous avez déjà un compte? <a href='/login'>Connectez-vous</a></p>
+                
             </>
         )
   }
