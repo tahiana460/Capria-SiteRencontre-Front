@@ -70,32 +70,83 @@ export class Registation_step3 extends Component {
             })
         }
 
-        const uploadPhoto = async () => {
-            var user_pic=document.getElementById('profile_picture')
-            console.log(user_pic)
+        const uploadPhoto = async () => {            
             let photo = values.profile_picture_file;
-            // let formData = new FormData();
-                
-            // formData.append("photo", photo);
-            await fetch('public/photo', {
-                method: "POST",
-                // body: formData,
-                body: photo,
-                headers: {
-                    'content-type': photo.type,
-                    'content-length': `${photo.size}`,
-                  },
-            });
-            // console.log(photo.size);
+            const body = new FormData();
+                       
+            photo.arrayBuffer().then((res)=>{
+                const fileBlob=photo
+                body.append("image",fileBlob)
+                fetch('https://api.imgbb.com/1/upload?key=dbeec0e3599490973977d041a34dbbde',{
+                    method: "POST",
+                    
+                    body
+                }).then((ress)=>{
+                    
+                    ress.json().then((jsonRes)=>{
+                        if(jsonRes.status==200){
+                            console.log(jsonRes.data.url)
+                            return jsonRes.data.url
+                        }                   
+                    })
+                })
+            })
         }
 
        
 
-        const register = (e) => {
+        const register = async (e) => {
             e.preventDefault()
             // console.log(values);
-
-            if(values.profile_picture_file) uploadPhoto();
+            //if(values.profile_picture_file) urlPhoto=await uploadPhoto();
+            if(values.profile_picture_file) {
+                const body = new FormData();
+                body.append("image",values.profile_picture_file)
+                fetch('https://api.imgbb.com/1/upload?key=dbeec0e3599490973977d041a34dbbde',{
+                    method: "POST",
+                    
+                    body
+                }).then((ress)=>{
+                    
+                    ress.json().then((jsonRes)=>{
+                        if(jsonRes.status==200){
+                            //console.log(jsonRes.data.url)
+                            const urlPhoto=jsonRes.data.url
+                            fetch(api('users/'), {
+                                headers: {"Content-Type": "application/json"},
+                                method: "POST",
+                                body: JSON.stringify({
+                                    "name": name,
+                                    "firstname": firstname,
+                                    "email": email,
+                                    "password": password,
+                                    "pseudo": pseudo,
+                                    //"profile_picture": profile_picture_file.name,
+                                    "profile_picture": urlPhoto,
+                                    "gender": gender,
+                                    "date_of_birth": date_of_birth,
+                                    "city": city,
+                                    "nationality": nationality,
+                                    "sexual_orientation": sexual_orientation
+                                })
+                            }).then((res)=>res.json()).then((res) => {
+                                //console.log(res)
+                                const id=res.insertId                
+                                if(res.ok) {
+                                    //console.log('redirect accueil')
+                                    window.location.href = '/accueil?id='+id;
+                                } else {
+                                    throw Error("Error")
+                                }         
+                            }).catch(() => {
+                                console.log('Error');
+                            })
+                        }                   
+                    })
+                })
+            }
+            /*console.log(urlPhoto)
+            if(urlPhoto=='') urlPhoto='./photo/default.jpg'
 
             fetch(api('users/'), {
                 headers: {"Content-Type": "application/json"},
@@ -106,7 +157,8 @@ export class Registation_step3 extends Component {
                     "email": email,
                     "password": password,
                     "pseudo": pseudo,
-                    "profile_picture": profile_picture_file.name,
+                    //"profile_picture": profile_picture_file.name,
+                    "profile_picture": urlPhoto,
                     "gender": gender,
                     "date_of_birth": date_of_birth,
                     "city": city,
@@ -117,13 +169,14 @@ export class Registation_step3 extends Component {
                 //console.log(res)
                 const id=res.insertId                
                 if(res.ok) {
-                    window.location.href = '/accueil?id='+id;
+                    console.log('redirect accueil')
+                    //window.location.href = '/accueil?id='+id;
                 } else {
                     throw Error("Error")
                 }         
             }).catch(() => {
                 console.log('Error');
-            })
+            })*/
         }
 
 
