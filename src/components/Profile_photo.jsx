@@ -57,7 +57,6 @@ export class Profile_photo extends Component{
           })        
         })      
       }
-
       return(
         <div>
           <h5 className="mtext-108 cl2 p-b-7">
@@ -66,7 +65,7 @@ export class Profile_photo extends Component{
   
           <div className="row p-b-25">
               <div className="col-12 p-b-5">
-                  <label className="stext-102 cl3" for="review">Sélectionnez une photo</label>
+                  <label className="stext-102 cl3" htmlFor="review">Sélectionnez une photo</label>
                   <input type="file" id="image" name="photo" onChange={changePicture}  />
               </div>
           </div>

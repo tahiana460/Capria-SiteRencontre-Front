@@ -157,7 +157,7 @@ export class Registation_step3 extends Component {
                     "email": email,
                     "password": password,
                     "pseudo": pseudo,
-                    //"profile_picture": profile_picture_file.name,
+                    //"profile_picture": profile_picture_file? profile_picture_file.name : 'default.jpg',
                     "profile_picture": urlPhoto,
                     "gender": gender,
                     "date_of_birth": date_of_birth,
@@ -169,8 +169,9 @@ export class Registation_step3 extends Component {
                 //console.log(res)
                 const id=res.insertId                
                 if(res.ok) {
-                    console.log('redirect accueil')
-                    //window.location.href = '/accueil?id='+id;
+                    // window.location.href = '/accueil?id='+id;
+
+                    Cookies.set('userFromCookie', JSON.stringify(res))
                 } else {
                     throw Error("Error")
                 }         
@@ -188,8 +189,10 @@ export class Registation_step3 extends Component {
                     <br/>
                     { errorPdp && <span className='error'>Image invalide. Elle ne contient pas de visage ou est une photo de groupe.</span> }
                     {/* Submit button */}
-                    <button type="submit" id="submit-btn" onClick={register} className="btn btn-primary btn-block mb-4 btn-shadow">S'inscrire</button>
-                    <button id="back-btn" onClick={this.back} className="btn btn-light btn-block mb-4 btn-shadow">
+                    {/* <button type="submit" id="submit-btn" onClick={register} className="btn btn-primary btn-block mb-4 btn-shadow">S'inscrire</button> */}
+                    <button type="submit" id="submit-btn" onClick={register} class="flex-c-m stext-101 bg2 hov-btn1 size-116 p-lr-15 trans-04 mb-3">S'inscrire</button>
+                    {/* <button id="back-btn" onClick={this.back} className="btn btn-light btn-block mb-4 btn-shadow"> */}
+                    <button id="back-btn" onClick={this.back} class="flex-c-m stext-101 bg2 hov-btn1 size-116 p-lr-15 trans-04 mb-3">
                         Retour
                     </button>
                     

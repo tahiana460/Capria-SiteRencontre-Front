@@ -35,7 +35,6 @@ export default function Subscription(props) {
     const subscribe = (sub) => {
 
         const today = new Date();
-        // let end_date = new Date(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate());
         let end_date = moment(today.getFullYear()+'-'+(today.getMonth()+sub.duree+1)+'-'+today.getDate(), 'yyyy-mm-dd');
 
         fetch(api('subscription'), {
@@ -49,7 +48,6 @@ export default function Subscription(props) {
             })
         }).then((res) => {
             if(res.ok) {
-                // console.log('youhooooooooooo');
             } else throw Error("Error")
         }).catch(() => {
             console.log('Error');
