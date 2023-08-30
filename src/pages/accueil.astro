@@ -1,25 +1,37 @@
 ---
     import Page from '../components/Page.astro';
     import NavBar from '../components/NavBar.astro';
-	import api from '../const/api'
-	
-	var userr=localStorage.getItem('user')
 
+	if (Astro.url.searchParams.get('socialAuth')) {
+		var userFromCookie = Astro.cookies.get('userFromCookie')
+		Astro.cookies.delete('userFromCookie')
+		
+		localStorage.setItem('user', '['+userFromCookie.value+']')
+	}
+
+	const userr = localStorage.getItem('user');
+
+
+	
+	// if(Astro.url.searchParams.get('id')){
+	// 	const id=Astro.url.searchParams.get('id')
+	// 	fetch(api('users/id/'+id)).then((response) =>{
+	// 		response.json().then((response)=>{
+	// 			//const reponse=response
+	// 			var rep=JSON.stringify(response)
+	// 			//console.log(rep)
+	// 			localStorage.setItem('user',rep)
+	// 			localStorage.setItem("abonnement",'')  
+	// 			userr=localStorage.getItem('user')                    
+	// 		})   
+	// 	}) 
+	// 	// Astro.redirect('/accueil');
+	// }
+
+	// console.log(localStorage.getItem('user'));
+	
 	// RECHERCHER
 	var filtres=[]
-	if(Astro.url.searchParams.get('id')){
-		const id=Astro.url.searchParams.get('id')
-		fetch(api('users/id/'+id)).then((response) =>{
-			response.json().then((response)=>{
-				//const reponse=response
-				var rep=JSON.stringify(response)
-				//console.log(rep)
-				localStorage.setItem('user',rep)
-				localStorage.setItem("abonnement",'')  
-				userr=localStorage.getItem('user')                    
-			})   
-		}) 
-	}
 	if(Astro.request.method==='POST'){
 		try{			
     		const data=await Astro.request.formData();
@@ -68,6 +80,8 @@
 	{
 		var user=JSON.parse(userr)
 		user=user[0]
+		
+		
 		var obj={'id':user.id,'filtres':filtres}
 		const jsonString = JSON.stringify(obj);
 		var myHeaders = new Headers();
@@ -93,7 +107,7 @@
 <Page title="Tongasoa" >
     
 	<!--Header & Cart-->
-	<NavBar/>
+	<NavBar />
 
 	<!-- Product -->
 	<!--<section class="bg0 p-t-23 p-b-140">-->

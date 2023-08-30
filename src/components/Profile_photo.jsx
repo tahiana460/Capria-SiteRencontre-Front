@@ -26,7 +26,7 @@ function Profile_photo(){
 
         <div className="row p-b-25">
             <div className="col-12 p-b-5">
-                <label className="stext-102 cl3" for="review">Sélectionnez une photo</label>
+                <label className="stext-102 cl3" htmlFor="review">Sélectionnez une photo</label>
                 <input type="file" id="image" name="photo" onChange={upload}  />
             </div>
         </div>

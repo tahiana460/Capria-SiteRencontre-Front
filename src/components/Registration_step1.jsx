@@ -141,7 +141,8 @@ export class Registation_step1 extends Component {
                     {/* </form> */}
 
                     {/* Submit button */}
-                    <button type="submit" id="submit-btn" className="btn btn-primary btn-block mb-4 btn-shadow">Suivant</button>
+                    {/* <button type="submit" id="submit-btn" className="btn btn-primary btn-block mb-4 btn-shadow">Suivant</button> */}
+                    <button type="submit" id="submit-btn" className="flex-c-m stext-101 bg2 hov-btn1 size-116 p-lr-15 trans-04 mb-3" >Suivant</button>
                 </form>
                 <p>Vous avez déjà un compte? <a href='/login'>Connectez-vous</a></p>
             </>

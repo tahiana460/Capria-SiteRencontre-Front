@@ -2,7 +2,7 @@
 import Page from '../components/Page.astro'
 import NavBar from '../components/NavBar.astro'
 import ProfileAbout from '../components/Profile_about.astro'
-import ProfileAccount from '../components/Profile_Account.astro'
+import ProfileAccount from '../components/Profile_account.astro'
 import ProfilePhoto from '../components/Profile_photo.astro'
 import ProfleEdit from '../components/Profile_edit.jsx'
 import api from "../const/api"
@@ -175,6 +175,7 @@ if(vues.length!=0)  nbVue=vues.length
                         
 						<!-- - -->
 						{moi==1&&
+						// <ProfileAccount user={user} googleAppId={import.meta.env.GOOGLE_APP_ID} />
 						<ProfileAccount user={user} />
                         }
 						<!-- - -->

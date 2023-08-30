@@ -1,6 +1,10 @@
 ---
 import Footer from '../components/Footer.astro';
 import api from '../const/api';
+import SocialLogin from '../components/Login.jsx';
+
+// console.log('youhouuuuuuuuuuuuu', import.meta.env.APP_FB_APP_ID);
+
 
 var erreur='';
 var rep='';
@@ -65,6 +69,7 @@ if(Astro.request.method==='POST'){
     }
   }
 }
+
 ---
 
 <!DOCTYPE html>
@@ -87,10 +92,19 @@ if(Astro.request.method==='POST'){
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.css" />
 </head>
 <body class="animsition">
 
     <!-- Section: Design Block -->
+
+    <!-- <script>
+      function functionFromParent() {
+        alert('hello from child component');
+      }
+    </script> -->
+
 <section class="text-center text-lg-start">
     <style>
       .cascading-right {
@@ -157,25 +171,32 @@ if(Astro.request.method==='POST'){
           border-color: red;
       }
 
+      /* .swal-modal {
+        position: relative !important;
+        z-index: 2 !important;
+      } */
+
     </style>
+
     <!-- Jumbotron -->
     <div class="container py-4">
       <div class="row g-0 align-items-center" style="margin-top: 5%;">
         <div class="col-md-1"></div>
-        <div class="col-lg-5 mb-5 mb-lg-0" style="z-index: 100000;">
+        <div class="col-lg-5 mb-5 mb-lg-0" style="z-index: 10;">
           <div class="card cascading-right jumbotron" style="
               background: hsla(0, 0%, 100%, 0.55);
               backdrop-filter: blur(30px);
               box-shadow: 0px 0px 15px -5px;
               border: none;
               box-shadow-right: none;
+              border-radius: 0 !important;
               ">
             <div class="card-body p-5 shadow-5 text-center">
               <h2 class="fw-bold mb-5">Connexion</h2>
               <form method="post"  >
 
                 <div class="form-group">
-                    <input type="email" id="email" name="mail" class="form-control" placeholder=" " />
+                    <input type="email" id="email" name="mail" class="form-control" placeholder=" " style="border-radius: 0 !important;" />
                     <label class="form-label">Adresse email</label>
                 </div>
   
@@ -187,7 +208,7 @@ if(Astro.request.method==='POST'){
   
                 <!-- Password input -->
                 <div class="form-group mb-4">
-                  <input type="password" id="password" name="mdp" class="form-control" placeholder=" " />
+                  <input type="password" id="password" name="mdp" class="form-control" placeholder=" " style="border-radius: 0 !important;" />
                   <label class="form-label" for="password">Mot de passe</label>
                 </div>
   
@@ -201,17 +222,19 @@ if(Astro.request.method==='POST'){
                 {erreur &&<div class="alert alert-danger" role="alert">
                   {erreur}
                 </div>}
-                <div class="form-group mb-4">
+                <!-- <div class="form-group mb-4">
                   <a href='/forgot-password'>Mot de passe oublié.</a> 
-                </div>
+                </div> -->
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4 submit-btn">
+                <!-- <button type="submit" class="btn btn-primary btn-block mb-4 submit-btn" style="border-radius: 0 !important;"> -->
+                <button type="submit" class="flex-c-m stext-101 bg2 hov-btn1 size-116 p-lr-15 trans-04 mb-3" >
                   Se Connecter
                 </button>
+              </form>
   
                 <!-- Register buttons -->
                 <!-- <div class="text-center">
-                  <p>or sign up with:</p>
+                  <p>ou continuer avec</p>
                   <button type="button" class="btn btn-link btn-floating mx-1">
                     <i class="fab fa-facebook-f"></i>
                   </button>
@@ -228,7 +251,9 @@ if(Astro.request.method==='POST'){
                     <i class="fab fa-github"></i>
                   </button>
                 </div> -->
-              </form>
+              
+              <SocialLogin facebookAppId={import.meta.env.FB_APP_ID} googleAppId={import.meta.env.GOOGLE_APP_ID} client:only/>
+              <a href='/forgot-password'>Mot de passe oublié?</a>
               <p>Vous n'avez pas de compte? <a href='/registration'>Inscrivez-vous.</a></p>
             </div>
           </div>
@@ -246,6 +271,12 @@ if(Astro.request.method==='POST'){
   <!-- Section: Design Block -->
 
   <Footer/>
+
+  <!--===============================================================================================-->
+	<script is:inline src="vendor/sweetalert/sweetalert.min.js"></script>
+  <!--===============================================================================================-->
+  <script is:inline src="vendor/jquery/jquery-3.2.1.min.js"></script>
+  <script is:inline src="js/main.js"></script>
     
 </body>
 </html>
