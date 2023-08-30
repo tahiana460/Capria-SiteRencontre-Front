@@ -34,6 +34,9 @@ if(userr!=null){
 }
 
 const [user] = await fetch(api('users/id/'+id)).then((response) => response.json());
+if(user.photoDeProfil=='default.jpg'){
+    user.photoDeProfil='/photo/default.jpg'
+}
 //console.log(user)
 //const [vue] = await fetch(api('vues/nb/'+id)).then((response) => response.json());
 const vues = await fetch(api('views/visitor/'+id)).then((response) => response.json());
@@ -124,7 +127,7 @@ if(vues.length!=0)  nbVue=vues.length
 		<div class="container">
 			<div class="p-t-33">
 				<div class="profile-pic-div bg-dark">
-					<img src="/photo/default.jpg" id="imgPhoto" class="insight" />
+					<img src={user.photoDeProfil} id="imgPhoto" class="insight" />
 					<!-- <input type="file" id="file" name="profile_picture" hidden /> 
 					<label for="file" id="uploadBtn">Choisir une photo</label> -->
 				</div>
@@ -180,7 +183,7 @@ if(vues.length!=0)  nbVue=vues.length
                         }
 						<!-- - -->
 
-						<ProfilePhoto moi={moi}  />
+						<ProfilePhoto moi={moi} user={user}  />
 
                         <!-- - -->
                         {moi==1&&

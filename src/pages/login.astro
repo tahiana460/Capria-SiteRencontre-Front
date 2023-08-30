@@ -8,6 +8,10 @@ import SocialLogin from '../components/Login.jsx';
 
 var erreur='';
 var rep='';
+if(Astro.url.searchParams.get('deconnexion')){
+	localStorage.removeItem('user')
+	localStorage.removeItem('abonnement')
+}
 if(Astro.request.method==='POST'){
   try{
     const data=await Astro.request.formData();

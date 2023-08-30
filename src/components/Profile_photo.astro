@@ -1,9 +1,10 @@
 ---
-    import ProfilePhoto from './Profile_photo.jsx';
+    import api from '../const/api.js';
+import ProfilePhoto from './Profile_photo.jsx';
 
-    const { moi } = Astro.props;
+    const { moi,user } = Astro.props;
 
-    var photos: { id: number; src: string; width: number; height: number; }[]=[]
+    /*var photos: { id: number; src: string; width: number; height: number; }[]=[]
     for(let i=0;i<10;i++){
         photos[i]={
             id:i,
@@ -11,7 +12,17 @@
             width:20,
             height:20,
         }
-    }
+    }*/
+
+    var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
+      	myHeaders.append("Accept", "application/json");
+    const photoss = await fetch(api('users/images/'+user.id), {
+        headers: myHeaders,
+        method:'GET'
+    });
+    const photos=await photoss.json()
+    //console.log(photos)
     
     
 ---
@@ -21,7 +32,7 @@
             <div class="p-b-30 m-lr-15-sm" style="display: block;" >
                 
                     {moi==1&&
-                    <ProfilePhoto client:load />
+                    <ProfilePhoto user={user} client:load />
                     <hr>
                     }
                         <div class="row ">
@@ -29,11 +40,11 @@
                                 <div class="col-sm-6 col-md-4 col-lg-3 p-b-35" >
                                     <div class="block2" >
                                         <div class="block2-pic hov-img0">
-                                            <img class="js-show-modal1" src={''+profil.src} alt="IMG-PRODUCT" id={"js-modal1-"+profil.id} />
+                                            <img class="js-show-modal1" src={profil.url} alt="IMG-PRODUCT" id={"js-modal1-"+photos.indexOf(profil)} style="height:200px;" />
                                             {moi==1&&
                                                 <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                                     <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-close2.png" alt="ICON" style="width: 5px;height:5px;" 
-													id={'img'+photos.indexOf(profil)}>
+													id={'img'+profil.id}>
                                                 </a>
                                             }
                                         </div>
@@ -52,7 +63,7 @@
 		<div class="overlay-modal1 js-hide-modal1"></div>
 
 		<div class="container">
-			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+			<div class="bg0 p-t-60 p-b-15 p-lr-15-lg how-pos3-parent">
 				<button class="how-pos3 hov3 trans-04 js-hide-modal1">
 					<img src="images/icons/icon-close.png" alt="CLOSE">
 				</button>
@@ -67,11 +78,11 @@
 
 								<div class="slick3 gallery-lb">								
 									{photos.map((photo)=>(
-                                        <div class="item-slick3" data-thumb={''+photo.src}>
+                                        <div class="item-slick3" data-thumb={photo.url}>
                                             <div class="wrap-pic-w pos-relative">
-                                                <img src={''+photo.src} alt="IMG-PRODUCT">
+                                                <img src={photo.url} alt="IMG-PRODUCT">
 
-                                                <!--<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href={''+photo.src}>
+                                                <!--<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href={photo.url}>
                                                     <i class="fa fa-expand"></i>
                                                 </a>-->
                                             </div>
@@ -88,18 +99,19 @@
 
 <script is:inline >
     
-    var ids=document.querySelectorAll('[id^=img]')
+    var ids=document.querySelectorAll('[id^=js-modal1-]')
     for(id in ids){
         if(ids[id] instanceof HTMLImageElement){
             ids[id].addEventListener('click', clickImage);
         }
     }
     function clickImage(event){
-        console.log(event.target.id)
-        const index=(parseInt(event.target.id.split('img')[1]))
-        var slick1 = $(this).find('.slick1');
+        //console.log(event.target.id)
+        const index=(parseInt(event.target.id.split('js-modal1-')[1]))
         //slick1.slickToGo(index)
         $('.slick3').slick('slickGoTo',index)
-        console.log(slick1)    
+        //console.log(index)
+        //var slick1 = $(this).find('.slick3');
+        //console.log(slick1)
     }
 </script>
