@@ -16,12 +16,12 @@
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "astro": "^2.7.2",
-    "js-cookie": "^3.0.5",
     "buffer": "^6.0.3",
+    "js-cookie": "^3.0.5",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "reactjs-social-login": "^2.6.2",
+    "reactjs-social-login": "^2.6.3",
     "socket.io-client": "^4.7.1"
   },
   "devDependencies": {
