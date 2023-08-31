@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import api from "../const/api";
+import Cookies from 'js-cookie';
 //var faceapi='../../public/js/face-api.js'
 import {Buffer} from 'buffer';
 
@@ -134,7 +135,19 @@ export class Registation_step3 extends Component {
                                 const id=res.insertId                
                                 if(res.ok) {
                                     //console.log('redirect accueil')
-                                    window.location.href = '/accueil?id='+id;
+                                    fetch(api('users/id/'+id)).then((response) =>{
+                                        response.json().then((response)=>{
+                                            //const reponse=response
+                                            console.log('redirect accueil')
+                                            var rep=JSON.stringify(response)
+                                            //console.log(rep)
+                                            localStorage.setItem('user',rep)
+                                            localStorage.setItem("abonnement",'')  
+                                            Cookies.set('userFromCookie', JSON.stringify(rep))
+                                            window.location.href = '/accueil?id='+id;                   
+                                        })   
+                                    }) 
+                                    
                                 } else {
                                     throw Error("Error")
                                 }         
@@ -145,39 +158,6 @@ export class Registation_step3 extends Component {
                     })
                 })
             }
-            /*console.log(urlPhoto)
-            if(urlPhoto=='') urlPhoto='./photo/default.jpg'
-
-            fetch(api('users/'), {
-                headers: {"Content-Type": "application/json"},
-                method: "POST",
-                body: JSON.stringify({
-                    "name": name,
-                    "firstname": firstname,
-                    "email": email,
-                    "password": password,
-                    "pseudo": pseudo,
-                    //"profile_picture": profile_picture_file? profile_picture_file.name : 'default.jpg',
-                    "profile_picture": urlPhoto,
-                    "gender": gender,
-                    "date_of_birth": date_of_birth,
-                    "city": city,
-                    "nationality": nationality,
-                    "sexual_orientation": sexual_orientation
-                })
-            }).then((res)=>res.json()).then((res) => {
-                //console.log(res)
-                const id=res.insertId                
-                if(res.ok) {
-                    // window.location.href = '/accueil?id='+id;
-
-                    Cookies.set('userFromCookie', JSON.stringify(res))
-                } else {
-                    throw Error("Error")
-                }         
-            }).catch(() => {
-                console.log('Error');
-            })*/
         }
 
 

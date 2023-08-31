@@ -10,24 +10,22 @@
 		localStorage.setItem("abonnement",'')
 	}
 
-	const userr = localStorage.getItem('user');
 
 
 	
-	// if(Astro.url.searchParams.get('id')){
-	// 	const id=Astro.url.searchParams.get('id')
-	// 	fetch(api('users/id/'+id)).then((response) =>{
-	// 		response.json().then((response)=>{
-	// 			//const reponse=response
-	// 			var rep=JSON.stringify(response)
-	// 			//console.log(rep)
-	// 			localStorage.setItem('user',rep)
-	// 			localStorage.setItem("abonnement",'')  
-	// 			userr=localStorage.getItem('user')                    
-	// 		})   
-	// 	}) 
-	// 	// Astro.redirect('/accueil');
-	// }
+	if(Astro.url.searchParams.get('id')){
+	 	const id=Astro.url.searchParams.get('id')
+		if(Astro.cookies.get('userFromCookie')){
+			var userFromCookie = Astro.cookies.get('userFromCookie')
+			Astro.cookies.delete('userFromCookie')
+			const jsonValue='['+userFromCookie.value+']'
+			const val=(JSON.parse(jsonValue))
+			localStorage.setItem('user', val)
+			localStorage.setItem("abonnement",'')
+		}		 	 	
+	 	// Astro.redirect('/accueil');
+	}
+	const userr = localStorage.getItem('user');
 
 	// console.log(localStorage.getItem('user'));
 	
@@ -251,7 +249,7 @@
                         <!-- Block2 -->
                         <div class="block2">
                             <div class="block2-pic hov-img0">
-                                <img src={'photo/'+profil.photoDeProfil} alt="IMG-PRODUCT" />
+                                <img src={profil.photoDeProfil} alt="IMG-PRODUCT" style="height: 270px;" />
 
                                 <a href={'chat?id='+profil.id} class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
                                     Chat

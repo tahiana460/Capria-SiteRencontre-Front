@@ -13,7 +13,7 @@ export const onRequest = async function onRequest(
     if(pathname=='/accueil' || pathname=='/assistance' || pathname=='/chat' || pathname=='/profile'){
         
         if(searchParams.get('id') && pathname=='/accueil'){
-            console.log('path with id')
+            //console.log('path with id')
             const response = await next();
             return response;
         }
