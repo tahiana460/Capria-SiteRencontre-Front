@@ -70,8 +70,11 @@ if(vues.length!=0)  nbVue=vues.length
         }
 
         #imgPhoto {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: auto;
             height: 100%;
-            width: 100%;
         }
 
         #uploadBtn {
@@ -127,7 +130,7 @@ if(vues.length!=0)  nbVue=vues.length
 		<div class="container">
 			<div class="p-t-33">
 				<div class="profile-pic-div bg-dark">
-					<img src={user.photoDeProfil} id="imgPhoto" class="insight" />
+					<img src={user.photoDeProfil} id="imgPhoto"  />
 					<!-- <input type="file" id="file" name="profile_picture" hidden /> 
 					<label for="file" id="uploadBtn">Choisir une photo</label> -->
 				</div>
