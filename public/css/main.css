@@ -103,7 +103,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 /*------------------------------------------------------------------
 [ Bootstrap ]*/
-.container {max-width: 1380px;}
+.container {max-width: 1380px;min-height: 70%;}
 
 html {
   overflow-y:scroll;
