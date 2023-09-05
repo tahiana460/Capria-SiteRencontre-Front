@@ -3,6 +3,11 @@ import Footer from '../components/Footer.astro'
 import moment from 'moment'
 
 const { title } = Astro.props;
+//console.log(Astro.url)
+var landing=false
+if(Astro.url.pathname=='/landing'){
+	landing=true
+}
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -45,9 +50,12 @@ const { title } = Astro.props;
 </head>
 <body class="animsition">
 
-    <div class="container" >
-		<slot />
-	</div>
+	{landing&&<slot />}
+    {landing==false&&
+		<div class="container" >
+			<slot />
+		</div>
+	}
     
 	<!-- Footer -->
 	<Footer />
@@ -161,5 +169,21 @@ const { title } = Astro.props;
 <!--===============================================================================================-->
 	<script is:inline src="js/main.js"></script>
 	<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+	<script>
+		const redirect = () => {
+			// redirect to the fallback
+			alert('Erreur de connexion. Veuillez vérifier votre connexion Internet.')
+		}
+		let timeout = setTimeout(redirect, 1000);
+
+		// jQuery approach
+		/*$(document).ready(() => {
+			clearTimeout(timeout);
+		});*/
+		// pure JS approach
+		window.onload = () => {
+			clearTimeout(timeout);
+		};
+	</script>
 </body>
 </html>
