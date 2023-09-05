@@ -169,21 +169,6 @@ if(Astro.url.pathname=='/landing'){
 <!--===============================================================================================-->
 	<script is:inline src="js/main.js"></script>
 	<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
-	<script>
-		const redirect = () => {
-			// redirect to the fallback
-			alert('Erreur de connexion. Veuillez vérifier votre connexion Internet.')
-		}
-		let timeout = setTimeout(redirect, 1000);
-
-		// jQuery approach
-		/*$(document).ready(() => {
-			clearTimeout(timeout);
-		});*/
-		// pure JS approach
-		window.onload = () => {
-			clearTimeout(timeout);
-		};
-	</script>
+	
 </body>
 </html>
