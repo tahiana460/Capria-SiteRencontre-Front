@@ -7,6 +7,7 @@ import ProfilePhoto from '../components/Profile_photo.astro'
 import ProfleEdit from '../components/Profile_edit.jsx'
 import api from "../const/api"
 import ProfileVues from '../components/Profile_Vues.astro'
+import UpdatePassword from '../components/Update_password'
 
 const id = Astro.url.searchParams.get('id');
 const userr=localStorage.getItem("user");
@@ -173,7 +174,8 @@ if(vues.length!=0)  nbVue=vues.length
 						<ProfileAbout user={user} moi={moi} />
                         <!-- Edit profile modal -->
                         
-                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" aria-hidden="true">
+                        
+                        <div class="modal fade" id="profileEditModal" tabindex="-1" role="dialog" aria-labelledby="profileEditModalTitle" data-backdrop="static" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" style="top: 15%;" role="document">
                                 <ProfleEdit user={user} client:load />
                             </div>
@@ -181,8 +183,12 @@ if(vues.length!=0)  nbVue=vues.length
                         
 						<!-- - -->
 						{moi==1&&
-						// <ProfileAccount user={user} googleAppId={import.meta.env.GOOGLE_APP_ID} />
 						<ProfileAccount user={user} />
+                        <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalModalTitle" data-backdrop="static" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" style="top: 15%;" role="document">
+                                <UpdatePassword user={user} client:load />
+                            </div>
+                        </div>
                         }
 						<!-- - -->
 
