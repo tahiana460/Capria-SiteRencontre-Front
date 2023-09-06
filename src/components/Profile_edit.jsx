@@ -143,7 +143,6 @@ export default function Profile_edit(props) {
                         <button type="submit" id="submit-btn" className="btn btn-primary btn-block btn-shadow mt-5">Enregistrer</button>
                         <button type="submit" id="submit-btn" data-dismiss="modal" className="btn btn-secondary btn-block btn-shadow" onClick={(e) => {e.preventDefault()}}>Annuler</button>
                     </form>
-                    {/* <button className="btn btn-danger" onClick={() => {console.log('oay toa mety')}}>Nooooooooo</button> */}
 
                 </div>
                 {/* <div class="modal-footer">

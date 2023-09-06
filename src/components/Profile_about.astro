@@ -14,9 +14,6 @@ const age = parseInt(diffDays/365);
 
 <div class="tab-pane fade show active" id="about" role="tabpanel">
     <div class="p-content p-lr-15-md">
-        <!-- <p class="stext-102 cl6">
-            Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
-        </p> -->
         <table class="w-75">
             <tr>
                 <td class="pb-2 w-50"><span class="stext-102 cl3 size-205">Nom</span></td>
@@ -49,11 +46,25 @@ const age = parseInt(diffDays/365);
                 <td class="text-left"><span class="stext-102 cl6 size-206">{user.orientationSxl == 'Homo' ? 'Homosexuel' : 'Hétérosexuel'}</span></td>
             </tr>
         </table>
+        <!-- {moi==1&&
+        <table class="w-75 mt-5">
+            <tr>
+                <td class="w-50">
+                    <button type="button" class="flex-c-m stext-101 bg2 hov-btn1 size-116 p-lr-15 trans-04 mb-3" data-toggle="modal" data-target="#exampleModalCenter">Modifier mon profil</button>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        } -->
     </div>
 </div>
 {moi==1&&
-<div class="col-md-12 mt-4" style="text-align: center">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Modifier mon profil</button>
-</div>
+    <div class="row mt-5">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <button type="button" class="flex-c-m stext-101 bg2 hov-btn1 size-116 p-lr-15 trans-04 mb-3" data-toggle="modal" data-target="#profileEditModal">Modifier mon profil</button>
+        </div>
+        <div class="col-md-4"></div>    
+    </div>
 }
 <!-- } -->  

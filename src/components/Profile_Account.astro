@@ -6,7 +6,7 @@ const { user } = Astro.props;
 <div class="tab-pane fade" id="myAccount" role="tabpanel">
     <div class="p-lr-15-md" style={{ paddingLeft:"30%" }} >
         <!-- <h1>Hello there</h1> -->
-        <!-- <br /> -->
+        <!-- <br /> --> 
         <AssociatedAccount user={user} googleAppId={import.meta.env.GOOGLE_APP_ID} client:only />
     </div>
 </div>

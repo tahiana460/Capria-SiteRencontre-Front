@@ -90,9 +90,11 @@ export default function Login(props) {
                     className="btn"
                 >
                     {/* <button type="button" className="btn btn-link btn-floating mx-1"> */}
-                    <button type="button" className="btn btn-floating mx-1 hov-btn1 trans-04" style={{borderRadius: "50%", width: "5vh", height: "4.7vh"}} >
+                    {/* <button type="button" className="btn btn-floating mx-1 hov-btn1 trans-04" style={{borderRadius: "50%", width: "5vh", height: "4.7vh"}} > */}
+                    <a className="flex-c-m how-pagination1 trans-04 m-all-7 hov-btn1" style={{border: "none", cursor: "pointer"}}>
                         <i className="fab fa-facebook-f"></i>
-                    </button>
+                    </a>
+                    {/* </button> */}
                 </LoginSocialFacebook>
                 <LoginSocialGoogle
                     client_id={ props.googleAppId }
@@ -110,9 +112,11 @@ export default function Login(props) {
                     className="btn"
                 >
                     {/* <button type="button" className="btn btn-link btn-floating mx-1"> */}
-                    <button type="button" className="btn btn-floating mx-1 hov-btn1 trans-04" style={{borderRadius: "50%", width: "5vh", height: "4.7vh"}} >
-                        <i className="fab fa-google"></i>
-                    </button>
+                    {/* <button type="button" className="btn btn-floating mx-1 hov-btn1 trans-04" style={{borderRadius: "50%", width: "5vh", height: "4.7vh"}} > */}
+                        <a className="flex-c-m how-pagination1 trans-04 m-all-7 hov-btn1" style={{border: "none", cursor: "pointer"}}>
+                            <i className="fab fa-google"></i>
+                        </a>
+                    {/* </button> */}
                 </LoginSocialGoogle>
 
                 {/* <button type="button" class="btn btn-link btn-floating mx-1">

@@ -66,7 +66,7 @@ export default function Associated_account(props) {
                 </tr>
                 <tr>
                     <td className="pb-2"><span className="stext-102 cl3 size-206">Mot de passe</span></td>
-                    <td className="text-left"><span className="stext-102 cl6 size-206"><a href="#">Changer mon mot de passe</a></span></td>
+                    <td className="text-left"><span className="stext-102 cl6 size-206"><a href="" onClick={() => {return false}} data-toggle="modal" data-target="#updatePasswordModal" >Changer mon mot de passe</a></span></td>
                 </tr>
                 <tr></tr>
                 <tr>
