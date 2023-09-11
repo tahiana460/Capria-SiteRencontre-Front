@@ -45,13 +45,13 @@
 
     var obj={'id':user.id,'filtres':[]}
     //console.log(obj)
-		const jsonString = JSON.stringify(obj);
-		var myHeaders = new Headers();
-		myHeaders.append("Content-Type", "application/json");
-      	myHeaders.append("Accept", "application/json");
+    const jsonString = JSON.stringify(obj);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Accept", "application/json");
 
       //console.log(jsonString);
-      	const response = await fetch("http://localhost:3100/userList", {
+        const response = await fetch("http://localhost:3100/userList", {
         headers: myHeaders,
         method:'POST',
         body:jsonString

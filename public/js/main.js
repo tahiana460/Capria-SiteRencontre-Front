@@ -80,7 +80,7 @@
     $('.btn-show-menu-mobile').on('click', function(){
         $(this).toggleClass('is-active');
         $('.menu-mobile').slideToggle();
-    });
+    });    
 
     var arrowMainMenu = $('.arrow-main-menu-m');
 
@@ -124,6 +124,18 @@
     $('.container-search-header').on('click', function(e){
         e.stopPropagation();
     });
+
+    /* emoji */
+    $('.js-show-emoji').on('click', function(){
+        $('.modal-emoji-header').addClass('show-modal-emoji');
+        $(this).css('opacity','0');
+    });
+
+    $('.js-hide-emoji').on('click', function(){
+        $('.modal-emoji-header').removeClass('show-modal-emoji');
+        $('.js-show-emoji').css('opacity','1');
+    });
+
 
 
     /*==================================================================
