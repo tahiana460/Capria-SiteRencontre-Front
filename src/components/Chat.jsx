@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef,React } from 'react';
 import io from 'socket.io-client';
 import api from '../const/api';
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 export default function Chat(props) {
 
@@ -9,6 +11,7 @@ export default function Chat(props) {
     const [yourMessage, setYourMessage] = useState()
     const [checkAbo,setCheckAbo]=useState(props.checkAbo)
     const [nbMsg,setNbMsg]=useState(props.nbMsg)
+    const [showPicker,setShowPicker]=useState(false)
     
     const abonnement=useState(JSON.parse(props.abonnement))
 
@@ -54,9 +57,23 @@ export default function Chat(props) {
         scrollToBottom();
     }, [messages])
 
+    const addEmoji = async(e)  => {
+        //let emoji = e.native;
+        console.log(e)
+        let sym = e.unified.split('-')
+        let codesArray = []
+        sym.forEach(el => codesArray.push('0x' + el))
+        console.log(codesArray)
+        let emoji = String.fromCodePoint(...codesArray)
+        setYourMessage(yourMessage+emoji)
+        /*this.setState({
+            text: this.state.text + emoji
+        });*/
+    };
+
     const handleSendMessage = async (e) => {
         e.preventDefault();
-
+        console.log(yourMessage)
         if(yourMessage.trim() === '') {
             return false;
         }
@@ -105,6 +122,33 @@ export default function Chat(props) {
             return false;
         }
     }
+
+    const showPick = ()=>{
+        if(showPicker) setShowPicker(false)
+        else setShowPicker(true)
+    }
+
+    const traduction = (message)=>{
+        var splits=message.split(/\\u/g) 
+        //console.log(splits)
+        for(let i=0;i<splits.length;i++){
+            if(splits[i].match(/[0-9a-f]/gi)){
+                //splits[i]=String.fromCodePoint(splits[i])
+                try {
+                    splits[i]=String.fromCodePoint(splits[i]);             
+                } catch (e) {             
+                    //console.log("'Argument is not a valid code point'" +
+                        //" error has occurred");
+                }
+            }
+        }
+        const newVal=splits.join('')
+        //console.log(newVal)
+        return newVal//message.replace('\\u', '&#');
+        //return message.replace('\\u', '&#');               
+    }
+
+    //const styleEmoji="width:200px;height:100vh;z-index: 9000;overflow: auto;-webkit-transition: all 0.4s;-o-transition: all 0.4s;-moz-transition: all 0.4s;transition: all 0.4s;visibility: hidden;opacity: 0;"
 
     return (
         <>
@@ -185,7 +229,7 @@ export default function Chat(props) {
                                             return (
                                                 <div key={msg.id} className="d-flex justify-content-end mb-4">
                                                     <div key={"msg"+msg.id} className="msg_cotainer_send">
-                                                        {msg.message}
+                                                        {traduction(msg.message)}
                                                         <span key={'time'+msg.id} className="msg_time_send" style={{whiteSpace: "nowrap"}}>{("0"+messageDate.getHours()).slice(-2)}:{("0"+messageDate.getMinutes()).slice(-2)}, {messageDate.toLocaleDateString('en-US') == new Date().toLocaleDateString('en-US') ? "Aujourd'hui" : messageDate.getDay()+' '+months[messageDate.getMonth()]}</span>
                                                     </div>
                                                     <div key={"img"+msg.id} className="img_cont_msg">
@@ -199,7 +243,7 @@ export default function Chat(props) {
                                                     <img src={userChatActive.photoDeProfil} className="rounded-circle user_img_msg" />
                                                 </div>
                                                 <div key={"msg"+msg.id} className="msg_cotainer">
-                                                    {msg.message}
+                                                    {traduction(msg.message)}
                                                     <span key={'time'+msg.id} className="msg_time">{("0"+messageDate.getHours()).slice(-2)}:{("0"+messageDate.getMinutes()).slice(-2)}, {messageDate.toLocaleDateString('en-US') == new Date().toLocaleDateString('en-US') ? "Aujourd'hui" : messageDate.getDay()+' '+months[messageDate.getMonth()]}</span>
                                                 </div>
                                             </div>
@@ -215,6 +259,11 @@ export default function Chat(props) {
                                                 <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>
                                             </div>
                                             <textarea id="messageInput" value={yourMessage} onKeyDown={(e) => handleEnterKey(e)} onChange={(e) => { setYourMessage(e.target.value) }} name="" className="form-control type_msg" placeholder="Entrez votre message"></textarea>
+                                                                                        
+                                            <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-emoji">
+                                                <span>{String.fromCodePoint(0x1f600)}</span>
+                                            </div>
+                                            
                                             <div onClick={(e) => handleSendMessage(e)} tabIndex="0" className="input-group-append">
                                                 <span className="input-group-text send_btn"><i className="fas fa-location-arrow"></i></span>
                                             </div>
@@ -232,6 +281,17 @@ export default function Chat(props) {
 
                 </div>
             </section>
+
+            
+            <div className="modal-emoji-header flex-c-m trans-04 js-hide-emoji">
+                <div className="container-emoji-header">
+                    <button className="flex-c-m btn-hide-modal-search trans-04 js-hide-emoji">
+                        <img src="images/icons/icon-close2.png" alt="CLOSE"/>
+                    </button>
+
+                    <Picker data={data} onEmojiSelect={(e)=>{addEmoji(e)}} />
+                </div>
+            </div>
         </>
     );
 }
