@@ -1,6 +1,6 @@
 ---
 import Footer from '../components/Footer.astro'
-import moment from 'moment'
+import UserStatus from './online_offline';
 
 const { title } = Astro.props;
 //console.log(Astro.url)
@@ -8,6 +8,9 @@ var landing=false
 if(Astro.url.pathname=='/landing'){
 	landing=true
 }
+
+const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))[0] : [];
+
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -49,6 +52,7 @@ if(Astro.url.pathname=='/landing'){
 
 </head>
 <body class="animsition">
+	{!landing && <UserStatus user={user} client:load />}
 
 	{landing&&<slot />}
     {landing==false&&
