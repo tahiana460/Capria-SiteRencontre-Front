@@ -6,6 +6,9 @@ import react from "@astrojs/react";
 export default defineConfig({
   integrations: [react()],
   middleware: true,
+  experimental:{
+    redirects:true
+  },
   output:'server',
   redirects: {
     '/': '/landing'
