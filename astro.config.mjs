@@ -7,6 +7,9 @@ export default defineConfig({
   integrations: [react()],
   middleware: true,
   output:'server',
+  experimental: {
+    redirects: true
+  },
   redirects: {
     '/': '/landing'
   }
