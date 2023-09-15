@@ -15,7 +15,7 @@ export default function Assistance(props) {
     const messageAuto = "Bonjour "+props.user.nom+"! Nous avons bien reçu votre message hihi"
 
 
-    const socket = io('localhost:3100');
+    const socket = io(api(''));
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })

@@ -1,6 +1,7 @@
 ---
     import Page from '../components/Page.astro';
     import NavBar from '../components/NavBar.astro';
+	import api from '../const/api.js'
 
 	if (Astro.url.searchParams.get('socialAuth')) {
 		var userFromCookie = Astro.cookies.get('userFromCookie')
@@ -86,7 +87,7 @@
       	myHeaders.append("Accept", "application/json");
 
       //console.log(jsonString);
-      	const response = await fetch("http://localhost:3100/userList", {
+      	const response = await fetch(api("userList"), {
         headers: myHeaders,
         method:'POST',
         body:jsonString

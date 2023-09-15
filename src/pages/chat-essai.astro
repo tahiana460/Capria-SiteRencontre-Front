@@ -1,5 +1,6 @@
 ---
     import Essai from '../components/Essai'
+    import api from '../const/api'
     var uss=(localStorage.getItem("user"))
     const user=JSON.parse(uss)[0]
     // console.log(user);
@@ -16,7 +17,7 @@
       	myHeaders.append("Accept", "application/json");
 
       //console.log(jsonString);
-      	const response = await fetch("http://localhost:3100/userList", {
+      	const response = await fetch(api("userList"), {
         headers: myHeaders,
         method:'POST',
         body:jsonString
@@ -34,7 +35,7 @@
             myHeaders.append("Accept", "application/json");
 
             //console.log(jsonString);
-            const resC = await fetch("http://localhost:3100/messages", {
+            const resC = await fetch(api("messages"), {
             headers: myHeaders,
             method:'POST',
             body:jsonStringC

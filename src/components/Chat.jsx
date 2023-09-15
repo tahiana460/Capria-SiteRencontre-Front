@@ -20,7 +20,10 @@ export default function Chat(props) {
     const messagesEndRef = useRef(null)
     const msgCardBodyRef = useRef(null)
 
-    const socket = io('localhost:3100');
+    const socket = io(api(''),{
+        reconnection: true
+      });
+    console.log(socket)
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -59,11 +62,11 @@ export default function Chat(props) {
 
     const addEmoji = async(e)  => {
         //let emoji = e.native;
-        console.log(e)
+        //(e)
         let sym = e.unified.split('-')
         let codesArray = []
         sym.forEach(el => codesArray.push('0x' + el))
-        console.log(codesArray)
+        //console.log(codesArray)
         let emoji = String.fromCodePoint(...codesArray)
         setYourMessage(yourMessage+emoji)
         /*this.setState({
