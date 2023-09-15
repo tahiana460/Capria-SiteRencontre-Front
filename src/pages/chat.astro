@@ -51,7 +51,7 @@
         myHeaders.append("Accept", "application/json");
 
       //console.log(jsonString);
-        const response = await fetch("http://localhost:3100/userList", {
+        const response = await fetch(api("userList"), {
         headers: myHeaders,
         method:'POST',
         body:jsonString

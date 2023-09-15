@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import api from '../const/api';
 
-export default function Online_offline(props) {
-    const socket = io('localhost:3100');
+export default function Chat(props) {
+    const socket = io(api(''));
 
     const [onlineUsers, setOnlineUsers] = useState()
 

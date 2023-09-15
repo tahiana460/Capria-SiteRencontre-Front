@@ -6,7 +6,7 @@ import api from "../const/api";
 function Essai(userInfo) {
   const [messages, setMessages] = useState(userInfo.messagesAvant); 
 
-  const socket = io('localhost:3100');
+  const socket = io(api(''));
   //console.log(userInfo.messagesAvant)
   const user=JSON.parse(userInfo.userInfo)
 
