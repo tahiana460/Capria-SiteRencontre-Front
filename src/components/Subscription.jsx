@@ -4,7 +4,8 @@ import './subscription.css';
 
 export default function Subscription(props) {
     const [subscription, setSubscription] = useState()
-    const [subscriptionActive, setSubscriptionActive] = useState()
+    const [subscriptionActive, setSubscriptionActive] = useState()    
+    const [numero,setNumero]=useState('')
 
     useEffect(() => {
         fetch(api('subscription'), {
@@ -32,9 +33,45 @@ export default function Subscription(props) {
         })
     }, [])
 
-    const subscribe = (sub) => {
 
-        const today = new Date();
+    const subscribe = (sub) => {
+        fetch(api('paiement'),{
+            headers: {"Content-Type": "application/json"},
+            method: "POST",
+            body: JSON.stringify({
+                "numero": numero,
+                "montant": sub.prix
+            })
+        }).then((res)=>{
+            res.json().then((res)=>{
+                console.log(res)
+                if(res.statu==200){
+                    const today = new Date();
+                    let end_date = moment(today.getFullYear()+'-'+(today.getMonth()+sub.duree+1)+'-'+today.getDate(), 'yyyy-mm-dd');
+    
+                    fetch(api('subscription'), {
+                        headers: {"Content-Type": "application/json"},
+                        method: "POST",
+                        body: JSON.stringify({
+                            "id_abo": sub.id,
+                            "id_user": props.user.id,
+                            "date_fin": end_date._i,
+                            "prix": sub.prix
+                        })
+                    }).then((res) => {
+                        if(res.ok) {
+                            swal('Payement effectué.', "Merci pour votre abonnement", "success");
+                        } else throw Error("Error")
+                    }).catch(() => {
+                        console.log('Error');
+                    })
+                }else{
+                    swal('Erreur.', res.msg, "error");
+                }
+            })            
+        })
+
+        /*const today = new Date();
         let end_date = moment(today.getFullYear()+'-'+(today.getMonth()+sub.duree+1)+'-'+today.getDate(), 'yyyy-mm-dd');
 
         fetch(api('subscription'), {
@@ -53,7 +90,7 @@ export default function Subscription(props) {
             console.log('Error');
         })
 
-        swal('Payement effectué.', "Merci pour votre abonnement", "success");
+        swal('Payement effectué.', "Merci pour votre abonnement", "success");*/
     }
     
 
@@ -88,8 +125,7 @@ export default function Subscription(props) {
                                                     <span className="month">/mois</span>
                                                 </span>
                                             </div>
-                                            {/* <!--//PRICE END--> */}
-                                            
+                                            {/* <!--//PRICE END--> */}                                            
                                         </div>                            
                                         {/* <!--//HEAD PRICE DETAIL END--> */}
                                         
@@ -107,8 +143,33 @@ export default function Subscription(props) {
                                         
                                         {/* <!--BUTTON START--> */}
                                         <div className="generic_price_btn clearfix">
-                                        {subscriptionActive && subscriptionActive.id_abo == sub.id ? <a className="btn-subscribe" style={{cursor: "default"}}>En cours</a> : <a className="btn-subscribe" style={{cursor: "pointer"}} onClick={() => subscribe(sub)}>S'abonner</a>}
+                                        {/*subscriptionActive && subscriptionActive.id_abo == sub.id ? <a className="btn-subscribe" style={{cursor: "default"}}>En cours</a> : <a className="btn-subscribe" style={{cursor: "pointer"}} onClick={() => subscribe(sub)}>S'abonner</a>*/}
+                                        {subscriptionActive && subscriptionActive.id_abo == sub.id ? <a className="btn-subscribe" style={{cursor: "default"}}>En cours</a> : <a  className="btn-subscribe" style={{cursor: "pointer"}} data-toggle="modal" data-target={"#exampleModal"+index}>
+                                                S'abonner
+                                            </a>}
                                             
+
+                                            {/*-- Modal */}
+                                            <div class="modal fade" id={"exampleModal"+index} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Paiement</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                        <span>Vous allez souscrire à un abonnement de {sub.prix} Ar.</span> <br/>
+                                                        <span>Cette somme sera prélevée sur le numéro <input id='num' className="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="nom" placeholder="034*******/038*******" onChange={(e) => { setNumero(e.target.value) }} /> après validation. </span>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                                            <a className="btn-subscribe" style={{cursor: "pointer"}} onClick={() => subscribe(sub)}>Payer</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         {/* <!--//BUTTON END--> */}
                                         
@@ -129,7 +190,7 @@ export default function Subscription(props) {
                         {/* <!--//BLOCK ROW END--> */}
                         
                 </section>
-            </div>
+            </div>            
         </>
     );
 }
