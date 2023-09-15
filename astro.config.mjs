@@ -10,6 +10,9 @@ export default defineConfig({
     redirects:true
   },
   output:'server',
+  experimental: {
+    redirects: true
+  },
   redirects: {
     '/': '/landing'
   }
