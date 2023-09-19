@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import io from 'socket.io-client';
+import api from '../const/api';
 
 export default function Profile_component(props) {
-    const socket = io('localhost:3100');
+    const socket = io(api(''));
 
     
     useEffect(() => {

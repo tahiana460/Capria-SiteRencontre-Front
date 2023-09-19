@@ -84,7 +84,8 @@ export default function Associated_account(props) {
                                 discoveryDocs='claims_supported'
                                 access_type='offline'
                                 onResolve={(provider, data) => {
-                                    associateGoogle(provider.data.email);
+                                    console.log('Ceci est un email', provider.data);
+                                    // associateGoogle(provider.data.email);
                                 }}
                                 onReject={(error) => {
                                     console.log(error)
@@ -96,10 +97,10 @@ export default function Associated_account(props) {
                             </span>
                     </td>
                 </tr>
-                <tr>
+                {/* <tr>
                     <td className="pb-2 w-50"><i className="fab fa-facebook-f mr-2"></i><span className="stext-102 cl3 size-206">Facebook</span></td>
                     <td className="text-left"><span className="stext-102 cl6 size-206"><a href="">Ajouter un compte</a></span></td>
-                </tr>
+                </tr> */}
             </tbody>
         </table>
     );

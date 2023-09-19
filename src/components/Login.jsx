@@ -35,7 +35,7 @@ export default function Login(props) {
                               })
                               .then((register) => {
                                 if (register) {
-                                    window.location.href = '/registration';
+                                        ;
                                 }
                               });
                         }
@@ -79,7 +79,7 @@ export default function Login(props) {
             </LoginSocialGoogle> */}
             <div className="text-center">
                 <p>ou continuer avec</p>
-                <LoginSocialFacebook
+                {/* <LoginSocialFacebook
                     appId={props.facebookAppId}
                     onResolve={(res) => {
                         console.log(res);
@@ -88,22 +88,23 @@ export default function Login(props) {
                         console.log(error)
                     }}
                     className="btn"
-                >
+                > */}
                     {/* <button type="button" className="btn btn-link btn-floating mx-1"> */}
                     {/* <button type="button" className="btn btn-floating mx-1 hov-btn1 trans-04" style={{borderRadius: "50%", width: "5vh", height: "4.7vh"}} > */}
-                    <a className="flex-c-m how-pagination1 trans-04 m-all-7 hov-btn1" style={{border: "none", cursor: "pointer"}}>
+                    {/* <a className="flex-c-m how-pagination1 trans-04 m-all-7 hov-btn1" style={{border: "none", cursor: "pointer"}}>
                         <i className="fab fa-facebook-f"></i>
-                    </a>
+                    </a> */}
                     {/* </button> */}
-                </LoginSocialFacebook>
+                {/* </LoginSocialFacebook> */}
                 <LoginSocialGoogle
                     client_id={ props.googleAppId }
                     scope='openid profile email'
                     discoveryDocs='claims_supported'
                     access_type='offline'
                     onResolve={(provider, data) => {
-                        setAuthGoogle(true)
-                        setData(provider.data)
+                        console.log(provider.data);
+                        // setAuthGoogle(true)
+                        // setData(provider.data)
                     }}
                     onReject={(error) => {
                         console.log(error)

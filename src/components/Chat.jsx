@@ -23,7 +23,7 @@ export default function Chat(props) {
     const socket = io(api(''),{
         reconnection: true
       });
-    console.log(socket)
+    // console.log(socket)
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })

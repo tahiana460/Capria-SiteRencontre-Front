@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import api from '../const/api';
 
-export default function Chat(props) {
+export default function Online_offline(props) {
     const socket = io(api(''));
 
     const [onlineUsers, setOnlineUsers] = useState()
@@ -15,10 +15,10 @@ export default function Chat(props) {
 
         socket.on('connect', function() {
             socket.emit("client_connect", props.user.id)
-            socket.on('getOnlineUsers', users => {
-                // setOnlineUsers(users)
-                console.log('online_offline', users);
-            })
+            // socket.on('getOnlineUsers', users => {
+            //     // setOnlineUsers(users)
+            //     console.log('online_offline', users);
+            // })
         })
 
         socket.on('disconnect', () => {

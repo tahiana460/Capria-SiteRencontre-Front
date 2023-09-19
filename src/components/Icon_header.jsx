@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import api from '../const/api';
 
 export default function Icon_header() {
     const [notiications, setNotifications] = useState([]);
 
-    const socket = io('localhost:3100');
+    const socket = io(api(''));
     
     useEffect(() => {
         socket.on('connect', () => {
@@ -21,11 +22,13 @@ export default function Icon_header() {
     return (
         <>
             <div className="wrap-icon-header flex-w flex-r-m">
-						<div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="2">
+						{/* <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="2"> */}
+						<div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
 							<a href="/chat"><i className="fa-sharp fa-regular fa-message text-dark hov-cl1"></i></a>
 						</div>
 
-						<div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
+						{/* <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2"> */}
+						<div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
 							<i className="fa-sharp fa-regular fa-bell"></i>
 						</div>
 
