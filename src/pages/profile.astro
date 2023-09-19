@@ -2,12 +2,13 @@
 import Page from '../components/Page.astro'
 import NavBar from '../components/NavBar.astro'
 import ProfileAbout from '../components/Profile_about.astro'
-import ProfileAccount from '../components/Profile_account.astro'
+import ProfileAccount from '../components/Profile_Account.astro'
 import ProfilePhoto from '../components/Profile_photo.astro'
 import ProfleEdit from '../components/Profile_edit.jsx'
 import api from "../const/api"
 import ProfileVues from '../components/Profile_Vues.astro'
 import UpdatePassword from '../components/Update_password'
+import ProfileComponent from '../components/Profile_component'
 
 const id = Astro.url.searchParams.get('id');
 const userr=localStorage.getItem("user");
@@ -28,6 +29,7 @@ if(userr!=null){
             method:'POST',
             body:jsonString
         });
+
       //console.log(await response.text());
       const reponse = await response.json();
         moi=0
@@ -50,6 +52,8 @@ if(vues.length!=0)  nbVue=vues.length
 <Page title="Site rencontre" >
 	<!--Header & Cart-->
 	<NavBar/>
+
+    {moi==0 && <ProfileComponent user={userr} visitedId={id} client:load />}
 
 	<style>
 		.insight {

@@ -9,7 +9,10 @@ export default defineConfig({
   experimental:{
     redirects:true
   },
-  output:'hybrid',
+  output:'server',
+  experimental: {
+    redirects: true
+  },
   redirects: {
     '/': '/landing'
   }
