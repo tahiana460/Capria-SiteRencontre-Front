@@ -3,8 +3,9 @@
     import Page from '../components/Page.astro';
     import ChatComponent from '../components/Chat';
     import api from '../const/api'
+    import Chat from '../components/Chat_component'
 
-    var uss=localStorage.getItem('user');
+    /*var uss=localStorage.getItem('user');
 
     var user=JSON.parse(uss)[0]
     
@@ -62,13 +63,13 @@
       users=reponse      
     
     var idChatActive=users[0].id
-    var chatActive=users[0]
-    if( Astro.url.searchParams.get('id')){   
-      idChatActive=Astro.url.searchParams.get('id')
-      if(users.findIndex(i => i.id==idChatActive) > -1){
-        chatActive=users.filter(i => i.id == idChatActive)[0]
-      }
+    var chatActive=users[0]*/
+    var idChatActive='null'
+    const val=Astro.url.searchParams.get('id')
+    if(val){   
+      idChatActive=val      
     }
+    
 ---
 
 <Page title="Site rencontre - Chat">
@@ -80,7 +81,8 @@
 
     <link rel="stylesheet" type="text/css" href="css/chat.css">
     <!-- <div class="container-fluid h-100"> -->
-        <NavBar />
-        <ChatComponent user={user} users={users} nbMsg={nbMsg} checkAbo={checkAbo} abonnement={abonnement} chatActive={chatActive}  client:load/>
+      <Chat idChatActive={idChatActive} client:only=react />
+        <!--<NavBar />-->
+        <!--<ChatComponent user={user} users={users} nbMsg={nbMsg} checkAbo={checkAbo} abonnement={abonnement} chatActive={chatActive}  client:load/>-->
     <!-- </div> -->
 </Page>

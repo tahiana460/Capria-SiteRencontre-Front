@@ -5,11 +5,8 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
   integrations: [react()],
-  middleware: true,
-  experimental:{
-    redirects:true
-  },
-  output:'server',
+  //middleware: true,
+  output:'hybrid',
   experimental: {
     redirects: true
   },

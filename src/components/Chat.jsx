@@ -5,17 +5,21 @@ import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 
 export default function Chat(props) {
-
-    const [userChatActive, setUserChatActive] = useState(props.chatActive)
+    const [userChatActive, setUserChatActive] = useState(JSON.parse(localStorage.getItem('userChatActive')))//useState(props.chatActive)    
+    
     const [messages, setMessages] = useState([])
     const [yourMessage, setYourMessage] = useState()
-    const [checkAbo,setCheckAbo]=useState(props.checkAbo)
-    const [nbMsg,setNbMsg]=useState(props.nbMsg)
+    const [checkAbo,setCheckAbo]=useState(parseInt(localStorage.getItem('checkAbo')))
+    //console.log(checkAbo)
+    const [nbMsg,setNbMsg]=useState(localStorage.getItem('nbMsg'))
+    var nbMsg1=parseInt(localStorage.getItem('nbMsg'))
     const [showPicker,setShowPicker]=useState(false)
     
-    const abonnement=useState(JSON.parse(props.abonnement))
+    const abonnement=(JSON.parse(localStorage.getItem('abonnement')))
+    //console.log(abonnement)
 
-    const limitMsg=props.limitMsg
+    //const limitMsg=props.limitMsg
+    const limitMsg=5
 
     const messagesEndRef = useRef(null)
     const msgCardBodyRef = useRef(null)
@@ -23,7 +27,6 @@ export default function Chat(props) {
     const socket = io(api(''),{
         reconnection: true
       });
-    console.log(socket)
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -51,7 +54,11 @@ export default function Chat(props) {
     }
 
     useEffect(() => {
-        getChatActiveMessage(userChatActive.id)
+        //console.log('USER USE EFFECT ID')
+        //console.log(localStorage.getItem('activatedChat'))
+        //var active=JSON.parse(localStorage.getItem('activatedChat'))
+        getChatActiveMessage(localStorage.getItem('activatedChat'))
+        //getChatActiveMessage(userChatActive.id)
 
         // scrollToBottom();
     }, []);
@@ -76,37 +83,38 @@ export default function Chat(props) {
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
-        console.log(yourMessage)
         if(yourMessage.trim() === '') {
             return false;
         }
-
+        //console.log(abonnement)
         setYourMessage('');
 
         if (msgCardBodyRef.current) {
             msgCardBodyRef.current.scrollTop = msgCardBodyRef.current.scrollHeight;
         }
-
+        //console.log('abonnement[0]')
+        //console.log(abonnement)
         const msg = {
             sender_id: props.user.id,
             receiver_id: userChatActive.id,
             message: yourMessage,
             send_time: new Date(),
-            date_debut: abonnement[0].date_debut
+            date_debut: abonnement.date_debut
         };
         socket.emit('CLIENT_MSG', msg);
         
         setMessages(messages.concat([msg]))
+        //console.log(messages)
 
         socket.on('SERVER_MSG', msg => {
-            setNbMsg(nbMsg+1)
-            if(nbMsg>=limitMsg){
-                setCheckAbo(false)
+            nbMsg1=nbMsg1+1
+            if(nbMsg1>=limitMsg){
+                setCheckAbo(1)
             }
             if(msg.erreur && msg.sender_id==props.user.id){
-                setCheckAbo(false)
+                setCheckAbo(1)
             }else if(msg.limite && msg.sender_id==props.user.id){
-                setCheckAbo(false)
+                setCheckAbo(1)
                 // getChatActiveMessage(msg.receiver_id)
                 // setMessages([...messages, msg]);
             }
@@ -127,8 +135,10 @@ export default function Chat(props) {
     }
 
     const showPick = ()=>{
-        if(showPicker) setShowPicker(false)
-        else setShowPicker(true)
+        /*if(showPicker) setShowPicker(false)
+        else setShowPicker(true)*/
+        $('.modal-emoji-header').addClass('show-modal-emoji');
+        $(this).css('opacity','0');
     }
 
     const traduction = (message)=>{
@@ -256,14 +266,14 @@ export default function Chat(props) {
                                     <div ref={messagesEndRef} />
                                 </div>
                                 <div className="card-footer">
-                                    {checkAbo || props.user.estAdmin ?(
+                                    {checkAbo==0 || props.user.estAdmin ?(
                                         <div className="input-group">
                                             <div className="input-group-append">
                                                 <span className="input-group-text attach_btn"><i className="fas fa-paperclip"></i></span>
                                             </div>
                                             <textarea id="messageInput" value={yourMessage} onKeyDown={(e) => handleEnterKey(e)} onChange={(e) => { setYourMessage(e.target.value) }} name="" className="form-control type_msg" placeholder="Entrez votre message"></textarea>
                                                                                         
-                                            <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-emoji">
+                                            <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-emoji" onClick={(e)=>{showPick()}} >
                                                 <span>{String.fromCodePoint(0x1f600)}</span>
                                             </div>
                                             
