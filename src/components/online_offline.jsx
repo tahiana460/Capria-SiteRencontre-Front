@@ -6,6 +6,8 @@ export default function Online_offline(props) {
     const socket = io(api(''));
 
     const [onlineUsers, setOnlineUsers] = useState()
+    const user=JSON.parse(localStorage.getItem('user'))
+    //props.user=JSON.parse(localStorage.getItem('user'))
 
     useEffect(() => {
         // Tab has focus
@@ -14,15 +16,15 @@ export default function Online_offline(props) {
         // };
 
         socket.on('connect', function() {
-            socket.emit("client_connect", props.user.id)
-            // socket.on('getOnlineUsers', users => {
-            //     // setOnlineUsers(users)
-            //     console.log('online_offline', users);
-            // })
+            socket.emit("client_connect", user.id)
+            socket.on('getOnlineUsers', users => {
+                // setOnlineUsers(users)
+                console.log('online_offline', users);
+            })
         })
 
         socket.on('disconnect', () => {
-            socket.emit("client_disconnect", props.user.id)
+            socket.emit("client_disconnect", user.id)
         })
     
         // Tab closed
