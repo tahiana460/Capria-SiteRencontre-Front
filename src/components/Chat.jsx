@@ -6,7 +6,8 @@ import Picker from '@emoji-mart/react'
 
 export default function Chat(props) {
     const [userChatActive, setUserChatActive] = useState(JSON.parse(localStorage.getItem('userChatActive')))//useState(props.chatActive)    
-    
+    const [user, setUser] = useState();
+
     const [messages, setMessages] = useState([])
     const [yourMessage, setYourMessage] = useState()
     const [checkAbo,setCheckAbo]=useState(parseInt(localStorage.getItem('checkAbo')))
@@ -32,6 +33,19 @@ export default function Chat(props) {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
 
+    socket.on('SERVER_MSG', msg => {
+        if(msg.receiver_id == user?.id && msg.sender_id == userChatActive.id) {
+            const newMsg = {
+                sender_id: msg.sender_id,
+                receiver_id: msg.receiver_id,
+                message: msg.message,
+                send_time: new Date(),
+            };
+            setMessages(messages.concat([newMsg]));
+            // console.log('misy message pr iny kindindrenty a', test);
+        }
+    })
+
     const getChatActiveMessage = (userActive) => {
         fetch(api('messages'), {
             headers: {"Content-Type": "application/json"},
@@ -54,6 +68,7 @@ export default function Chat(props) {
     }
 
     useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem("user"))[0])
         //console.log('USER USE EFFECT ID')
         //console.log(localStorage.getItem('activatedChat'))
         //var active=JSON.parse(localStorage.getItem('activatedChat'))
@@ -234,7 +249,7 @@ export default function Chat(props) {
 
                                     {/* ----------------------------------------------------------------------------------- */}
 
-                                    {messages.map(msg => {
+                                    {messages.map((msg) => {
                                         let messageDate = new Date(msg.send_time)
                                         let months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
                                         
