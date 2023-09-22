@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import api from '../const/api';
 import './subscription.css';
 
-export default function Subscription(props) {
+export default function Subscription() {
     const [subscription, setSubscription] = useState()
     const [subscriptionActive, setSubscriptionActive] = useState()    
     const [numero,setNumero]=useState('')
 
     useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"))[0];
         fetch(api('subscription'), {
             headers: {"Content-Type": "application/json"},
             method: "GET",
@@ -17,7 +18,7 @@ export default function Subscription(props) {
             })
         })
 
-        fetch(api('subscription/'+props.user.id), {
+        fetch(api('subscription/'+user.id), {
             headers: {"Content-Type": "application/json"},
             method: "GET",
         }).then((res) => {
@@ -28,13 +29,14 @@ export default function Subscription(props) {
                     endDate >= new Date().setHours(0, 0, 0, 0) && setSubscriptionActive(res[0])
                     console.log(res[0]);
                 })
-            } else console.log(props.user.id);
+            }
             
         })
     }, [])
 
 
     const subscribe = (sub) => {
+        const user = JSON.parse(localStorage.getItem("user"))[0];
         fetch(api('paiement'),{
             headers: {"Content-Type": "application/json"},
             method: "POST",
@@ -54,7 +56,7 @@ export default function Subscription(props) {
                         method: "POST",
                         body: JSON.stringify({
                             "id_abo": sub.id,
-                            "id_user": props.user.id,
+                            "id_user": user.id,
                             "date_fin": end_date._i,
                             "prix": sub.prix
                         })

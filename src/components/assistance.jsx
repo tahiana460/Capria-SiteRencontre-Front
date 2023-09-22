@@ -5,14 +5,16 @@ import './assistance.css';
 
 export default function Assistance(props) {
 
-    const [messages, setMessages] = useState([])
-    const [yourMessage, setYourMessage] = useState()
-    const [autoReply, setAutoReply] = useState(false)
+    const [messages, setMessages] = useState([]);
+    const [yourMessage, setYourMessage] = useState();
+    const [autoReply, setAutoReply] = useState(false);
 
-    const messagesEndRef = useRef(null)
-    const msgCardBodyRef = useRef(null)
+    const [user, setUser] = useState();
+
+    const messagesEndRef = useRef(null);
+    const msgCardBodyRef = useRef(null);
     
-    const messageAuto = "Bonjour "+props.user.nom+"! Nous avons bien reçu votre message hihi"
+    const messageAuto = "Bonjour "+user?.nom+"! Nous avons bien reçu votre message hihi";
 
 
     const socket = io(api(''));
@@ -22,24 +24,24 @@ export default function Assistance(props) {
     }
 
     useEffect(() => {
+        const userr = JSON.parse(localStorage.getItem("user"))[0];
+        setUser(userr);
         fetch(api('messages'), {
             headers: {"Content-Type": "application/json"},
             method: "POST",
-            body: JSON.stringify({'mon_id': props.user.id, 'receiver_id': props.admin.id})
+            body: JSON.stringify({'mon_id': userr.id, 'receiver_id': props.admin.id})
         }).then((res) => {
             res.json().then((res) => {
                 setMessages(res);
             })
         })
 
-        fetch(api('messages/lastMessage/'+props.user.id+'/'+props.admin.id), {
+        fetch(api('messages/lastMessage/'+userr.id+'/'+props.admin.id), {
             headers: {"Content-Type": "application/json"},
             method: "GET"
         }).then((res) => {
-            // console.log('aiza eh', res.json());
             // if(res.ok) {
                 res.json().then((res) => {
-                    console.log('aiza eh', res);
                     const messageDate = new Date(res.send_time);
                     const today = new Date();
                     const differenceS = Math.abs(today - messageDate)/1000;
@@ -56,7 +58,9 @@ export default function Assistance(props) {
     }, []);
 
     useEffect(() => {
-        fetch(api('messages/lastMessage/'+props.user.id+'/'+props.admin.id), {
+        const userr = JSON.parse(localStorage.getItem("user"))[0];
+
+        fetch(api('messages/lastMessage/'+userr.id+'/'+props.admin.id), {
             headers: {"Content-Type": "application/json"},
             method: "GET"
         }).then((res) => {
@@ -78,6 +82,7 @@ export default function Assistance(props) {
     }, [messages])
 
     const handleSendMessage = async (e) => {
+        const userr = JSON.parse(localStorage.getItem("user"))[0];
         e.preventDefault();
 
         if(yourMessage.trim() === '') {
@@ -89,7 +94,7 @@ export default function Assistance(props) {
         }
 
         const msg = {
-            sender_id: props.user.id,
+            sender_id: userr.id,
             receiver_id: props.admin.id,
             message: yourMessage,
             send_time: new Date()
@@ -106,7 +111,7 @@ export default function Assistance(props) {
                     // Reponse auto
                     {
                         sender_id: props.admin.id,
-                        receiver_id: props.user.id,
+                        receiver_id: userr.id,
                         message: messageAuto,
                         send_time: new Date()
                     }
@@ -148,7 +153,7 @@ export default function Assistance(props) {
                                 {/* <div className="contact-container"> */}
                                     <div className="card-body contacts_body">
                                         {/* <ui className="contacts">
-                                            {props.users.map(u => {
+                                            {user.map(u => {
                                                 return (
                                                     <li className={props.admin.id == u.id ? "active" : "notActive"} key={u.id} style={{cursor: "pointer"}} onClick={e => setActive(e, u)}>
                                                     <div className="d-flex bd-highlight">
@@ -224,7 +229,7 @@ export default function Assistance(props) {
                                         let messageDate = new Date(msg.send_time)
                                         let months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
                                         
-                                        if(msg.sender_id == props.user.id) {
+                                        if(user && msg.sender_id == user.id) {
                                             return (
                                                 <div key={msg.id} className="d-flex justify-content-end mb-4">
                                                     <div key={"msg"+msg.id} className="msg_cotainer_send">
@@ -232,7 +237,7 @@ export default function Assistance(props) {
                                                         <span key={'time'+msg.id} className="msg_time_send" style={{whiteSpace: "nowrap"}}>{("0"+messageDate.getHours()).slice(-2)}:{("0"+messageDate.getMinutes()).slice(-2)}, {messageDate.toLocaleDateString('en-US') == new Date().toLocaleDateString('en-US') ? "Aujourd'hui" : messageDate.getDay()+' '+months[messageDate.getMonth()]}</span>
                                                     </div>
                                                     <div key={"img"+msg.id} className="img_cont_msg">
-                                                        <img src={"photo/"+props.user.photoDeProfil} className="rounded-circle user_img_msg"/>
+                                                        <img src={"photo/"+user.photoDeProfil} className="rounded-circle user_img_msg"/>
                                                     </div>
                                                 </div>
                                             )
