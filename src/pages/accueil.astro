@@ -1,284 +1,15 @@
 ---
     import Page from '../components/Page.astro';
-    import NavBar from '../components/NavBar.astro';
-	import api from '../const/api.js'
-
-	if (Astro.url.searchParams.get('socialAuth')) {
-		var userFromCookie = Astro.cookies.get('userFromCookie')
-		Astro.cookies.delete('userFromCookie')
-		
-		localStorage.setItem('user', '['+userFromCookie.value+']')
-		localStorage.setItem("abonnement",'')
-	}
-
-
-
-	
-	if(Astro.url.searchParams.get('id')){
-	 	const id=Astro.url.searchParams.get('id')
-		if(Astro.cookies.get('userFromCookie')){
-			var userFromCookie = Astro.cookies.get('userFromCookie')
-			Astro.cookies.delete('userFromCookie')
-			const jsonValue='['+userFromCookie.value+']'
-			const val=(JSON.parse(jsonValue))
-			localStorage.setItem('user', val)
-			localStorage.setItem("abonnement",'')
-		}		 	 	
-	 	// Astro.redirect('/accueil');
-	}
-	const userr = localStorage.getItem('user');
-	
-	// RECHERCHER
-	var filtres=[]
-	if(Astro.request.method==='POST'){
-		try{			
-    		const data=await Astro.request.formData();
-			if(data.get('genre')!=undefined){
-				filtres.push(1)
-				const genre=data.get('genre')
-				filtres.push(genre)
-				var ageFiltre=data.get('age')
-				if(ageFiltre=='Tous'){
-					filtres.push('');
-				}else if(ageFiltre=='60'){
-					filtres.push('60');
-				}else{
-					ageFiltre=String(ageFiltre)
-					var ages:any=ageFiltre?.toString().split('-')
-					//console.log(ages)
-					ages.map(age => {
-						filtres.push(age.toString().split('ans')[0])
-					});
-				}
-				//console.log(filtres)
-			}else{
-				filtres.push(0)
-				const nom=data.get('nom')
-				filtres.push(nom)
-				//console.log(filtres)
-			}			
-		}catch(error){
-			console.log(error)
-		}
-	}
-
-	// FILTRE AGE
-	var tableauAge:any=[]
-	tableauAge.push(18+'ans-'+25+'ans')
-	tableauAge.push(25+'ans-'+30+'ans')
-	for(let i=30;i<60;i+=10){
-		//tableauAge.push([i,i+10])
-		var ag=i+'ans-'+(i+10)+'ans'
-		tableauAge.push(ag)
-	}
-
-	// GET PROFILS AUTRES USERS
-    var profils:any=[];
-	if(userr!=null)
-	{
-		var user=JSON.parse(userr)
-		user=user[0]
-		
-		
-		var obj={'id':user.id,'filtres':filtres}
-		const jsonString = JSON.stringify(obj);
-		var myHeaders = new Headers();
-		myHeaders.append("Content-Type", "application/json");
-      	myHeaders.append("Accept", "application/json");
-
-      //console.log(jsonString);
-      	const response = await fetch(api("userList"), {
-        headers: myHeaders,
-        method:'POST',
-        body:jsonString
-      });
-      //console.log(await response.text());
-      const reponse = await response.json();
-	//console.log(reponse)
-	  profils=reponse
-	}		    
-    //console.log(profils)
-		
-
+    import NavBar from '../components/NavBar.jsx';
+	import AccueilComponent from '../components/Accueil_component';
 ---
 
 <Page title="Tongasoa" >
     
 	<!--Header & Cart-->
-	<NavBar />
-	<style>
-		.block-img{			
-			width:auto;
-			height:270px;
-		}
-	</style>
+	<NavBar client:load />
 
-	<!-- Product -->
-	<!--<section class="bg0 p-t-23 p-b-140">-->
-	<section class="bg0 p-t-80 p-b-50">
-		<div class="container">
-			<div class="p-b-10">
-				<h3 class="ltext-103 cl5">
-					Suggestions
-				</h3>
-			</div>
-
-			<div class="flex-w flex-sb-m p-b-52">
-				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-					
-				</div>
-
-				<div class="flex-w flex-c-m m-tb-10">
-					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn1 trans-04 m-r-8 m-tb-4 js-show-filter">
-						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
-						<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-						 Filtre
-					</div>
-
-					<!-- <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-						<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-						Search
-					</div> -->
-				</div>
-				
-				
-				<div class="dis-none panel-search w-full p-t-10 p-b-15">
-					<div class="bor8 dis-flex p-l-15">
-					<form method="post" >
-						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
-							<i class="zmdi zmdi-search"></i>
-						</button>
-
-						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="nom" placeholder="Search" />
-					</form>
-					</div>	
-				</div>
-
-				<div class="dis-none panel-filter w-full p-t-10">
-					<form method="post" >
-					<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">						
-
-						<div class="filter-col1 p-r-15 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								Genre
-							</div>
-
-							<ul>
-								<li class="p-b-6">
-									<div class="form-check">
-										<input class="form-check-input filter-link-active" type="radio" name="genre" id="exampleRadios1"
-										 value="" checked>
-										<label class="form-check-label" for="exampleRadios1">
-											Tous
-										</label>
-									</div>
-								</li>
-
-								<li class="p-b-6">
-									<div class="form-check">
-										<input class="form-check-input " type="radio" name="genre" id="exampleRadios1" 
-										value="M" checked>
-										<label class="form-check-label" for="exampleRadios1">
-											Homme
-										</label>
-									</div>
-								</li>
-
-								<li class="p-b-6">
-									<div class="form-check">
-										<input class="form-check-input " type="radio" name="genre" id="exampleRadios1" 
-										value="F" checked>
-										<label class="form-check-label" for="exampleRadios1">
-											Femme
-										</label>
-									</div>
-								</li>								
-							</ul>
-						</div>
-
-						<div class="filter-col2 p-r-15 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								Age
-							</div>
-
-							<ul>
-								<li  class="p-b-6">
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="age" id="exampleRadios1" 
-										value="" checked>
-										<label class="form-check-label" for="exampleRadios1">
-											Tous
-										</label>
-									</div>
-								</li>
-								{tableauAge.map((ages:any)=>(
-									<li class="p-b-6"  >
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="age" id="exampleRadios1" 
-											value={ages} checked>
-											<label class="form-check-label" for="exampleRadios1">
-												{ages}
-											</label>
-									</div>
-									</li>
-								))}
-
-								<li class="p-b-6">
-									<div class="form-check">
-										<input class="form-check-input" type="radio" name="age" id="exampleRadios1" 
-										value="60" checked>
-										<label class="form-check-label" for="exampleRadios1">
-											60ans+
-										</label>
-									</div>
-								</li>
-							</ul>
-						</div>
-
-					</div>
-                    <div class="row" >
-                        <div class="col-md-3" ></div>
-                        <button class="flex-c-m stext-101 cl0  bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" 
-                            style=" width:50%;height:50px" >
-                            Rechercher
-                        </button>
-                    </div>	
-					</form>
-				</div>
-			</div>
-
-			<div class="row isotope-grid">
-                {profils.map((profil:any)=>(
-                    <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-pic hov-img0 block-img ">
-                                <img  src={profil.photoDeProfil} alt="IMG-PRODUCT"   />
-
-                                <a href={'chat?id='+profil.id} class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
-                                    Chat
-                                </a>
-                            </div>
-
-                            <div class="block2-txt flex-w flex-t p-t-14">
-                                <div class="block2-txt-child1 flex-col-l ">
-                                    <a href={'/profile?id='+profil.id} class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                        {profil.pseudo} 
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-				
-
-			</div>
-
-			
-		</div>
-	</section>
-
+	<AccueilComponent client:load />
 
 	<!-- Back to top -->
 	<div class="btn-back-to-top" id="myBtn">
@@ -441,11 +172,11 @@
 		</div>
 	</div>
 
-	<script  >
+	<!-- <script  >
 		const button=document.getElementsByClassName('recherche')
 		//console.log(button)
 		// RECHERCHER
-		/*button[0].addEventListener('click', () => {
+		button[0].addEventListener('click', () => {
 			//alert('Button was clicked!');
 			var filtres=[]
 			var genreS=document.getElementsByClassName("filter-link-genre-active");
@@ -472,7 +203,7 @@
 			}	
 			console.log(filtres)	
 			console.log(profils)	
-		});*/
-	</script>
+		});
+	</script> -->
 
 </Page>
