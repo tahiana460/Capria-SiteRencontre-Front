@@ -1765,8 +1765,11 @@ button.mfp-close {
 
 .show-search:hover:after,
 .show-filter:hover:after {
-  background-color: #717fe0;
-  border-color: #717fe0;
+  background-color: #222222;
+  border-color: #222222;
+
+  /* background-color: #717fe0;
+  border-color: #717fe0; */
 }
 
 /*---------------------------------------------*/

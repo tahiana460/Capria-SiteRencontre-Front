@@ -2,7 +2,7 @@ import {useState} from 'react'
 import api from '../const/api'
 import './login.css'
 
-export default function Login () {
+export default function Login() {
 
     const [email,setEmail]=useState('')
     const [mdp,setMdp]=useState('')
@@ -54,8 +54,10 @@ export default function Login () {
                     }else{
                         localStorage.setItem("abonnement",'')
                     }
-                }        
+                }
+                // console.log('youhoooooooou', localStorage.getItem('user'))
                 window.location.href = '/accueil';
+                // console.log('youhoooooooou', JSON.parse(localStorage.getItem('user'))[0])
             }else{
                 //erreur=reponse.erreur;
                 setErreur(reponse.erreur);
@@ -71,13 +73,13 @@ export default function Login () {
         <  >
 
             <div className="form-group">
-                <input type="email" id="email" name="mail" className="form-control" placeholder=" " style={{"border-radius": "0 !important"}} onChange={(e) => { setEmail(e.target.value) }} />
+                <input type="email" id="email" name="mail" className="form-control" placeholder=" " style={{"borderRadius": "0 !important"}} onChange={(e) => { setEmail(e.target.value) }} />
                 <label className="form-label">Adresse email</label>
             </div>
 
             <div className="form-group mb-4">
-                <input type="password" id="password" name="mdp" className="form-control" placeholder=" " style={{"border-radius": "0 !important"}}onChange={(e) => { setMdp(e.target.value) }} />
-                <label className="form-label" for="password">Mot de passe</label>
+                <input type="password" id="password" name="mdp" className="form-control" placeholder=" " style={{"borderRadius": "0 !important"}}onChange={(e) => { setMdp(e.target.value) }} />
+                <label className="form-label" htmlFor="password">Mot de passe</label>
             </div>
              
             {erreur &&<div className="alert alert-danger" role="alert">

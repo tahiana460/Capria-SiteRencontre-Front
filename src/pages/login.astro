@@ -11,67 +11,67 @@ if(Astro.url.searchParams.get('deconnexion')){
 	localStorage.removeItem('user')
 	localStorage.removeItem('abonnement')
 }
-if(Astro.request.method==='POST'){
-  try{
-    const data=await Astro.request.formData();
-    var res=String(data.get('mail'))
-    .toLowerCase()
-    .match(/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/);
-    //var txt='ertyr.00@oiur.fr';
-    //console.log(String(txt).match(/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/));
-    //console.log(res);
-    if(res!=null){
-      const jsonObject = Object.fromEntries(data);
-      const jsonString = JSON.stringify(jsonObject);
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Accept", "application/json");
+// if(Astro.request.method==='POST'){
+//   try{
+//     const data=await Astro.request.formData();
+//     var res=String(data.get('mail'))
+//     .toLowerCase()
+//     .match(/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/);
+//     //var txt='ertyr.00@oiur.fr';
+//     //console.log(String(txt).match(/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/));
+//     //console.log(res);
+//     if(res!=null){
+//       const jsonObject = Object.fromEntries(data);
+//       const jsonString = JSON.stringify(jsonObject);
+//       var myHeaders = new Headers();
+//       myHeaders.append("Content-Type", "application/json");
+//       myHeaders.append("Accept", "application/json");
 
-      //console.log(jsonString);
-      const response = await fetch(api("login"), {
-        headers: myHeaders,
-        method:'POST',
-        body:jsonString
-      });
-      //console.log(await response.text());
-      const reponse = await response.json();
-      //console.log(reponse)
-      if(reponse.erreur==undefined){
-        //console.log('reponse non erreur');
-        var rep=JSON.stringify(reponse)
-        localStorage.setItem('user',rep)
-        //console.log(reponse)
-        const userAbo = await fetch(api("subscription/"+reponse[0].id), {
-          headers: myHeaders,
-          method:'GET'
-        });
-        //console.log(userAbo)
-        const abo=await userAbo.json();
-        //console.log(abo)
-        if(abo.length==0){
-          localStorage.setItem("abonnement",'')
-        }else{          
-          const ajd=new Date()
-          const dateFin=new Date(abo[0].date_fin)
-          if(dateFin>ajd){
-            localStorage.setItem("abonnement",JSON.stringify(abo[0]));
-          }else{
-            localStorage.setItem("abonnement",'')
-          }
-        }        
-        return Astro.redirect('/accueil');
-      }else{
-        erreur=reponse.erreur;
-      }
-    }    else{
-      erreur="Mail invalide";
-    }
-  }catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-  }
-}
+//       //console.log(jsonString);
+//       const response = await fetch(api("login"), {
+//         headers: myHeaders,
+//         method:'POST',
+//         body:jsonString
+//       });
+//       //console.log(await response.text());
+//       const reponse = await response.json();
+//       //console.log(reponse)
+//       if(reponse.erreur==undefined){
+//         //console.log('reponse non erreur');
+//         var rep=JSON.stringify(reponse)
+//         localStorage.setItem('user',rep)
+//         //console.log(reponse)
+//         const userAbo = await fetch(api("subscription/"+reponse[0].id), {
+//           headers: myHeaders,
+//           method:'GET'
+//         });
+//         //console.log(userAbo)
+//         const abo=await userAbo.json();
+//         //console.log(abo)
+//         if(abo.length==0){
+//           localStorage.setItem("abonnement",'')
+//         }else{          
+//           const ajd=new Date()
+//           const dateFin=new Date(abo[0].date_fin)
+//           if(dateFin>ajd){
+//             localStorage.setItem("abonnement",JSON.stringify(abo[0]));
+//           }else{
+//             localStorage.setItem("abonnement",'')
+//           }
+//         }        
+//         return Astro.redirect('/accueil');
+//       }else{
+//         erreur=reponse.erreur;
+//       }
+//     }    else{
+//       erreur="Mail invalide";
+//     }
+//   }catch (error) {
+//     if (error instanceof Error) {
+//       console.error(error.message);
+//     }
+//   }
+// }
 
 ---
 
