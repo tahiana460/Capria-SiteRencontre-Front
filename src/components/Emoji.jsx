@@ -9,7 +9,8 @@ export default function Emoji(props) {
     const [message,setMessage]=useState()
     const [messages,setMessages]=useState([])
     var msgs=[]
-    
+    console.log('USER')
+    console.log(localStorage.getItem('user'))
     const valeur='x1f602'
     const messagess=()=>{
         fetch(api('messages'), {

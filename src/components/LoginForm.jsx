@@ -55,9 +55,8 @@ export default function Login() {
                         localStorage.setItem("abonnement",'')
                     }
                 }
-                // console.log('youhoooooooou', localStorage.getItem('user'))
+
                 window.location.href = '/accueil';
-                // console.log('youhoooooooou', JSON.parse(localStorage.getItem('user'))[0])
             }else{
                 //erreur=reponse.erreur;
                 setErreur(reponse.erreur);
