@@ -1,14 +1,31 @@
 import React, { useEffect, useState } from "react";
 import IconHeader from "./Icon_header";
+import io from 'socket.io-client';
+import api from '../const/api';
 
 export default function NavBar() {
 	const [currentPage, setCurrentPage] = useState();
 	const [user, setUser] = useState();
 
+	const socket = io(api(''));
+
+	const [disconnect, setDisconnect] = useState(false);
+
 	useEffect(() => {
 		setCurrentPage(window.location.pathname);
 		setUser((JSON.parse(localStorage.getItem("user")))[0]);
 	}, [])
+
+	useEffect(() => {
+		if(disconnect) {
+			localStorage.removeItem("user");
+			localStorage.removeItem("abonnement");
+			// socket.on('connect', function() {
+				socket.emit("client_disconnect", user.id);
+			// })
+			window.location.href = '/login'
+		}
+	}, [disconnect])
 
 
 	return (
@@ -88,7 +105,8 @@ export default function NavBar() {
 						</div>
 
 						<div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 " data-notify="2">
-							<a href="/login?deconnexion=1" ><i className="zmdi zmdi-power"></i></a>
+							<i className="zmdi zmdi-power" onClick={() => {setDisconnect(true)}}></i>
+							{/* <a href="/login?deconnexion=1" ><i className="zmdi zmdi-power"></i></a> */}
 						</div>
 					</div>
 

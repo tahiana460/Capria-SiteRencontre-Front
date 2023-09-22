@@ -5,6 +5,8 @@ import api from '../const/api';
 export default function Icon_header() {
     const [notiications, setNotifications] = useState([]);
 
+	const [disconnect, setDisconnect] = useState(false);
+
     const socket = io(api(''));
     
     useEffect(() => {
@@ -18,6 +20,18 @@ export default function Icon_header() {
             })
         })
     }, [])
+
+	useEffect(() => {
+		const user = JSON.parse(localStorage.getItem("user"))[0];
+		if(disconnect) {
+			localStorage.removeItem("user");
+			localStorage.removeItem("abonnement");
+			// socket.on('connect', function() {
+			socket.emit("client_disconnect", user.id);
+			// })
+			window.location.href = '/login'
+		}
+	}, [disconnect])
 
     return (
         <>
@@ -37,7 +51,8 @@ export default function Icon_header() {
 						</div> */}
 
 						<div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 " data-notify="2">
-							<a href="/login?deconnexion=1" ><i className="fa-sharp fa-solid fa-right-from-bracket text-dark"></i></a>
+							<i className="fa-sharp fa-solid fa-right-from-bracket text-dark" onClick={() => {setDisconnect(true)}} ></i>
+							{/* <a href="/login?deconnexion=1" ><i className="fa-sharp fa-solid fa-right-from-bracket text-dark"></i></a> */}
 						</div>
 						{/* <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
 							<i className="zmdi zmdi-shopping-cart"></i>

@@ -6,7 +6,7 @@ export default function Online_offline(props) {
     const socket = io(api(''));
 
     const [onlineUsers, setOnlineUsers] = useState()
-    const user=JSON.parse(localStorage.getItem('user'))
+    // const user=JSON.parse(localStorage.getItem('user'))
     //props.user=JSON.parse(localStorage.getItem('user'))
 
     useEffect(() => {
@@ -14,6 +14,7 @@ export default function Online_offline(props) {
         // const handleFocus = async () => {
         //   socket.emit("client_connect", props.user.id);
         // };
+        const user = JSON.parse(localStorage.getItem("user"))[0];
 
         socket.on('connect', function() {
             socket.emit("client_connect", user.id)
