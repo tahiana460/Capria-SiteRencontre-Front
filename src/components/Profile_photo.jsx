@@ -3,10 +3,12 @@ import { Component, useState } from 'react';
 import api from "../const/api";
 
 export class Profile_photo extends Component{
-
+    
+    
   
     render(){
       const user=this.props.user
+      //console.log('USER='+user)
       var picture= ''
 
       const changePicture=e =>{
