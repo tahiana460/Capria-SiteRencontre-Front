@@ -82,6 +82,7 @@ export class Chat extends Component{
                 /*users=(res)
                 chatActive=(users[0])*/
                 var active=res[0]
+                
                 if(this.props.idChatActive!='null'){
                     const idChatActive=this.props.idChatActive
                     if(res.findIndex(i => i.id==idChatActive) > -1){
@@ -92,15 +93,15 @@ export class Chat extends Component{
                 }
                 //localStorage.setItem('activatedChat',JSON.stringify(active))
                 localStorage.setItem('userChatActive',JSON.stringify(active))
-                localStorage.setItem('activatedChat',active.id)
-                this.setState({users:res,chatActive:active})
-                
+                localStorage.setItem('activatedChat',active.id)                
+                this.setState({users:res,chatActive:active})                
             })
         })  
+        
     };
     //initialisation();
 
-    componentWillMount(){
+    componentDidMount(){
         this.initialisation()
     }
     
@@ -111,7 +112,7 @@ export class Chat extends Component{
             (<Child data={this.state} />)
         }*/
         //initialisation()
-        return(<ChatComponent user={this.state.user} users={this.state.users} nbMsg={this.state.nbMsg} checkAbo={this.state.checkAbo} abonnement={this.state.abonnement} chatActive={this.state.chatActive}  />)
+        return(<ChatComponent user={this.state.user} users={this.state.users} nbMsg={this.state.nbMsg} checkAbo={this.state.checkAbo} abonnement={this.state.abonnement} chatActive={this.state.chatActive} key={this.state.chatActive.id}  />)
         /*return (
             {this.state.chatActive && 
                 (<ChatComponent user={this.state.user} users={this.state.users} nbMsg={this.state.nbMsg} checkAbo={this.state.checkAbo} abonnement={this.state.abonnement} chatActive={this.state.chatActive}  />)

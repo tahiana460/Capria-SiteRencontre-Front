@@ -1,11 +1,12 @@
 ---
 import Profile_component1 from '../components/Profile_component1'
 import Page from '../components/Page.astro'
-
+import NavBar from '../components/NavBar.jsx';
 
 const id = Astro.url.searchParams.get('id');
 
 ---
     <Page title="Site rencontre"  >
+        <NavBar client:load />
         <Profile_component1 visitedId={id} client:only=react />
     </Page>

@@ -14,6 +14,7 @@ export default function NavBar() {
 	useEffect(() => {
 		setCurrentPage(window.location.pathname);
 		setUser((JSON.parse(localStorage.getItem("user")))[0]);
+		
 	}, [])
 
 	useEffect(() => {
@@ -65,7 +66,7 @@ export default function NavBar() {
 									{/* <!-- <li className="label1" data-label1="hot">
 										<a href="shoping-cart.html">Features</a>
 									</li> --> */}
-
+									
 									<li className={currentPage == "/profile" ? "active-menu" : "menu"}>
 										<a href={"/profile?id="+user?.id}>Profil</a>
 									</li>
