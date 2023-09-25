@@ -15,7 +15,7 @@ export class Registration extends Component {
       name: '',
       firstname: '',
       gender: '',
-      date_of_birth: '',
+      date_of_birth: '2000-01-01',
       city: '',
       nationality: '',
       sexual_orientation: '',

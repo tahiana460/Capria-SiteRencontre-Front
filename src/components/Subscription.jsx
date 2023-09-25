@@ -46,11 +46,11 @@ export default function Subscription() {
             })
         }).then((res)=>{
             res.json().then((res)=>{
-                console.log(res)
+                //console.log(res)
                 if(res.statu==200){
                     const today = new Date();
                     let end_date = moment(today.getFullYear()+'-'+(today.getMonth()+sub.duree+1)+'-'+today.getDate(), 'yyyy-mm-dd');
-    
+                    //console.log(res.statu)
                     fetch(api('subscription'), {
                         headers: {"Content-Type": "application/json"},
                         method: "POST",
@@ -61,11 +61,38 @@ export default function Subscription() {
                             "prix": sub.prix
                         })
                     }).then((res) => {
+                        //console.log(res)
                         if(res.ok) {
-                            swal('Payement effectué.', "Merci pour votre abonnement", "success");
-                        } else throw Error("Error")
-                    }).catch(() => {
-                        console.log('Error');
+                            //console.log(user)
+                            var myHeaders = new Headers();
+                            myHeaders.append("Content-Type", "application/json");
+                            myHeaders.append("Accept", "application/json");
+                            fetch(api("subscription/"+user.id), {
+                                headers: myHeaders,
+                                method:'GET'
+                            }).then((res)=>{
+                                //console.log(res)
+                                res.json().then((abo)=>{
+                                    //console.log(abo)
+                                    if(abo.length==0){
+                                        localStorage.setItem("abonnement",'')
+                                    }else{          
+                                        const ajd=new Date()
+                                        const dateFin=new Date(abo[0].date_fin)
+                                        if(dateFin>ajd){
+                                            localStorage.setItem("abonnement",JSON.stringify(abo[0]));
+                                        }else{
+                                            localStorage.setItem("abonnement",'')
+                                        }
+                                    }
+                                    swal('Payement effectué.', "Merci pour votre abonnement", "success");
+                                    window.location.href = '/accueil';
+                                })
+                            })
+                        } else throw Error("Error interne tsy ok")
+                    }).catch((error) => {
+                        //console.log('Error');
+                        console.log(error);
                     })
                 }else{
                     swal('Erreur.', res.msg, "error");
