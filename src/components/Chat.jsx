@@ -5,7 +5,10 @@ import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 
 export default function Chat(props) {
-    const [userChatActive, setUserChatActive] = useState(JSON.parse(localStorage.getItem('userChatActive')))//useState(props.chatActive)    
+    //console.log(props.chatActive)
+    
+    const [userChatActive, setUserChatActive] = useState(props.chatActive)  //useState(JSON.parse(localStorage.getItem('userChatActive')))
+    var userChatActive1=props.chatActive
     const [user, setUser] = useState();
 
     const [messages, setMessages] = useState([])
@@ -47,6 +50,7 @@ export default function Chat(props) {
     })
 
     const getChatActiveMessage = (userActive) => {
+        
         fetch(api('messages'), {
             headers: {"Content-Type": "application/json"},
             method: "POST",
@@ -60,23 +64,30 @@ export default function Chat(props) {
     
     const setActive = (e, user) => {
         e.preventDefault();
-
-        localStorage.setItem("activatedChat", user.id);
+        //localStorage.setItem("activatedChat", user.id);
+        localStorage.setItem("userChatActive", JSON.stringify(user));
         setUserChatActive(user);
+        userChatActive1=user
         //console.log('active='+user.id)
         getChatActiveMessage(user.id)
-    }
-
+    }    
+    
     useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem("user"))[0])
-        //console.log('USER USE EFFECT ID')
-        //console.log(localStorage.getItem('activatedChat'))
-        //var active=JSON.parse(localStorage.getItem('activatedChat'))
-        getChatActiveMessage(localStorage.getItem('activatedChat'))
-        //getChatActiveMessage(userChatActive.id)
-
+        setUser(JSON.parse(localStorage.getItem("user"))[0])        
+        //if(userChatActive.id){
+            //console.log(localStorage.getItem('userChatActive'))
+            //setUserChatActive(JSON.parse(localStorage.getItem('userChatActive')))
+            //getChatActiveMessage(props.chatActive.id)       
+            //console.log('CHAT ACTIVE')
+            //console.log(props.chatActive)                      
+            //console.log(userChatActive)   
+            if(userChatActive.id){
+                getChatActiveMessage(userChatActive.id)
+            } 
+        //}
         // scrollToBottom();
-    }, []);
+    },[props.chatActive]);
+
 
     useEffect(() => {
         scrollToBottom();
@@ -112,6 +123,7 @@ export default function Chat(props) {
         const msg = {
             sender_id: props.user.id,
             receiver_id: userChatActive.id,
+            //receiver_id: userChatActive1.id,
             message: yourMessage,
             send_time: new Date(),
             date_debut: abonnement.date_debut
@@ -156,6 +168,14 @@ export default function Chat(props) {
         $(this).css('opacity','0');
     }
 
+    const hidePick = ()=>{
+        /*if(showPicker) setShowPicker(false)
+        else setShowPicker(true)*/
+        //console.log($('.modal-emoji-header'))
+        $('.modal-emoji-header').removeClass('show-modal-emoji');
+        $('.js-show-emoji').css('opacity','1');
+    }
+
     const traduction = (message)=>{
         var splits=message.split(/\\u/g) 
         //console.log(splits)
@@ -198,6 +218,7 @@ export default function Chat(props) {
                                     <ui className="contacts">
                                         {props.users.map(u => {
                                             return (
+                                                /*<li className={userChatActive.id == u.id ? "active" : "notActive"} key={u.id} style={{cursor: "pointer"}} onClick={e => setActive(e, u)}>*/
                                                 <li className={userChatActive.id == u.id ? "active" : "notActive"} key={u.id} style={{cursor: "pointer"}} onClick={e => setActive(e, u)}>
                                                 <div className="d-flex bd-highlight">
                                                     <div className="img_cont">
@@ -223,10 +244,12 @@ export default function Chat(props) {
                                 <div className="card-header msg_head">
                                     <div className="d-flex bd-highlight">
                                         <div className="img_cont">
+                                            {/*<img src={userChatActive.photoDeProfil} className="rounded-circle user_img" />*/}
                                             <img src={userChatActive.photoDeProfil} className="rounded-circle user_img" />
                                             <span className="online_icon"></span>
                                         </div>
                                         <div className="user_info">
+                                            {/*<span>{userChatActive.pseudo}</span>*/}
                                             <span>{userChatActive.pseudo}</span>
                                             {/* <p>1767 Messages</p> */}
                                         </div>
@@ -268,6 +291,7 @@ export default function Chat(props) {
                                         } else return (
                                             <div key={msg.id} className="d-flex justify-content-start mb-4">
                                                 <div key={"img"+msg.id} className="img_cont_msg">
+                                                    {/*<img src={userChatActive.photoDeProfil} className="rounded-circle user_img_msg" />*/}
                                                     <img src={userChatActive.photoDeProfil} className="rounded-circle user_img_msg" />
                                                 </div>
                                                 <div key={"msg"+msg.id} className="msg_cotainer">
@@ -313,7 +337,7 @@ export default function Chat(props) {
             
             <div className="modal-emoji-header flex-c-m trans-04 js-hide-emoji">
                 <div className="container-emoji-header">
-                    <button className="flex-c-m btn-hide-modal-search trans-04 js-hide-emoji">
+                    <button className="flex-c-m btn-hide-modal-search trans-04 js-hide-emoji" onClick={(e)=>{hidePick()}}>
                         <img src="images/icons/icon-close2.png" alt="CLOSE"/>
                     </button>
 
