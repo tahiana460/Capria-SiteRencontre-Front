@@ -3,10 +3,9 @@ import io from 'socket.io-client';
 
 export default function Profile_component(props) {
     const socket = io('localhost:3100');
-
     
     useEffect(() => {
-        const sender = JSON.parse(props.user)[0];
+        const sender = JSON.parse(localStorage.getItem('user'))[0];
         var data = {
             senderId: sender.id,
             senderPseudo: sender.pseudo,
