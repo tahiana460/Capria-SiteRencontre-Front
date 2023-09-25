@@ -122,14 +122,14 @@ export class Profile_component1 extends Component{
                                         </div>
                                     </div>
 
-                                    {/*this.state.moi==1&&
+                                    {this.state.moi==1&&
                                     <><Profile_account_component user={this.state.user} />
                                     <div className="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalModalTitle" data-backdrop="static" aria-hidden="true">
                                         <div className="modal-dialog modal-dialog-centered modal-lg" style={{"top": "15%"}} role="document">
                                             <UpdatePassword user={this.state.user}  />
                                         </div>
                                     </div></>
-                                    */}
+                                    }
                                     <Profile_photo_component moi={this.state.moi} user={this.state.user}  />
 
                                     {this.state.moi==1&&
