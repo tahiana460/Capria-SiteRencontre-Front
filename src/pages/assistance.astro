@@ -1,10 +1,8 @@
 ---
-import NavBar from '../components/NavBar.astro';
+import NavBar from '../components/NavBar.jsx';
 import Page from '../components/Page.astro';
 import AssistanceComponent from '../components/assistance';
 import api from '../const/api';
-
-    var user=JSON.parse(localStorage.getItem('user'))[0]
 
     const res = await fetch(api("users/admin"), {
         headers: {"Content-Type": "application/json"},
@@ -24,6 +22,6 @@ import api from '../const/api';
     <link rel="stylesheet" type="text/css" href="css/chat.css">
     <!-- <div class="container-fluid h-100"> -->
         <NavBar />
-        <AssistanceComponent user={user} admin={admin} client:load/>
+        <AssistanceComponent admin={admin} client:load/>
     <!-- </div> -->
 </Page>
