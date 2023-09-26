@@ -7,6 +7,7 @@ export default function Profile_about_component(props){
     const moi=props.moi
     const diffDays = Math.ceil(Math.abs(new Date() - new Date(user.dateDeNaissance)) / (1000 * 60 * 60 * 24));
     const age = parseInt(diffDays/365);
+    const orientationSxl=props.orientation
 
     return (
         <>
@@ -41,7 +42,7 @@ export default function Profile_about_component(props){
                     </tr>
                     <tr>
                         <td className="pb-2"><span className="stext-102 cl3 size-205">Orientation sexuel</span></td>
-                        <td className="text-left"><span className="stext-102 cl6 size-206">{user.orientationSxl == 'Homo' ? 'Homosexuel' : 'Hétérosexuel'}</span></td>
+                        <td className="text-left"><span className="stext-102 cl6 size-206">{orientationSxl}</span></td>
                     </tr>
                 </table>
             </div>
