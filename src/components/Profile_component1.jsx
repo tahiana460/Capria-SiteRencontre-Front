@@ -22,10 +22,27 @@ export class Profile_component1 extends Component{
             visitedId:this.props.visitedId,
             vues:[],
             moi:0,
-            nbVue:0            
+            nbVue:0,
+            choixOrientation:{defaultOpt:'Heterosexuel',defaultValue:'F',autreOpt:'Homosexuel',autreValue:'H'}            
         }
     }
     
+    setOrientation = (gender,sexualOrientation) =>{
+        var defaultOp='Heterosexuel'
+        var defaultVal=sexualOrientation
+        var autrOpt='Homosexuel'
+        var autrVal='F'
+        if(gender==sexualOrientation){
+            defaultOp='Homosexuel'
+            autrOpt='Heterosexuel'
+        }
+        if((gender=='F' && autrOpt=='Heterosexuel') || (gender=='H' && autrOpt=='Homosexuel') ){
+            autrVal='H'
+        }
+        return {defaultOpt:defaultOp,defaultValue:defaultVal,autreOpt:autrOpt,autreValue:autrVal}
+        //console.log(defaultOpt)
+    }
+
     initialisation = ()=>{
         var current_user=JSON.parse(localStorage.getItem('user'))[0]
         current_user=current_user.id
@@ -34,6 +51,9 @@ export class Profile_component1 extends Component{
             fetch(api('users/id/'+this.state.visitedId)).then((response) =>{
                 response.json().then((res)=>{
                     this.setState({user:res[0]})
+                    const ori=this.setOrientation(res[0].sexe,res[0].orientationSxl)
+                    this.setState({choixOrientation:ori})
+                    console.log(ori)
                     localStorage.setItem('userProfil',JSON.stringify(res[0]))
                     localStorage.setItem('moi',0)
                 })
@@ -54,7 +74,11 @@ export class Profile_component1 extends Component{
             localStorage.setItem('userProfil',localStorage.getItem('user'))
             localStorage.setItem('moi',1)
             this.setState({moi:1})
-            this.setState({user:JSON.parse(localStorage.getItem('user'))[0]})
+            const us=JSON.parse(localStorage.getItem('user'))[0]
+            this.setState({user:us})            
+            const ori=this.setOrientation(us.sexe,us.orientationSxl)
+            this.setState({choixOrientation:ori})
+            console.log(ori)
         }
         fetch(api('views/visitor/'+this.state.visitedId)).then((response) => {
             response.json().then((res)=>{
@@ -64,7 +88,7 @@ export class Profile_component1 extends Component{
     }
     componentWillMount(){
         this.initialisation()
-        console.log('add user profil')
+        //console.log('add user profil')
         //console.log(this.state.user)
         //console.log(this.state.moi)
         //console.log(localStorage.getItem('moi'))
@@ -114,11 +138,11 @@ export class Profile_component1 extends Component{
                                 
                                 <div className="tab-content p-t-43" style={{"display": "block"}}>
                                     
-                                    <Profile_about_component user={this.state.user} moi={this.state.moi} />
+                                    <Profile_about_component user={this.state.user} moi={this.state.moi} orientation={this.state.choixOrientation.defaultOpt} />
                                     
                                     <div className="modal fade" id="profileEditModal" tabindex="-1" role="dialog" aria-labelledby="profileEditModalTitle" data-backdrop="static" aria-hidden="true">
                                         <div className="modal-dialog modal-dialog-centered modal-lg" style={{"top": "15%"}} role="document">
-                                            <ProfleEdit user={this.state.user}  />
+                                            <ProfleEdit user={this.state.user} choixOrientation={this.state.choixOrientation}  />
                                         </div>
                                     </div>
 

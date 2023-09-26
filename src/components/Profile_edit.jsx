@@ -15,6 +15,9 @@ export default function Profile_edit(props) {
 
     const [errorPseudo, setErrorPseudo] = useState(false)
     const [errorDateOfBirth, setErrorDateOfBirth] = useState(false)
+    const [choixOrientationSxl,setChoixOrientationSxl] = useState(props.choixOrientation)  
+
+    
 
     const checkError = e => {
         e.preventDefault();
@@ -39,6 +42,23 @@ export default function Profile_edit(props) {
                 diffYears < 18 ? setErrorDateOfBirth(true) : setErrorDateOfBirth(false)
             }).then(() => {
                 if(!errorDateOfBirth && !errorPseudo) {
+                    //var uss=props.user
+                    const uss={
+                        id:props.user.id,
+                        nom:name,
+                        prenom:firstname,
+                        mail:props.user.id,
+                        mdp:props.user.mdp,
+                        pseudo:pseudo,
+                        photoDeProfil:props.user.photoDeProfil,
+                        sexe:gender,
+                        dateDeNaissance:dateOfBirth,
+                        ville:city,
+                        nation:nationality,
+                        orientationSxl:sexualOrientation,
+                        estAdmin:props.user.estAdmin,
+                        statut:props.user.statut
+                    }
                     fetch(api('users/id/'+props.user.id), {
                         headers: {"Content-Type": "application/json"},
                         method: "PUT",
@@ -54,6 +74,8 @@ export default function Profile_edit(props) {
                         })
                     }).then((res) => {
                         if(res.ok) {
+                            const ussString=JSON.stringify([uss])
+                            localStorage.setItem('user',ussString)
                             window.location.href = '/profile?id='+props.user.id;
                         } else {
                             throw Error("Error")
@@ -122,10 +144,14 @@ export default function Profile_edit(props) {
                                         <div className="form-group">
                                             {/* <input type="text" id="sexual_orientation" onChange={inputChange('sexual_orientation')} value={values.sexual_orientation} name="sexual_orientation" className="form-control" placeholder=" " />
                                             <label className="form-label">Orientation sexuelle</label> */}
-                                            <select name="sexualOrientation" style={{backgroundColor: "transparent"}} id="sexualOrientation" className="form-control" value={sexualOrientation} onChange={(e) => { setSexualOrientation(e.target.value) }} required>
+                                            {/*<select nae="sexualOrientation" style={{backgroundColor: "transparent"}} id="sexualOrientation" className="form-control" value={sexualOrientation} onChange={(e) => { setSexualOrientation(e.target.value) }} required>
                                                 <option value="">Orientation sexuelle</option>
                                                 <option value="Hetero">Hétérosexuel</option>
                                                 <option value="Homo">Homosexuel</option>
+                                            </select>*/}
+                                            <select name="sexualOrientation" style={{backgroundColor: "transparent"}} id="sexualOrientation" className="form-control"  onChange={(e) => { setSexualOrientation(e.target.value) }} required>
+                                                <option value={choixOrientationSxl.defaultValue} selected >{choixOrientationSxl.defaultOpt}</option>
+                                                <option value={choixOrientationSxl.autreValue} >{choixOrientationSxl.autreOpt}</option>
                                             </select>
                                         </div>
                                     </div>
