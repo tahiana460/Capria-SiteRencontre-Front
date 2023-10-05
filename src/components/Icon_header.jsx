@@ -1,25 +1,43 @@
 import { useState, useEffect } from 'react';
-import io from 'socket.io-client';
 import api from '../const/api';
 
+
 export default function Icon_header() {
+
     const [notiications, setNotifications] = useState([]);
 
 	const [disconnect, setDisconnect] = useState(false);
 
-    const socket = io(api(''));
+	useEffect(() => {
+		const user = JSON.parse(localStorage.getItem("user"))[0];
+		console.log(user);
+		var sock = new WebSocket("ws://localhost:5001");
+
+		const user_info = {
+			key: 'user_info',
+			data: user
+		};
+
+
+		sock.onopen = function (event) {
+			sock.send(JSON.stringify(user_info));
+		}
+		sock.onmessage = function (event) {
+			console.log('New message : ', event.data);
+		}
+	}, []);
     
-    useEffect(() => {
-        socket.on('connect', () => {
-            // socket.on('getNotification', data => {
-            //     // setNotifications((prev) => [...prev, data])
-            //     console.log('Indreto izahay ', data);
-            // })
-            socket.on('getNotification', data => {
-                console.log('Some notifications ', data);
-            })
-        })
-    }, [])
+    // useEffect(() => {
+    //     socket.on('connect', () => {
+    //         // socket.on('getNotification', data => {
+    //         //     // setNotifications((prev) => [...prev, data])
+    //         //     console.log('Indreto izahay ', data);
+    //         // })
+    //         socket.on('getNotification', data => {
+    //             console.log('Some notifications ', data);
+    //         })
+    //     })
+    // }, [])
 
 	useEffect(() => {
 		const user = JSON.parse(localStorage.getItem("user"))[0];
@@ -27,7 +45,7 @@ export default function Icon_header() {
 			localStorage.removeItem("user");
 			localStorage.removeItem("abonnement");
 			// socket.on('connect', function() {
-			socket.emit("client_disconnect", user.id);
+			// socket.emit("client_disconnect", user.id);
 			// })
 			window.location.href = '/login'
 		}

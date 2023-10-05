@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import IconHeader from "./Icon_header";
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import api from '../const/api';
 
 export default function NavBar() {
 	const [currentPage, setCurrentPage] = useState();
 	const [user, setUser] = useState();
 
-	const socket = io(api(''));
+	// const socket = io(api(''));
 
 	const [disconnect, setDisconnect] = useState(false);
 
@@ -22,7 +22,7 @@ export default function NavBar() {
 			localStorage.removeItem("user");
 			localStorage.removeItem("abonnement");
 			// socket.on('connect', function() {
-				socket.emit("client_disconnect", user.id);
+				// socket.emit("client_disconnect", user.id);
 			// })
 			window.location.href = '/login'
 		}

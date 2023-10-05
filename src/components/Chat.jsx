@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef,React } from 'react';
-import io from 'socket.io-client';
 import api from '../const/api';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
@@ -20,24 +19,32 @@ export default function Chat(props) {
     const [showPicker,setShowPicker]=useState(false)
     
     const abonnement=(JSON.parse(localStorage.getItem('abonnement')))
-    //console.log(abonnement)
 
-    //const limitMsg=props.limitMsg
     const limitMsg=5
 
     const messagesEndRef = useRef(null)
     const msgCardBodyRef = useRef(null)
 
-    const socket = io(api(''),{
-        reconnection: true
-      });
+    const [socket, setSocket] = useState();
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-    }
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"))[0];
+        const sock = new WebSocket("ws://localhost:5001");
 
-    socket.on('SERVER_MSG', msg => {
-        if(msg.receiver_id == user?.id && msg.sender_id == userChatActive.id) {
+        const user_info = {
+			key: 'user_info',
+			data: user
+		};
+        sock.onopen = function (event) {
+            sock.send(JSON.stringify(user_info));
+        }
+
+        setSocket(sock);
+    }, []);
+
+    if(socket) {
+        socket.onmessage = function (event) {
+            const msg = JSON.parse(event.data);
             const newMsg = {
                 sender_id: msg.sender_id,
                 receiver_id: msg.receiver_id,
@@ -45,9 +52,13 @@ export default function Chat(props) {
                 send_time: new Date(),
             };
             setMessages(messages.concat([newMsg]));
-            // console.log('misy message pr iny kindindrenty a', test);
+            console.log('tongasoa ny hafatra : ', event.data);
         }
-    })
+    }
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
 
     const getChatActiveMessage = (userActive) => {
         
@@ -73,19 +84,10 @@ export default function Chat(props) {
     }    
     
     useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem("user"))[0])        
-        //if(userChatActive.id){
-            //console.log(localStorage.getItem('userChatActive'))
-            //setUserChatActive(JSON.parse(localStorage.getItem('userChatActive')))
-            //getChatActiveMessage(props.chatActive.id)       
-            //console.log('CHAT ACTIVE')
-            //console.log(props.chatActive)                      
-            //console.log(userChatActive)   
+        setUser(JSON.parse(localStorage.getItem("user"))[0])
             if(userChatActive.id){
                 getChatActiveMessage(userChatActive.id)
-            } 
-        //}
-        // scrollToBottom();
+            }
     },[props.chatActive]);
 
 
@@ -120,7 +122,7 @@ export default function Chat(props) {
         }
         //console.log('abonnement[0]')
         //console.log(abonnement)
-        const msg = {
+        const messageContent = {
             sender_id: props.user.id,
             receiver_id: userChatActive.id,
             //receiver_id: userChatActive1.id,
@@ -128,28 +130,15 @@ export default function Chat(props) {
             send_time: new Date(),
             date_debut: abonnement.date_debut
         };
-        socket.emit('CLIENT_MSG', msg);
-        
-        setMessages(messages.concat([msg]))
-        //console.log(messages)
 
-        socket.on('SERVER_MSG', msg => {
-            nbMsg1=nbMsg1+1
-            if(nbMsg1>=limitMsg){
-                setCheckAbo(1)
-            }
-            if(msg.erreur && msg.sender_id==props.user.id){
-                setCheckAbo(1)
-            }else if(msg.limite && msg.sender_id==props.user.id){
-                setCheckAbo(1)
-                // getChatActiveMessage(msg.receiver_id)
-                // setMessages([...messages, msg]);
-            }
-            // else{
-            //     setMessages([...messages, msg]);
-            //     getChatActiveMessage(msg.receiver_id)
-            // }
-        });
+        const msg = {
+            key: `user_message`,
+            data: messageContent
+        }
+        // socket.emit('CLIENT_MSG', msg);
+        socket.send(JSON.stringify(msg));
+        
+        setMessages(messages.concat([messageContent]))
         
     };
 

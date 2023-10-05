@@ -1,5 +1,5 @@
 function api(query) {
-    return "capria-siterencontre-back.railway.internal/"+query
+    return "http://localhost:3100/"+query
 }
 
 export default api
