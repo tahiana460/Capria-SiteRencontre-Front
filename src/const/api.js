@@ -1,5 +1,5 @@
 function api(query) {
-    return "http://localhost:3100/"+query
+    return "https://capria-date-ws.onrender.com/"+query
 }
 
 export default api
