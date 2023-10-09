@@ -2,7 +2,7 @@
 import Footer from '../components/Footer.astro';
 import api from '../const/api';
 import SocialLogin from '../components/Login.jsx';
-import Login from '../components/LoginForm.jsx'
+import LoginForm from '../components/LoginForm.jsx'
 
 
 var erreur='';
@@ -196,7 +196,7 @@ if(Astro.url.searchParams.get('deconnexion')){
               ">
             <div class="card-body p-5 shadow-5 text-center">
               <h2 class="fw-bold mb-5">Connexion</h2>
-              <Login client:load  />
+              <LoginForm client:load  />
   
                 <!-- Register buttons -->
                 <!-- <div class="text-center">
