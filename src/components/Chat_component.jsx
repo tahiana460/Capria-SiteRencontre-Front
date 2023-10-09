@@ -1,5 +1,5 @@
 import ChatComponent from './Chat'
-import React, {useState,useEffect,Component} from 'react'
+import {useState,useEffect,Component} from 'react'
 import api from '../const/api'
 
 export class Chat extends Component{
