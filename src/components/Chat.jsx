@@ -327,7 +327,7 @@ export default function Chat(props) {
             <div className="modal-emoji-header flex-c-m trans-04 js-hide-emoji">
                 <div className="container-emoji-header">
                     <button className="flex-c-m btn-hide-modal-search trans-04 js-hide-emoji" onClick={(e)=>{hidePick()}}>
-                        <img src="images/icons/icon-close2.png" alt="CLOSE"/>
+                        <img src="/images/icons/icon-close2.png" alt="CLOSE"/>
                     </button>
 
                     <Picker data={data} onEmojiSelect={(e)=>{addEmoji(e)}} />

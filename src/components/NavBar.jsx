@@ -40,7 +40,7 @@ export default function NavBar() {
 							
 							{/* <!-- Logo desktop -->	 */}
 							<a href="/accueil" className="logo">
-								<img src="images/icons/logo-01.png" alt="IMG-LOGO" />
+								<img src="/images/icons/logo-01.png" alt="IMG-LOGO" />
 							</a>
 
 							{/* <!-- Menu desktop --> */}
@@ -95,7 +95,7 @@ export default function NavBar() {
 				<div className="wrap-header-mobile">
 					{/* <!-- Logo moblie -->	 */}
 					<div className="logo-mobile">
-						<a href="/accueil"><img src="images/icons/logo-01.png" alt="IMG-LOGO" /></a>
+						<a href="/accueil"><img src="/images/icons/logo-01.png" alt="IMG-LOGO" /></a>
 					</div>
 
 					{/* <!-- Icon header --> */}
@@ -151,7 +151,7 @@ export default function NavBar() {
 				<div className="modal-search-header flex-c-m trans-04 js-hide-modal-search">
 					<div className="container-search-header">
 						<button className="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-							<img src="images/icons/icon-close2.png" alt="CLOSE" />
+							<img src="/images/icons/icon-close2.png" alt="CLOSE" />
 						</button>
 
 						<form className="wrap-search-header flex-w p-l-15">

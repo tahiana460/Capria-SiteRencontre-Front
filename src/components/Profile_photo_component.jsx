@@ -91,7 +91,7 @@ export default function Profile_photo_component(props){
                                                 <img className="js-show-modal1" src={profil.url} alt="IMG-PRODUCT" id={"js-modal1-"+photos.indexOf(profil)} onClick={(e)=>clickImage(e)}  ref={photoRef} />
                                                 {moi==1&&
                                                     <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                        <img className="icon-heart1 dis-block trans-04" src="images/icons/icon-close2.png" alt="ICON" style={{'width': '5px','height':'5px'}} 
+                                                        <img className="icon-heart1 dis-block trans-04" src="/images/icons/icon-close2.png" alt="ICON" style={{'width': '5px','height':'5px'}} 
                                                         id={'img'+profil.id}/>
                                                     </a>
                                                 }
@@ -112,7 +112,7 @@ export default function Profile_photo_component(props){
             <div className="container">
                 <div className="bg0 p-t-60 p-b-15 p-lr-15-lg how-pos3-parent">
                     <button className="how-pos3 hov3 trans-04 js-hide-modal1" onClick={(e)=>{closePhoto()}}>
-                        <img src="images/icons/icon-close.png" alt="CLOSE"/>
+                        <img src="/images/icons/icon-close.png" alt="CLOSE"/>
                     </button>
 
                     <div className="row">
