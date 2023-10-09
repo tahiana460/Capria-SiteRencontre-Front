@@ -1,4 +1,4 @@
-import React, {  Component } from 'react';
+import {  Component } from 'react';
 import './Registration.css';
 import Registration_step1 from './Registration_step1';
 import Registration_step2 from './Registration_step2';
