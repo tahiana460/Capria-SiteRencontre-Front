@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import api from "../const/api"
 import './Registration.css'
 
