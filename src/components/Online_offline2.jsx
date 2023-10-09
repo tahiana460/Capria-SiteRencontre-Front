@@ -10,7 +10,6 @@ export default function Online_offline(props) {
     //props.user=JSON.parse(localStorage.getItem('user'))
 
     useEffect(() => {
-        // Tab has focus
         // const handleFocus = async () => {
         //   socket.emit("client_connect", props.user.id);
         // };
