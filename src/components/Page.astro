@@ -53,7 +53,7 @@ if(Astro.url.pathname=='/landing'){
 
 </head>
 <body class="animsition">
-	{!landing && <UserStatus user={user} client:load />}
+	{!landing && <UserStatus client:load />}
 
 	{landing&&<slot />}
     {landing==false&&
