@@ -8,10 +8,8 @@ export default function Subscription() {
     const [numero,setNumero]=useState('')
 
     useEffect(() => {
-        if (typeof localStorage !== 'undefined') {
-            const user = JSON.parse(localStorage.getItem("user"))[0];
-        }
-            fetch(api('subscription'), {
+        const user = JSON.parse(localStorage.getItem("user"))[0];
+        fetch(api('subscription'), {
             headers: {"Content-Type": "application/json"},
             method: "GET",
         }).then((res) => {
