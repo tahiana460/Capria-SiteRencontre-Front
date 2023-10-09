@@ -7,6 +7,7 @@ export default defineConfig({
   integrations: [react()],
   //middleware: true,
   output:'hybrid',
+  adapter: netlify({}),
   experimental: {
     redirects: true
   },
