@@ -6,9 +6,11 @@ export default function Subscription() {
     const [subscription, setSubscription] = useState()
     const [subscriptionActive, setSubscriptionActive] = useState()    
     const [numero,setNumero]=useState('')
+    const [userr, setUserr] = useState('')
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"))[0];
+        setUserr(user);
         fetch(api('subscription'), {
             headers: {"Content-Type": "application/json"},
             method: "GET",
@@ -36,7 +38,7 @@ export default function Subscription() {
 
 
     const subscribe = (sub) => {
-        const user = JSON.parse(localStorage.getItem("user"))[0];
+        const user = userr;
         fetch(api('paiement'),{
             headers: {"Content-Type": "application/json"},
             method: "POST",
