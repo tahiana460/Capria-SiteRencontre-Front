@@ -25,7 +25,7 @@ export class Chat extends Component{
         chatActive: {},        
     };    */
 
-    initialisation =  ()=>{
+    initialisation = () =>{
                     
         const abo=localStorage.getItem('abonnement')
         const limitMsg=5
