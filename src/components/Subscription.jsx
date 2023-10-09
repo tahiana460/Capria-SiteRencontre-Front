@@ -6,12 +6,12 @@ export default function Subscription() {
     const [subscription, setSubscription] = useState()
     const [subscriptionActive, setSubscriptionActive] = useState()    
     const [numero,setNumero]=useState('')
-    const [userr, setUserr] = useState('')
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("user"))[0];
-        setUserr(user);
-        fetch(api('subscription'), {
+        if (typeof localStorage !== 'undefined') {
+            const user = JSON.parse(localStorage.getItem("user"))[0];
+        }
+            fetch(api('subscription'), {
             headers: {"Content-Type": "application/json"},
             method: "GET",
         }).then((res) => {
@@ -38,7 +38,7 @@ export default function Subscription() {
 
 
     const subscribe = (sub) => {
-        const user = userr;
+        const user = JSON.parse(localStorage.getItem("user"))[0];
         fetch(api('paiement'),{
             headers: {"Content-Type": "application/json"},
             method: "POST",
@@ -76,17 +76,17 @@ export default function Subscription() {
                                 //console.log(res)
                                 res.json().then((abo)=>{
                                     //console.log(abo)
-                                    // if(abo.length==0){
-                                    //     localStorage.setItem("abonnement",'')
-                                    // }else{          
-                                    //     const ajd=new Date()
-                                    //     const dateFin=new Date(abo[0].date_fin)
-                                    //     if(dateFin>ajd){
-                                    //         localStorage.setItem("abonnement",JSON.stringify(abo[0]));
-                                    //     }else{
-                                    //         localStorage.setItem("abonnement",'')
-                                    //     }
-                                    // }
+                                    if(abo.length==0){
+                                        localStorage.setItem("abonnement",'')
+                                    }else{          
+                                        const ajd=new Date()
+                                        const dateFin=new Date(abo[0].date_fin)
+                                        if(dateFin>ajd){
+                                            localStorage.setItem("abonnement",JSON.stringify(abo[0]));
+                                        }else{
+                                            localStorage.setItem("abonnement",'')
+                                        }
+                                    }
                                     swal('Payement effectué.', "Merci pour votre abonnement", "success");
                                     window.location.href = '/accueil';
                                 })
