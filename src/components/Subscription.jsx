@@ -76,17 +76,17 @@ export default function Subscription() {
                                 //console.log(res)
                                 res.json().then((abo)=>{
                                     //console.log(abo)
-                                    if(abo.length==0){
-                                        localStorage.setItem("abonnement",'')
-                                    }else{          
-                                        const ajd=new Date()
-                                        const dateFin=new Date(abo[0].date_fin)
-                                        if(dateFin>ajd){
-                                            localStorage.setItem("abonnement",JSON.stringify(abo[0]));
-                                        }else{
-                                            localStorage.setItem("abonnement",'')
-                                        }
-                                    }
+                                    // if(abo.length==0){
+                                    //     localStorage.setItem("abonnement",'')
+                                    // }else{          
+                                    //     const ajd=new Date()
+                                    //     const dateFin=new Date(abo[0].date_fin)
+                                    //     if(dateFin>ajd){
+                                    //         localStorage.setItem("abonnement",JSON.stringify(abo[0]));
+                                    //     }else{
+                                    //         localStorage.setItem("abonnement",'')
+                                    //     }
+                                    // }
                                     swal('Payement effectué.', "Merci pour votre abonnement", "success");
                                     window.location.href = '/accueil';
                                 })
