@@ -1,5 +1,5 @@
 
-import { Component, useState } from 'react';
+import React, { Component, useState } from 'react';
 import api from "../const/api";
 
 export class Profile_photo extends Component{
