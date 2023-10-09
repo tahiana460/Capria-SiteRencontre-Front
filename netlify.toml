@@ -1,0 +1,9 @@
+[build]
+  command = "astro build"
+
+[deploy]
+  publish = "dist"
+
+[[headers]]
+  for = "/*"
+  headers = {Access-Control-Allow-Origin = "*"}
