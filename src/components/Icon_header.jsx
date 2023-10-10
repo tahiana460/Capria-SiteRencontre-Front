@@ -11,7 +11,7 @@ export default function Icon_header() {
 	useEffect(() => {
 		const user = JSON.parse(localStorage.getItem("user"))[0];
 		console.log(user);
-		var sock = new WebSocket("wss://capria-date-ws.onrender.com:5001");
+		var sock = new WebSocket("wss://capria-date-ws.onrender.com");
 
 		const user_info = {
 			key: 'user_info',
