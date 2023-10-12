@@ -29,7 +29,7 @@ export default function Chat(props) {
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"))[0];
-        const sock = new WebSocket("wss://capria-date-ws.onrender.com:443");
+        const sock = new WebSocket("wss://capria-date-websocket.onrender.com:443");
 
         const user_info = {
 			key: 'user_info',
