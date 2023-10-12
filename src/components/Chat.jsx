@@ -52,7 +52,7 @@ export default function Chat(props) {
                 send_time: new Date(),
             };
             setMessages(messages.concat([newMsg]));
-            console.log('tongasoa ny hafatra : ', event.data);
+            // console.log('tongasoa ny hafatra : ', event.data);
         }
     }
 
